@@ -1,6 +1,6 @@
 # Paper Trading Report — V1 Option C
 
-> **Last Updated**: 2026-07-04  |  **Days Live**: 0
+> **Last Updated**: 2026-07-03  |  **Days Live**: -1
 
 ## Portfolio Summary
 
@@ -25,4 +25,4 @@
 
 ## PnL Chart
 
-![PnL Chart](..\charts\pnl_v1_c.png)
+![PnL Chart](../charts/pnl_v1_c.png)
