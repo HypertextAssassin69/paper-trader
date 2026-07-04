@@ -76,13 +76,17 @@
       NAVIGATION TABS
     ────────────────────────────────────────────────────────────────────────── -->
     <nav class="flex justify-around my-4 border-b border-gray-800 text-sm font-semibold relative">
-      <button id="tabExplore" onclick="switchTab('explore')" class="pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition">
+      <button id="tabExplore" onclick="switchTab('explore')" class="pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition">
         Explore
       </button>
-      <button id="tabDashboard" onclick="switchTab('dashboard')" class="pb-2 w-1/2 text-center text-growwMuted hover:text-white transition">
+      <button id="tabDashboard" onclick="switchTab('dashboard')" class="pb-2 w-1/3 text-center text-growwMuted hover:text-white transition">
         Dashboard
       </button>
+      <button id="tabManual" onclick="switchTab('manual')" class="pb-2 w-1/3 text-center text-growwMuted hover:text-white transition">
+        Manual
+      </button>
     </nav>
+
 
     <!-- ─────────────────────────────────────────────────────────────────────────
       TAB CONTENT: EXPLORE (COMPARISON & OVERALL STATS)
@@ -203,7 +207,98 @@
       </div>
     </section>
 
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: MANUAL (IN-APP STRATEGY DOCUMENTATION)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentManual" class="hidden space-y-6">
+      
+      <!-- Blueprints Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4 max-h-[300px] overflow-y-auto pr-1">
+        <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Strategy Architecture & Rules</span>
+        </h2>
+        <div class="text-[11px] text-growwMuted space-y-3 leading-relaxed">
+          <p><strong class="text-white">1. V2 Option A Momentum:</strong> Relies on a Gaussian Mixture Model (GMM) index regime classifier. In a <span class="text-growwGreen font-semibold">Bullish</span> regime, it picks stocks with positive Supertrend direction ranked by 20-day returns. In a <span class="text-white font-semibold">Choppy</span> regime, it selects stocks trading below their Bollinger Band upper limits, scoring them by reversion distance.</p>
+          <p><strong class="text-white">2. Softmax Allocation:</strong> Weights the scored stocks exponentially, concentrating funds in the strongest configurations while distributing minor parts to avoid single-stock risk.</p>
+          <p><strong class="text-white">3. Nifty EMA-50 Switch (Bulletproof):</strong> Daily safety breaker. If the Nifty 50 close price is below its 50-day EMA, it liquidates all holdings at market close to sit in <span class="text-growwGreen font-semibold">100% Cash</span>.</p>
+        </div>
+      </div>
+
+      <!-- Backtest History Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4 max-h-[300px] overflow-y-auto pr-1">
+        <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
+          <i data-lucide="line-chart" class="w-4 h-4"></i>
+          <span>Verified Backtest Records</span>
+        </h2>
+        
+        <div class="space-y-4">
+          <div>
+            <span class="text-[10px] text-growwGreen font-semibold uppercase tracking-wider">30-Year Performance (1996-2026)</span>
+            <table class="w-full text-[10px] text-left text-growwMuted mt-1.5 border-collapse">
+              <thead>
+                <tr class="border-b border-gray-800 text-white font-bold">
+                  <th class="py-1">Metric</th>
+                  <th class="py-1 text-center">No-Stops</th>
+                  <th class="py-1 text-right">Bulletproof</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-800">
+                  <td class="py-1 font-semibold text-white">CAGR</td>
+                  <td class="py-1 text-center text-growwRed">25.98%</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
+                </tr>
+                <tr class="border-b border-gray-800">
+                  <td class="py-1 font-semibold text-white">Sharpe</td>
+                  <td class="py-1 text-center">0.305</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
+                </tr>
+                <tr>
+                  <td class="py-1 font-semibold text-white">Max DD</td>
+                  <td class="py-1 text-center text-growwRed">-89.39%</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-growwGreen font-semibold uppercase tracking-wider">20-Year Performance (2006-2026)</span>
+            <table class="w-full text-[10px] text-left text-growwMuted mt-1.5 border-collapse">
+              <thead>
+                <tr class="border-b border-gray-800 text-white font-bold">
+                  <th class="py-1">Metric</th>
+                  <th class="py-1 text-center">No-Stops</th>
+                  <th class="py-1 text-right">Bulletproof</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-800">
+                  <td class="py-1 font-semibold text-white">CAGR</td>
+                  <td class="py-1 text-center text-growwRed">17.18%</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">16.33%</td>
+                </tr>
+                <tr class="border-b border-gray-800">
+                  <td class="py-1 font-semibold text-white">Sharpe</td>
+                  <td class="py-1 text-center">0.624</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">0.695</td>
+                </tr>
+                <tr>
+                  <td class="py-1 font-semibold text-white">Max DD</td>
+                  <td class="py-1 text-center text-growwRed">-52.70%</td>
+                  <td class="py-1 text-right text-growwGreen font-bold">-29.92%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
   </div>
+
 
   <!-- ─────────────────────────────────────────────────────────────────────────
     APPLICATION JAVASCRIPT
@@ -394,21 +489,35 @@
       
       const tabExplore = document.getElementById('tabExplore');
       const tabDashboard = document.getElementById('tabDashboard');
+      const tabManual = document.getElementById('tabManual');
+      
       const contentExplore = document.getElementById('contentExplore');
       const contentDashboard = document.getElementById('contentDashboard');
+      const contentManual = document.getElementById('contentManual');
 
+      // Reset styling
+      tabExplore.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+      tabDashboard.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+      tabManual.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+
+      // Hide all content
+      contentExplore.classList.add('hidden');
+      contentDashboard.classList.add('hidden');
+      contentManual.classList.add('hidden');
+
+      // Activate selected
       if (tab === 'explore') {
-        tabExplore.className = "pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition";
-        tabDashboard.className = "pb-2 w-1/2 text-center text-growwMuted hover:text-white transition";
+        tabExplore.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
         contentExplore.classList.remove('hidden');
-        contentDashboard.classList.add('hidden');
-      } else {
-        tabDashboard.className = "pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition";
-        tabExplore.className = "pb-2 w-1/2 text-center text-growwMuted hover:text-white transition";
+      } else if (tab === 'dashboard') {
+        tabDashboard.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
         contentDashboard.classList.remove('hidden');
-        contentExplore.classList.add('hidden');
+      } else {
+        tabManual.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
+        contentManual.classList.remove('hidden');
       }
     }
+
 
     function selectDashboardStrategy(strategy) {
       dashStrategy = strategy;
