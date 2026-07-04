@@ -213,7 +213,7 @@
     <section id="contentManual" class="hidden space-y-6">
       
       <!-- Blueprints Card -->
-      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4 max-h-[300px] overflow-y-auto pr-1">
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4">
         <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
           <i data-lucide="book-open" class="w-4 h-4"></i>
           <span>Strategy Architecture & Rules</span>
@@ -226,76 +226,130 @@
       </div>
 
       <!-- Backtest History Card -->
-      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4 max-h-[300px] overflow-y-auto pr-1">
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-6 max-h-[500px] overflow-y-auto pr-1">
         <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
           <i data-lucide="line-chart" class="w-4 h-4"></i>
-          <span>Verified Backtest Records</span>
+          <span>Verified Backtest Records & Charts</span>
         </h2>
         
-        <div class="space-y-4">
-          <div>
-            <span class="text-[10px] text-growwGreen font-semibold uppercase tracking-wider">30-Year Performance (1996-2026)</span>
-            <table class="w-full text-[10px] text-left text-growwMuted mt-1.5 border-collapse">
-              <thead>
-                <tr class="border-b border-gray-800 text-white font-bold">
-                  <th class="py-1">Metric</th>
-                  <th class="py-1 text-center">No-Stops</th>
-                  <th class="py-1 text-right">Bulletproof</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-800">
-                  <td class="py-1 font-semibold text-white">CAGR</td>
-                  <td class="py-1 text-center text-growwRed">25.98%</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
-                </tr>
-                <tr class="border-b border-gray-800">
-                  <td class="py-1 font-semibold text-white">Sharpe</td>
-                  <td class="py-1 text-center">0.305</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
-                </tr>
-                <tr>
-                  <td class="py-1 font-semibold text-white">Max DD</td>
-                  <td class="py-1 text-center text-growwRed">-89.39%</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- Section A: 7.5 Year -->
+        <div class="space-y-3 border-b border-gray-800 pb-5">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">7.5-Year Stress-Test (2019-2026)</span>
+            <span class="text-[8px] bg-[#123E35] text-growwGreen px-1.5 py-0.5 rounded font-mono font-bold">10 STOCKS</span>
           </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">Option A (Full)</th>
+                <th class="py-1 text-center">Option C (Hybrid)</th>
+                <th class="py-1 text-right">Buy & Hold</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwGreen font-bold">26.99%</td>
+                <td class="py-1 text-center">22.94%</td>
+                <td class="py-1 text-right">16.35%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwGreen font-bold">-23.23%</td>
+                <td class="py-1 text-center">-20.46%</td>
+                <td class="py-1 text-right text-growwRed">-32.20%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center font-semibold">1.075</td>
+                <td class="py-1 text-center">1.035</td>
+                <td class="py-1 text-right">0.688</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sortino Ratio</td>
+                <td class="py-1 text-center">1.609</td>
+                <td class="py-1 text-center">1.526</td>
+                <td class="py-1 text-right">0.843</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_7yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="7-Year Backtest PnL" />
+        </div>
 
-          <div>
-            <span class="text-[10px] text-growwGreen font-semibold uppercase tracking-wider">20-Year Performance (2006-2026)</span>
-            <table class="w-full text-[10px] text-left text-growwMuted mt-1.5 border-collapse">
-              <thead>
-                <tr class="border-b border-gray-800 text-white font-bold">
-                  <th class="py-1">Metric</th>
-                  <th class="py-1 text-center">No-Stops</th>
-                  <th class="py-1 text-right">Bulletproof</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-800">
-                  <td class="py-1 font-semibold text-white">CAGR</td>
-                  <td class="py-1 text-center text-growwRed">17.18%</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">16.33%</td>
-                </tr>
-                <tr class="border-b border-gray-800">
-                  <td class="py-1 font-semibold text-white">Sharpe</td>
-                  <td class="py-1 text-center">0.624</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">0.695</td>
-                </tr>
-                <tr>
-                  <td class="py-1 font-semibold text-white">Max DD</td>
-                  <td class="py-1 text-center text-growwRed">-52.70%</td>
-                  <td class="py-1 text-right text-growwGreen font-bold">-29.92%</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- Section B: 20 Year -->
+        <div class="space-y-3 border-b border-gray-800 pb-5">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">20-Year Clean Run (2006-2026)</span>
+            <span class="text-[8px] bg-[#382625] text-growwRed px-1.5 py-0.5 rounded font-mono font-bold">DYNAMIC 40</span>
           </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">No-Stops</th>
+                <th class="py-1 text-right">Bulletproof</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwRed">17.18%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">16.33%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwRed">-52.70%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">-29.92%</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center">0.624</td>
+                <td class="py-1 text-right text-growwGreen font-bold">0.695</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_20yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="20-Year Backtest PnL" />
+        </div>
+
+        <!-- Section C: 30 Year -->
+        <div class="space-y-3 pb-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">30-Year Long Run (1996-2026)</span>
+            <span class="text-[8px] bg-[#24323F] text-growwMuted px-1.5 py-0.5 rounded font-mono font-bold">STATIC 40</span>
+          </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">No-Stops</th>
+                <th class="py-1 text-right">Bulletproof</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwRed">25.98%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwRed">-89.39%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center">0.305</td>
+                <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_30yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="30-Year Backtest PnL" />
         </div>
       </div>
 
     </section>
+
 
   </div>
 
