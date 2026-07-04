@@ -1,13 +1,7 @@
-"""
-paper_trader_strat_bullet_proof.py  —  Nifty 40-Stock Systematic Portfolio (V2 Option A + EMA-50 Circuit Breaker)
-Daily Automated Paper Trader running on GitHub Actions
-"""
-
 import os, json, csv, datetime, warnings
 import numpy as np
 import pandas as pd
 import yfinance as yf
-from sklearn.mixture import GaussianMixture
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -139,7 +133,7 @@ def main():
 
     state = load_state()
     end_dt = datetime.date.today() + datetime.timedelta(days=1)
-    start_dt = datetime.date.today() - datetime.timedelta(days=WARMUP_DAYS+30)
+    start_dt = datetime.date.today() - datetime.timedelta(days=400) # Increased to 400 days for stable EMA-200 calculation
 
     # 1. Check Nifty 50 Index & Macro Switch
     print("Checking Nifty 50 index state...")
@@ -147,34 +141,83 @@ def main():
     if nifty.empty:
         print("  [WARN] Failed to download index data. Defaulting to Bullish regime.")
         is_nifty_bullish = True
-
         regime = "Bullish"
     else:
         if isinstance(nifty.columns, pd.MultiIndex):
             nifty.columns = nifty.columns.get_level_values(0)
         nifty['Close'] = nifty['Adj Close']
-        nifty['Ret_20'] = nifty['Close'].pct_change(20)
-        nifty['Vol_20'] = nifty['Close'].pct_change().rolling(20).std()
-        nifty['EMA_50'] = _ema(nifty['Close'], 50)
         
+        # Calculate Heuristic Features
+        nifty['EMA_50'] = nifty['Close'].ewm(span=50, adjust=False).mean()
+        nifty['EMA_200'] = nifty['Close'].ewm(span=200, adjust=False).mean()
+        
+        # Calculate ADX (14)
+        nifty_high = nifty['High']
+        nifty_low = nifty['Low']
+        nifty_close = nifty['Close']
+        nifty_close_prev = nifty_close.shift(1)
+        
+        tr1 = nifty_high - nifty_low
+        tr2 = (nifty_high - nifty_close_prev).abs()
+        tr3 = (nifty_low - nifty_close_prev).abs()
+        tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+        
+        high_diff = nifty_high - nifty_high.shift(1)
+        low_diff = nifty_low.shift(1) - nifty_low
+        
+        plus_dm = np.where((high_diff > low_diff) & (high_diff > 0), high_diff, 0.0)
+        minus_dm = np.where((low_diff > high_diff) & (low_diff > 0), low_diff, 0.0)
+        
+        tr_smooth = tr.ewm(alpha=1/14, adjust=False).mean()
+        plus_dm_smooth = pd.Series(plus_dm, index=nifty.index).ewm(alpha=1/14, adjust=False).mean()
+        minus_dm_smooth = pd.Series(minus_dm, index=nifty.index).ewm(alpha=1/14, adjust=False).mean()
+        
+        plus_di = 100 * (plus_dm_smooth / tr_smooth)
+        minus_di = 100 * (minus_dm_smooth / tr_smooth)
+        
+        di_sum = plus_di + minus_di
+        di_diff = (plus_di - minus_di).abs()
+        dx = 100 * np.where(di_sum == 0, 0, di_diff / di_sum)
+        nifty['ADX_Fast'] = pd.Series(dx, index=nifty.index).ewm(alpha=1/14, adjust=False).mean()
+        
+        # Classify raw regimes daily
+        raw_regimes = []
+        for idx, row in nifty.iterrows():
+            adx_val = row['ADX_Fast']
+            ema_50_val = row['EMA_50']
+            ema_200_val = row['EMA_200']
+            close_val = row['Close']
+            
+            if adx_val < 18.0:
+                raw_regimes.append('Choppy')
+            else:
+                if close_val > ema_50_val and ema_50_val > ema_200_val:
+                    raw_regimes.append('Bullish')
+                elif close_val < ema_50_val and ema_50_val < ema_200_val:
+                    raw_regimes.append('Bearish')
+                else:
+                    raw_regimes.append('Choppy')
+                    
+        nifty['Raw_Regime'] = raw_regimes
+        
+        # Apply 51-day rolling mode smoothing (center=False for real-time live execution)
+        mapping = {'Choppy': 0, 'Bullish': 1, 'Bearish': 2}
+        inv_mapping = {0: 'Choppy', 1: 'Bullish', 2: 'Bearish'}
+        temp_int = nifty['Raw_Regime'].map(mapping)
+        
+        def get_mode(x):
+            vals, counts = np.unique(x, return_counts=True)
+            return vals[np.argmax(counts)]
+            
+        smoothed_int = temp_int.rolling(window=51, min_periods=1, center=False).apply(get_mode, raw=True)
+        nifty['Regime'] = smoothed_int.map(inv_mapping)
+        
+        regime = nifty['Regime'].iloc[-1]
         last_row = nifty.iloc[-1]
         is_nifty_bullish = last_row['Close'] >= last_row['EMA_50']
-        
-        # Train GMM on the warmup slice to determine current regime
-        nifty_clean = nifty[['Ret_20', 'Vol_20']].dropna()
-        gmm = GaussianMixture(n_components=3, random_state=42)
-        gmm.fit(nifty_clean)
-        
-        means = gmm.means_
-        bull_state = np.argmax(means[:, 0])
-        bear_state = np.argmin(means[:, 0])
-        
-        state_pred = gmm.predict([[last_row['Ret_20'], last_row['Vol_20']]])[0]
-        regime = "Bullish" if state_pred == bull_state else ("Bearish" if state_pred == bear_state else "Choppy")
 
     print(f"  Nifty 50 Status: {'ABOVE EMA-50' if is_nifty_bullish else 'BELOW EMA-50 (Emergency Exit)'}")
-
-    print(f"  Predicted Market Regime: {regime}")
+    print(f"  Predicted Market Regime (Heuristic): {regime}")
 
     # 2. Download ticker database
     ticker_data = {}
@@ -188,15 +231,15 @@ def main():
             
         # Scale OHLC to use Adj Close
         adj_ratio = df['Adj Close'] / df['Close']
-        df['Open'] *= adj_ratio
-        df['High'] *= adj_ratio
-        df['Low'] *= adj_ratio
+        df['Open'] = df['Open'] * adj_ratio
+        df['High'] = df['High'] * adj_ratio
+        df['Low'] = df['Low'] * adj_ratio
         df['Close'] = df['Adj Close']
         
-        df = df[['Open', 'High', 'Low', 'Close', 'Volume']].copy()
-        df['ST_Dir'] = _supertrend(df)[1]
-        df['BB_Upper'], df['BB_Lower'] = _bollinger_bands(df)
+        # Add core indicators
         df['Ret_20'] = df['Close'].pct_change(20)
+        df['ST_Val'], df['ST_Dir'] = _supertrend(df, 10, 3.0)
+        df['BB_Upper'], df['BB_Lower'] = _bollinger_bands(df, 20, 2.0)
         
         ticker_data[t] = df
         current_prices[t] = df['Close'].iloc[-1]
@@ -306,8 +349,6 @@ def main():
                         })
                         print(f"    [BUY] {t} @ INR {price:.2f} (acquiring exposure)")
 
-
-
     # 4. Save States & Log PNL
     assets_final = sum(info['shares'] * current_prices.get(t, info['avg_price']) for t, info in state['holdings'].items())
     equity_final = state['cash'] + assets_final
@@ -326,53 +367,42 @@ def main():
         ax.plot(dates, vals, color='#1abc9c', linewidth=2.2, label='Bulletproof Portfolio (100k)')
         ax.axhline(START_CAPITAL, color='#e74c3c', linestyle=':', alpha=0.6)
         ax.set_title(f"Bulletproof Live PnL | as of {today}", fontsize=12, fontweight='bold')
-        ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"INR {x:,.0f}"))
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
-        ax.grid(True, linestyle=':', alpha=0.5)
+        ax.set_ylabel("Portfolio Value (INR)", fontsize=10)
+        ax.grid(True, linestyle='--', alpha=0.3)
+        ax.legend(loc='upper left', fontsize=9)
         plt.tight_layout()
         plt.savefig(CHART_FILE, dpi=150)
         plt.close()
 
-    # 6. Generate report
-    total_ret = (equity_final - START_CAPITAL) / START_CAPITAL * 100
-    days_live = (pd.to_datetime(today) - pd.to_datetime(state['start_date'])).days
-    
-    lines = []
-    lines.append(f"# Live Bulletproof Systematic Portfolio Report (EMA-50 Switch)\n")
-    lines.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Nifty Index Switch**: {'Risk-On' if is_nifty_bullish else 'Risk-Off (Cash)'}\n")
-
-    lines.append(f"## Summary Stats")
-    lines.append(f"| Metric | Value |")
-    lines.append(f"| :--- | :---: |")
-    lines.append(f"| Starting Capital | **INR {START_CAPITAL:,.2f}** |")
-    lines.append(f"| Current Value | **INR {equity_final:,.2f}** |")
-    lines.append(f"| Total Return | **{total_ret:+.2f}%** |\n")
-    
-    lines.append(f"## Current Active Holdings")
-    lines.append(f"| Ticker | Shares | Entry Price | Current Price | Unrealised PnL |")
-    lines.append(f"| :--- | :---: | :---: | :---: | :---: |")
-    for t, info in state['holdings'].items():
-        curr_p = current_prices.get(t, info['avg_price'])
-        pnl = (curr_p - info['avg_price']) / info['avg_price'] * 100
-        lines.append(f"| {t} | {info['shares']:.4f} | INR {info['avg_price']:.2f} | INR {curr_p:.2f} | **{pnl:+.2f}%** |")
-    lines.append(f"\n**Cash on hand**: INR {state['cash']:,.2f}\n")
-    
-    if os.path.exists(CHART_FILE):
-        lines.append(f"## Live PnL Chart")
-        lines.append(f"![Bulletproof PnL Chart](../{CHART_FILE})\n")
-        
-    if os.path.exists(LOG_FILE):
-        tdf = pd.read_csv(LOG_FILE)
-        lines.append(f"## Recent Trade Log (Last 15)")
-        lines.append(f"| Date | Ticker | Action | Shares | Price | Value | Reason |")
-        lines.append(f"| :--- | :--- | :--- | :---: | :---: | :---: | :--- |")
-        for _, r in tdf.tail(15).iloc[::-1].iterrows():
-            lines.append(f"| {r['date']} | {r['ticker']} | **{r['action']}** | {r['shares']:.4f} | INR {r['price']:.2f} | INR {r['value']:.2f} | {r['reason']} |")
+    # 6. Generate detailed markdown report
+    days_live = len(pnl_df)
+    report_rows = []
+    report_rows.append(f"# Live Bulletproof Systematic Portfolio Report (EMA-50 Switch)\n")
+    report_rows.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Nifty Index Switch**: {'Risk-On' if is_nifty_bullish else 'Risk-Off (Cash)'}\n")
+    report_rows.append(f"## Summary Stats")
+    report_rows.append(f"| Metric | Value |")
+    report_rows.append(f"| :--- | :---: |")
+    report_rows.append(f"| Starting Capital | INR {START_CAPITAL:,.2f} |")
+    report_rows.append(f"| Current Portfolio Value | INR {equity_final:,.2f} |")
+    report_rows.append(f"| Cash Balance | INR {state['cash']:,.2f} |")
+    report_rows.append(f"| Active Asset Exposure | INR {assets_final:,.2f} |")
+    report_rows.append(f"| Total Return Since Start | {((equity_final - START_CAPITAL)/START_CAPITAL * 100):.3f}% |")
+    report_rows.append(f"\n## Active Stock Holdings")
+    if not state['holdings']:
+        report_rows.append("*Portfolio is currently 100% in Cash.*")
+    else:
+        report_rows.append("| Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |")
+        report_rows.append("| :--- | :---: | :---: | :---: | :---: | :---: |")
+        for t, info in state['holdings'].items():
+            cp = current_prices.get(t, info['avg_price'])
+            mv = info['shares'] * cp
+            alloc = (mv / equity_final) * 100
+            report_rows.append(f"| {t} | {int(info['shares'])} | INR {info['avg_price']:.2f} | INR {cp:.2f} | INR {mv:.2f} | {alloc:.2f}% |")
             
-    with open(REPORT_FILE, 'w', encoding='utf-8') as f:
-        f.write("\n".join(lines))
-        
+    with open(REPORT_FILE, 'w') as f:
+        f.write("\n".join(report_rows))
+
     print(f"Daily update done. Current value: INR {equity_final:,.2f}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
