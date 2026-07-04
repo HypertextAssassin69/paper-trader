@@ -1,4 +1,4 @@
-name: Paper Trader — Daily Run (6 Strategies)
+name: Paper Trader — Daily Run (Comparative Master Strategies)
 
 on:
   schedule:
@@ -29,13 +29,22 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run paper_trader.py (all 6 strategies)
-        run: python paper_trader.py
+      - name: Run comparative paper_trader.py (No-Stops)
+        run: |
+          cd compare_strats
+          python paper_trader.py
+          cd ..
+
+      - name: Run comparative paper_trader_strat_bullet_proof.py (Bulletproof)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_bullet_proof.py
+          cd ..
 
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"
           git config --local user.name  "Paper Trader Bot"
-          git add states/ data/ charts/ reports/ || true
-          git diff --staged --quiet || git commit -m "Paper trader update: $(date +'%Y-%m-%d')"
+          git add compare_strats/states/ compare_strats/data/ compare_strats/charts/ compare_strats/reports/ || true
+          git diff --staged --quiet || git commit -m "Paper trader comparison update: $(date +'%Y-%m-%d')"
           git push
