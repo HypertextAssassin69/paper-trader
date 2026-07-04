@@ -14,16 +14,18 @@ This document contains the verified backtest records for the **V2 Option A (No-S
 
 ### 📊 Performance Summary (30-Year)
 
-| Metric | V2_A (No-Stops Baseline) | V2_A (Macro Circuit Breaker) |
-| :--- | :---: | :---: |
-| **Final Portfolio Value** | **INR 8.09 Crores** | **INR 2.84 Crores** |
-| **Total Return** | +80,848.07% | +28,392.67% |
-| **CAGR (Annual Compounding)** | **25.98%** | **21.52%** |
-| **Sharpe Ratio** | 0.305 | **0.988** (Near Perfect) |
-| **Max Drawdown (Worst Loss)** | **-89.39%** (2008 Lehman Crash) | **-21.39%** (Protected) |
+| Metric | V2_A (No-Stops Baseline) | V2_A (Macro Circuit Breaker) | V3.0 ML (Probabilistic Softmax) 🔮 |
+| :--- | :---: | :---: | :---: |
+| **Final Portfolio Value** | **INR 8.09 Crores** | **INR 2.84 Crores** | **INR 9.72 Crores** |
+| **Total Return** | +80,848.07% | +28,392.67% | **+97,155.23%** |
+| **CAGR (Annual Compounding)** | **25.98%** | **21.52%** | **26.96%** |
+| **Sharpe Ratio** | 0.305 | **0.988** (Near Perfect) | 0.503 |
+| **Max Drawdown (Worst Loss)** | **-89.39%** (2008 Lehman Crash) | **-21.39%** (Protected) | **-68.11%** |
 
 ### 🔍 Key Takeaway
-The **Circuit Breaker** cut the maximum drawdown from a devastating **-89%** down to just **-21%** over three decades. It sacrificed a minor portion of the upside (21.52% CAGR vs. 25.98% CAGR) in exchange for exceptional capital protection and a massive increase in risk-adjusted performance (Sharpe Ratio of 0.988).
+* **No-Stops (V2)** compounds at **25.98% CAGR** but carries massive volatility (-89.39% Max Drawdown).
+* **Circuit Breaker (V2)** compounds at **21.52% CAGR** but offers near-perfect risk management (-21.39% Max Drawdown).
+* **Version 3.0 ML** optimizes capital allocation dynamically using GMM probabilities, achieving a spectacular **26.96% CAGR** (turning 1 Lakh into **INR 9.72 Crores**) while reducing the maximum drawdown to **-68.11%**.
 
 ---
 

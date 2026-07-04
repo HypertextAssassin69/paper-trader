@@ -147,6 +147,26 @@
             <div id="nsReturn" class="text-xs text-growwGreen font-semibold">--</div>
           </div>
         </div>
+
+        <!-- Strategy 3: Version 3.0 ML -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#2A1D36] flex items-center justify-center">
+              <i data-lucide="brain-circuit" class="w-5 h-5 text-[#9b59b6]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 3.0 ML 🔮</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="mlInvestedText">Invested: INR --</div>
+                <div id="mlCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="mlValue" class="font-bold text-sm">INR --</div>
+            <div id="mlReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
       </div>
 
 
@@ -168,12 +188,15 @@
     <section id="contentDashboard" class="hidden space-y-6">
       
       <!-- Strategy Selector Toggle -->
-      <div class="flex bg-growwDarkCard p-1 rounded-lg border border-gray-800 text-xs font-semibold">
-        <button id="toggleBulletproof" onclick="selectDashboardStrategy('bulletproof')" class="w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
+      <div class="flex bg-growwDarkCard p-1 rounded-lg border border-gray-800 text-xs font-semibold text-center">
+        <button id="toggleBulletproof" onclick="selectDashboardStrategy('bulletproof')" class="w-1/3 py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
           🛡️ Bulletproof
         </button>
-        <button id="toggleNoStops" onclick="selectDashboardStrategy('nostops')" class="w-1/2 py-2 text-center rounded-md text-growwMuted transition">
+        <button id="toggleNoStops" onclick="selectDashboardStrategy('nostops')" class="w-1/3 py-2 rounded-md text-growwMuted transition">
           ⚡ No-Stops
+        </button>
+        <button id="toggleML" onclick="selectDashboardStrategy('ml')" class="w-1/3 py-2 rounded-md text-growwMuted transition">
+          🔮 V3.0 ML
         </button>
       </div>
 
@@ -363,9 +386,11 @@
     
     let bpState = null;
     let nsState = null;
+    let mlState = null;
     
     let bpPnL = [];
     let nsPnL = [];
+    let mlPnL = [];
     
     let myChart = null;
 
@@ -374,22 +399,26 @@
       
       try {
         // Fetch portfolio JSON states
-        const [rBpState, rNsState] = await Promise.all([
+        const [rBpState, rNsState, rMlState] = await Promise.all([
           fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null)
+          fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null)
         ]);
         
         bpState = rBpState;
         nsState = rNsState;
+        mlState = rMlState;
 
         // Fetch CSV data
-        const [rBpCsv, rNsCsv] = await Promise.all([
+        const [rBpCsv, rNsCsv, rMlCsv] = await Promise.all([
           fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => '')
+          fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => '')
         ]);
         
         bpPnL = parseCSV(rBpCsv);
         nsPnL = parseCSV(rNsCsv);
+        mlPnL = parseCSV(rMlCsv);
 
         // Fetch Nifty Close for index tracker
         // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
@@ -443,15 +472,19 @@
     function updateSummaryMetrics() {
       const bpVal = bpPnL.length ? bpPnL[bpPnL.length - 1].value : 100000.0;
       const nsVal = nsPnL.length ? nsPnL[nsPnL.length - 1].value : 100000.0;
+      const mlVal = mlPnL.length ? mlPnL[mlPnL.length - 1].value : 100000.0;
       
       const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const mlRet = ((mlVal - 100000.0) / 100000.0 * 100).toFixed(2);
 
       const bpCash = bpState ? bpState.cash : 100000.0;
       const nsCash = nsState ? nsState.cash : 100000.0;
+      const mlCash = mlState ? mlState.cash : 100000.0;
 
       const bpInvest = Math.max(0, bpVal - bpCash);
       const nsInvest = Math.max(0, nsVal - nsCash);
+      const mlInvest = Math.max(0, mlVal - mlCash);
 
       document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
@@ -464,6 +497,12 @@
       document.getElementById('nsReturn').className = `text-xs font-semibold ${nsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('nsInvestedText').innerText = `Invested: INR ${nsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('nsCashText').innerText = `Cash: INR ${nsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('mlValue').innerText = `INR ${mlVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('mlReturn').innerText = `${mlRet >= 0 ? '+' : ''}${mlRet}%`;
+      document.getElementById('mlReturn').className = `text-xs font-semibold ${mlRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('mlInvestedText').innerText = `Invested: INR ${mlInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('mlCashText').innerText = `Cash: INR ${mlCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
 
@@ -476,6 +515,7 @@
       const labels = bpPnL.map(x => x.date);
       const bpValues = bpPnL.map(x => x.value);
       const nsValues = nsPnL.map(x => x.value);
+      const mlValues = mlPnL.map(x => x.value);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -495,6 +535,15 @@
               label: 'No-Stops ⚡',
               data: nsValues.length ? nsValues : [100000],
               borderColor: '#FF5C5C',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Version 3.0 ML 🔮',
+              data: mlValues.length ? mlValues : [100000],
+              borderColor: '#9b59b6',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -577,20 +626,27 @@
       dashStrategy = strategy;
       const toggleBP = document.getElementById('toggleBulletproof');
       const toggleNS = document.getElementById('toggleNoStops');
+      const toggleML = document.getElementById('toggleML');
+
+      toggleBP.className = "w-1/3 py-2 rounded-md text-growwMuted transition";
+      toggleNS.className = "w-1/3 py-2 rounded-md text-growwMuted transition";
+      toggleML.className = "w-1/3 py-2 rounded-md text-growwMuted transition";
 
       if (strategy === 'bulletproof') {
-        toggleBP.className = "w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-        toggleNS.className = "w-1/2 py-2 text-center rounded-md text-growwMuted transition";
+        toggleBP.className = "w-1/3 py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'nostops') {
+        toggleNS.className = "w-1/3 py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else {
-        toggleNS.className = "w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-        toggleBP.className = "w-1/2 py-2 text-center rounded-md text-growwMuted transition";
+        toggleML.className = "w-1/3 py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       }
       updateDashboardView();
     }
 
     function updateDashboardView() {
-      const activeState = (dashStrategy === 'bulletproof') ? bpState : nsState;
-      const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value : ((nsPnL.length) ? nsPnL[nsPnL.length-1].value : 100000.0);
+      const activeState = (dashStrategy === 'bulletproof') ? bpState : ((dashStrategy === 'nostops') ? nsState : mlState);
+      const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value :
+                        ((dashStrategy === 'nostops' && nsPnL.length) ? nsPnL[nsPnL.length-1].value :
+                        ((mlPnL.length) ? mlPnL[mlPnL.length-1].value : 100000.0));
       
       const dashEquityEl = document.getElementById('dashEquity');
       const dashCashEl = document.getElementById('dashCash');
@@ -649,7 +705,7 @@
 
     async function updateTradesView() {
       const tradesListEl = document.getElementById('tradesList');
-      const suffix = (dashStrategy === 'bulletproof') ? 'bulletproof' : 'nostops';
+      const suffix = (dashStrategy === 'bulletproof') ? 'bulletproof' : ((dashStrategy === 'nostops') ? 'nostops' : 'v3_ml');
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
