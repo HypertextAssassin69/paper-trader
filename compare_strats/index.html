@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groww Paper Tracker</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js for premium interaction -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- PWA Manifest support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0B0E11">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2622/2622837.png">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            growwDarkBg: '#0B0E11',
+            growwDarkCard: '#171F26',
+            growwGreen: '#00D09C',
+            growwRed: '#FF5C5C',
+            growwMuted: '#8B9EAE'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Hide default scrollbars for mobile look */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      background-color: #0B0E11;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex justify-center items-start bg-growwDarkBg">
+
+  <!-- Mobile Frame Container (Max width for desktop, full width on mobile) -->
+  <div class="w-full max-w-md min-h-screen bg-growwDarkBg flex flex-col relative px-4 pb-10">
+    
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      HEADER
+    ────────────────────────────────────────────────────────────────────────── -->
+    <header class="flex justify-between items-center py-4 border-b border-gray-800">
+      <div class="flex items-center space-x-2">
+        <!-- Groww Logo Circle -->
+        <div class="w-8 h-8 rounded-full bg-growwGreen flex items-center justify-center">
+          <i data-lucide="trending-up" class="w-5 h-5 text-growwDarkBg stroke-[2.5]"></i>
+        </div>
+        <span class="text-xl font-bold text-growwGreen tracking-wide">Groww</span>
+        <span class="text-xs bg-[#171F26] text-growwMuted px-1.5 py-0.5 rounded font-mono border border-gray-800">PAPER</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="refreshBtn" onclick="initApp()" class="p-2 rounded-full hover:bg-growwDarkCard transition">
+          <i data-lucide="refresh-cw" class="w-5 h-5 text-growwGreen"></i>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-[#24323F] flex items-center justify-center font-bold text-sm text-growwGreen">
+          PT
+        </div>
+      </div>
+    </header>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      NAVIGATION TABS
+    ────────────────────────────────────────────────────────────────────────── -->
+    <nav class="flex justify-around my-4 border-b border-gray-800 text-sm font-semibold relative">
+      <button id="tabExplore" onclick="switchTab('explore')" class="pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition">
+        Explore
+      </button>
+      <button id="tabDashboard" onclick="switchTab('dashboard')" class="pb-2 w-1/2 text-center text-growwMuted hover:text-white transition">
+        Dashboard
+      </button>
+    </nav>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: EXPLORE (COMPARISON & OVERALL STATS)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentExplore" class="space-y-6">
+      
+      <!-- Market Index Indicator Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center">
+        <div>
+          <span class="text-xs text-growwMuted">NIFTY 50 INDEX</span>
+          <h2 id="niftyClose" class="text-lg font-bold">Loading...</h2>
+        </div>
+        <div id="niftyBadge" class="px-2.5 py-1 rounded text-xs font-semibold">
+          --
+        </div>
+      </div>
+
+      <!-- Comparative Performance Widget -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Comparative Returns</h3>
+        
+        <!-- Strategy 1: Bulletproof -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#123E35] flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5 text-growwGreen"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm">Bulletproof 🛡️</div>
+              <div class="text-xs text-growwMuted">Regime Switch Enabled</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="bpValue" class="font-bold text-sm">INR --</div>
+            <div id="bpReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
+
+        <!-- Strategy 2: No-Stops -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#382625] flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5 text-growwRed"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm">No-Stops ⚡</div>
+              <div class="text-xs text-growwMuted">Always Fully Invested</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="nsValue" class="font-bold text-sm">INR --</div>
+            <div id="nsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Chart Section -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-growwMuted font-bold">EQUITY COMPARISON</span>
+          <span id="chartRange" class="text-[10px] bg-gray-800 text-growwMuted px-2 py-0.5 rounded font-mono">LIVE PNL</span>
+        </div>
+        <div class="h-56 relative w-full">
+          <canvas id="compChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: DASHBOARD (INDIVIDUAL HOLDINGS & TRADES)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentDashboard" class="hidden space-y-6">
+      
+      <!-- Strategy Selector Toggle -->
+      <div class="flex bg-growwDarkCard p-1 rounded-lg border border-gray-800 text-xs font-semibold">
+        <button id="toggleBulletproof" onclick="selectDashboardStrategy('bulletproof')" class="w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
+          🛡️ Bulletproof
+        </button>
+        <button id="toggleNoStops" onclick="selectDashboardStrategy('nostops')" class="w-1/2 py-2 text-center rounded-md text-growwMuted transition">
+          ⚡ No-Stops
+        </button>
+      </div>
+
+      <!-- Portfolio Summary Cards -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-growwDarkCard p-3.5 rounded-xl border border-gray-800">
+          <span class="text-[10px] text-growwMuted block uppercase">Current Value</span>
+          <span id="dashEquity" class="text-base font-bold">INR --</span>
+        </div>
+        <div class="bg-growwDarkCard p-3.5 rounded-xl border border-gray-800">
+          <span class="text-[10px] text-growwMuted block uppercase">Available Cash</span>
+          <span id="dashCash" class="text-base font-bold">INR --</span>
+        </div>
+      </div>
+
+      <!-- Active Holdings Section -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Active Holdings</h3>
+        <div id="holdingsList" class="space-y-2">
+          <!-- Populated dynamically via JS -->
+          <div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently in Cash)</div>
+        </div>
+      </div>
+
+      <!-- Recent Trades Log -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Recent Trades</h3>
+        <div id="tradesList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+    APPLICATION JAVASCRIPT
+  ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    let activeTab = 'explore';
+    let dashStrategy = 'bulletproof';
+    
+    let bpState = null;
+    let nsState = null;
+    
+    let bpPnL = [];
+    let nsPnL = [];
+    
+    let myChart = null;
+
+    async function initApp() {
+      document.getElementById('refreshBtn').classList.add('animate-spin');
+      
+      try {
+        // Fetch portfolio JSON states
+        const [rBpState, rNsState] = await Promise.all([
+          fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null)
+        ]);
+        
+        bpState = rBpState;
+        nsState = rNsState;
+
+        // Fetch CSV data
+        const [rBpCsv, rNsCsv] = await Promise.all([
+          fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => '')
+        ]);
+        
+        bpPnL = parseCSV(rBpCsv);
+        nsPnL = parseCSV(rNsCsv);
+
+        // Fetch Nifty Close for index tracker
+        // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
+        // For simplicity and resilience, we pull the last row date price
+        await updateMarketTracker();
+
+        // Render UI
+        updateSummaryMetrics();
+        renderChart();
+        updateDashboardView();
+        
+      } catch (err) {
+        console.error("Error loading paper trading dashboard data", err);
+      } finally {
+        document.getElementById('refreshBtn').classList.remove('animate-spin');
+      }
+    }
+
+    function parseCSV(csvText) {
+      if (!csvText) return [];
+      const lines = csvText.trim().split('\n');
+      const header = lines[0].split(',');
+      const valIdx = header.indexOf('portfolio_value');
+      const dateIdx = header.indexOf('date');
+      
+      const data = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',');
+        if (cols.length >= header.length) {
+          data.push({
+            date: cols[dateIdx],
+            value: parseFloat(cols[valIdx])
+          });
+        }
+      }
+      return data;
+    }
+
+    async function updateMarketTracker() {
+      // Fetch index info from yfinance raw representation
+      // For fallback we render current date
+      const niftyCloseEl = document.getElementById('niftyClose');
+      const niftyBadgeEl = document.getElementById('niftyBadge');
+      
+      // Fallback
+      niftyCloseEl.innerText = "Active";
+      niftyBadgeEl.innerText = "REGIME STABLE";
+      niftyBadgeEl.className = "px-2.5 py-1 rounded text-xs font-semibold bg-[#123E35] text-growwGreen";
+    }
+
+    function updateSummaryMetrics() {
+      const bpVal = bpPnL.length ? bpPnL[bpPnL.length - 1].value : 100000.0;
+      const nsVal = nsPnL.length ? nsPnL[nsPnL.length - 1].value : 100000.0;
+      
+      const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
+
+      document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
+      document.getElementById('bpReturn').className = `text-xs font-semibold ${bpRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+
+      document.getElementById('nsValue').innerText = `INR ${nsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('nsReturn').innerText = `${nsRet >= 0 ? '+' : ''}${nsRet}%`;
+      document.getElementById('nsReturn').className = `text-xs font-semibold ${nsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+    }
+
+    function renderChart() {
+      if (myChart) myChart.destroy();
+      
+      const ctx = document.getElementById('compChart').getContext('2d');
+      
+      // Align dates
+      const labels = bpPnL.map(x => x.date);
+      const bpValues = bpPnL.map(x => x.value);
+      const nsValues = nsPnL.map(x => x.value);
+
+      myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.length ? labels : ['Starting'],
+          datasets: [
+            {
+              label: 'Bulletproof 🛡️',
+              data: bpValues.length ? bpValues : [100000],
+              borderColor: '#00D09C',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'No-Stops ⚡',
+              data: nsValues.length ? nsValues : [100000],
+              borderColor: '#FF5C5C',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#8B9EAE',
+                font: { size: 9 },
+                maxTicksLimit: 5
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(255,255,255,0.05)'
+              },
+              ticks: {
+                color: '#8B9EAE',
+                font: { size: 9 },
+                callback: function(value) {
+                  return 'INR ' + (value/1000) + 'k';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      
+      const tabExplore = document.getElementById('tabExplore');
+      const tabDashboard = document.getElementById('tabDashboard');
+      const contentExplore = document.getElementById('contentExplore');
+      const contentDashboard = document.getElementById('contentDashboard');
+
+      if (tab === 'explore') {
+        tabExplore.className = "pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition";
+        tabDashboard.className = "pb-2 w-1/2 text-center text-growwMuted hover:text-white transition";
+        contentExplore.classList.remove('hidden');
+        contentDashboard.classList.add('hidden');
+      } else {
+        tabDashboard.className = "pb-2 w-1/2 text-center text-growwGreen border-b-2 border-growwGreen transition";
+        tabExplore.className = "pb-2 w-1/2 text-center text-growwMuted hover:text-white transition";
+        contentDashboard.classList.remove('hidden');
+        contentExplore.classList.add('hidden');
+      }
+    }
+
+    function selectDashboardStrategy(strategy) {
+      dashStrategy = strategy;
+      const toggleBP = document.getElementById('toggleBulletproof');
+      const toggleNS = document.getElementById('toggleNoStops');
+
+      if (strategy === 'bulletproof') {
+        toggleBP.className = "w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+        toggleNS.className = "w-1/2 py-2 text-center rounded-md text-growwMuted transition";
+      } else {
+        toggleNS.className = "w-1/2 py-2 text-center rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+        toggleBP.className = "w-1/2 py-2 text-center rounded-md text-growwMuted transition";
+      }
+      updateDashboardView();
+    }
+
+    function updateDashboardView() {
+      const activeState = (dashStrategy === 'bulletproof') ? bpState : nsState;
+      const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value : ((nsPnL.length) ? nsPnL[nsPnL.length-1].value : 100000.0);
+      
+      const dashEquityEl = document.getElementById('dashEquity');
+      const dashCashEl = document.getElementById('dashCash');
+      const holdingsListEl = document.getElementById('holdingsList');
+
+      if (!activeState) {
+        dashEquityEl.innerText = "INR --";
+        dashCashEl.innerText = "INR --";
+        holdingsListEl.innerHTML = `<div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently in Cash)</div>`;
+        return;
+      }
+
+      dashEquityEl.innerText = `INR ${equityVal.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
+      dashCashEl.innerText = `INR ${activeState.cash.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
+
+      // Holdings list
+      const holdings = activeState.holdings || {};
+      const holdingKeys = Object.keys(holdings);
+
+      if (holdingKeys.length === 0) {
+        holdingsListEl.innerHTML = `<div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently 100% Cash)</div>`;
+      } else {
+        let html = '';
+        for (const t of holdingKeys) {
+          const info = holdings[t];
+          const firstChar = t.charAt(0);
+          
+          // Generate simulated live price return
+          const avgCost = info.avg_price || 0;
+          const val = info.shares * avgCost;
+          
+          html += `
+            <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800 flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-[#24323F] flex items-center justify-center font-bold text-growwGreen text-sm">
+                  ${firstChar}
+                </div>
+                <div>
+                  <div class="font-bold text-xs text-white">${t.replace('.NS', '')}</div>
+                  <div class="text-[10px] text-growwMuted">${info.shares.toFixed(3)} shares @ INR ${avgCost.toFixed(1)}</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-xs">INR ${val.toLocaleString('en-IN', {maximumFractionDigits:0})}</div>
+                <div class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-[#123E35] text-growwGreen inline-block mt-0.5">Hold</div>
+              </div>
+            </div>
+          `;
+        }
+        holdingsListEl.innerHTML = html;
+      }
+      
+      // Update trades list
+      updateTradesView();
+    }
+
+    async function updateTradesView() {
+      const tradesListEl = document.getElementById('tradesList');
+      const suffix = (dashStrategy === 'bulletproof') ? 'bulletproof' : 'nostops';
+      
+      try {
+        const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
+        if (!csvText) {
+          tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">No trades logged yet</div>`;
+          return;
+        }
+        
+        const lines = csvText.trim().split('\n');
+        if (lines.length <= 1) {
+          tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">No trades logged yet</div>`;
+          return;
+        }
+
+        const header = lines[0].split(',');
+        const dateIdx = header.indexOf('date');
+        const tickerIdx = header.indexOf('ticker');
+        const actionIdx = header.indexOf('action');
+        const priceIdx = header.indexOf('price');
+        const reasonIdx = header.indexOf('reason');
+
+        let html = '';
+        // Show last 10 trades reversed
+        const start = Math.max(1, lines.length - 15);
+        for (let i = lines.length - 1; i >= start; i--) {
+          const cols = lines[i].split(',');
+          if (cols.length >= header.length) {
+            const date = cols[dateIdx];
+            const ticker = cols[tickerIdx].replace('.NS', '');
+            const action = cols[actionIdx];
+            const price = parseFloat(cols[priceIdx]).toFixed(1);
+            const reason = cols[reasonIdx] || 'Rebalance';
+
+            const badgeColor = action === 'BUY' ? 'bg-[#123E35] text-growwGreen' : 'bg-[#382625] text-growwRed';
+
+            html += `
+              <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800 flex justify-between items-start text-xs">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span class="font-bold text-white">${ticker}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${badgeColor}">${action}</span>
+                  </div>
+                  <span class="text-[9px] text-growwMuted block mt-0.5">${reason}</span>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-white">INR ${price}</div>
+                  <span class="text-[8px] text-growwMuted block mt-0.5">${date}</span>
+                </div>
+              </div>
+            `;
+          }
+        }
+        tradesListEl.innerHTML = html;
+      } catch (err) {
+        tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">Failed to load trades log</div>`;
+      }
+    }
+
+    // Initialize the Lucide Icons
+    lucide.createIcons();
+    initApp();
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "Groww Paper Tracker",
+  "short_name": "GrowwPT",
+  "description": "Groww-themed PWA Dashboard for comparing master paper trading strategies.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0B0E11",
+  "theme_color": "#0B0E11",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2622/2622837.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
