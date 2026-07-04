@@ -227,55 +227,64 @@ def main():
             target_weights[t] = w
 
     # Execute Rebalance Trades
-    # Liquidation first
+    # 1. Sells First (to free up cash)
     for t in TICKERS:
         df = ticker_data.get(t)
         if df is not None:
             price = current_prices[t]
-            target_val = equity * target_weights.get(t, 0.0)
-            current_val = state['holdings'].get(t, {}).get('shares', 0.0) * price
+            target_shares = int(equity * target_weights.get(t, 0.0) / price)
+            current_shares = int(state['holdings'].get(t, {}).get('shares', 0))
             
-            if target_val < current_val:
-                val_to_sell = current_val - target_val
-                shares_to_sell = val_to_sell / price
-                state['holdings'][t]['shares'] -= shares_to_sell
+            if target_shares < current_shares:
+                shares_to_sell = current_shares - target_shares
+                val_to_sell = shares_to_sell * price
                 state['cash'] += val_to_sell * (1 - FEE_RATE)
                 
+                state['holdings'][t]['shares'] = target_shares
                 trade_rows.append({
                     'date': today, 'ticker': t, 'action': 'SELL',
-                    'shares': round(shares_to_sell, 4), 'price': round(price, 2),
+                    'shares': int(shares_to_sell), 'price': round(price, 2),
                     'value': round(val_to_sell, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                 })
                 print(f"    [SELL] {t} @ INR {price:.2f} (reducing exposure)")
-                if state['holdings'][t]['shares'] <= 1e-5:
+                if state['holdings'][t]['shares'] <= 0:
                     del state['holdings'][t]
 
-    # Acquisition second
+    # 2. Buys Second (to acquire positions using available cash)
     for t in TICKERS:
         df = ticker_data.get(t)
         if df is not None:
             price = current_prices[t]
-            target_val = equity * target_weights.get(t, 0.0)
-            current_val = state['holdings'].get(t, {}).get('shares', 0.0) * price
+            target_shares = int(equity * target_weights.get(t, 0.0) / price)
+            current_shares = int(state['holdings'].get(t, {}).get('shares', 0))
             
-            if target_val > current_val:
-                val_to_buy = target_val - current_val
-                if state['cash'] >= val_to_buy:
-                    shares_to_buy = (val_to_buy * (1 - FEE_RATE)) / price
-                    state['cash'] -= val_to_buy
+            if target_shares > current_shares:
+                shares_to_buy = target_shares - current_shares
+                cost = shares_to_buy * price * (1 + FEE_RATE)
+                
+                # Check for cash constraints and adjust shares down if necessary
+                while cost > state['cash'] and shares_to_buy > 0:
+                    shares_to_buy -= 1
+                    cost = shares_to_buy * price * (1 + FEE_RATE)
+                
+                if shares_to_buy > 0:
+                    state['cash'] -= cost
                     
                     if t not in state['holdings']:
-                        state['holdings'][t] = {'shares': 0.0, 'avg_price': price, 'entry_date': today}
+                        state['holdings'][t] = {'shares': 0, 'avg_price': price, 'entry_date': today}
                     
+                    old_shares = state['holdings'][t]['shares']
+                    old_price = state['holdings'][t]['avg_price']
                     state['holdings'][t]['shares'] += shares_to_buy
-                    state['holdings'][t]['avg_price'] = (state['holdings'][t]['avg_price'] + price) / 2
+                    state['holdings'][t]['avg_price'] = (old_shares * old_price + shares_to_buy * price) / state['holdings'][t]['shares']
                     
                     trade_rows.append({
                         'date': today, 'ticker': t, 'action': 'BUY',
-                        'shares': round(shares_to_buy, 4), 'price': round(price, 2),
-                        'value': round(val_to_buy, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
+                        'shares': int(shares_to_buy), 'price': round(price, 2),
+                        'value': round(shares_to_buy * price, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                     })
                     print(f"    [BUY] {t} @ INR {price:.2f} (acquiring exposure)")
+
 
     # 4. Save States & Log PNL
     assets_final = sum(info['shares'] * current_prices.get(t, info['avg_price']) for t, info in state['holdings'].items())
