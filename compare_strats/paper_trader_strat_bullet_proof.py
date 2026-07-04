@@ -145,8 +145,9 @@ def main():
     print("Checking Nifty 50 index state...")
     nifty = yf.download(INDEX_TICKER, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
     if nifty.empty:
-        print("  ⚠️ Failed to download index data. Defaulting to Bullish regime.")
+        print("  [WARN] Failed to download index data. Defaulting to Bullish regime.")
         is_nifty_bullish = True
+
         regime = "Bullish"
     else:
         if isinstance(nifty.columns, pd.MultiIndex):
@@ -171,7 +172,8 @@ def main():
         state_pred = gmm.predict([[last_row['Ret_20'], last_row['Vol_20']]])[0]
         regime = "Bullish" if state_pred == bull_state else ("Bearish" if state_pred == bear_state else "Choppy")
 
-    print(f"  Nifty 50 Status: {'🟢 ABOVE EMA-50' if is_nifty_bullish else '🔴 BELOW EMA-50 (Emergency Exit)'}")
+    print(f"  Nifty 50 Status: {'ABOVE EMA-50' if is_nifty_bullish else 'BELOW EMA-50 (Emergency Exit)'}")
+
     print(f"  Predicted Market Regime: {regime}")
 
     # 2. Download ticker database
@@ -209,7 +211,7 @@ def main():
 
     # Handle Macro Switch Emergency liquidation
     if not is_nifty_bullish:
-        print("  ⚠️ Nifty 50 broke below 50-EMA! Flushing all holdings to Cash.")
+        print("  [ALERT] Nifty 50 broke below 50-EMA! Flushing all holdings to Cash.")
         for t, info in list(state['holdings'].items()):
             price = current_prices.get(t, info['avg_price'])
             val = info['shares'] * price * (1 - FEE_RATE)
@@ -219,8 +221,9 @@ def main():
                 'shares': round(info['shares'], 4), 'price': round(price, 2),
                 'value': round(val, 2), 'reason': 'Nifty EMA-50 Circuit Breaker'
             })
-            print(f"    ❌ SELL {t} @ INR {price:.2f}")
+            print(f"    [SELL] {t} @ INR {price:.2f}")
         state['holdings'] = {}
+
     else:
         # Calculate target weights via Softmax normally
         scores = {}
@@ -264,7 +267,8 @@ def main():
                         'shares': round(shares_to_sell, 4), 'price': round(price, 2),
                         'value': round(val_to_sell, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                     })
-                    print(f"    ❌ SELL {t} @ INR {price:.2f} (reducing exposure)")
+                    print(f"    [SELL] {t} @ INR {price:.2f} (reducing exposure)")
+
                     if state['holdings'][t]['shares'] <= 1e-5:
                         del state['holdings'][t]
 
@@ -293,7 +297,8 @@ def main():
                             'shares': round(shares_to_buy, 4), 'price': round(price, 2),
                             'value': round(val_to_buy, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                         })
-                        print(f"    ⭐ BUY {t} @ INR {price:.2f} (acquiring exposure)")
+                        print(f"    [BUY] {t} @ INR {price:.2f} (acquiring exposure)")
+
 
     # 4. Save States & Log PNL
     assets_final = sum(info['shares'] * current_prices.get(t, info['avg_price']) for t, info in state['holdings'].items())
@@ -326,7 +331,8 @@ def main():
     
     lines = []
     lines.append(f"# Live Bulletproof Systematic Portfolio Report (EMA-50 Switch)\n")
-    lines.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Nifty Index Switch**: {'🟢 Risk-On' if is_nifty_bullish else '🔴 Risk-Off (Cash)'}\n")
+    lines.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Nifty Index Switch**: {'Risk-On' if is_nifty_bullish else 'Risk-Off (Cash)'}\n")
+
     lines.append(f"## Summary Stats")
     lines.append(f"| Metric | Value |")
     lines.append(f"| :--- | :---: |")

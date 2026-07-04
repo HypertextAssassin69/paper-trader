@@ -1,0 +1,198 @@
+{
+  "cash": 4.547473508864641e-12,
+  "holdings": {
+    "RELIANCE.NS": {
+      "shares": 1.991566293153122,
+      "avg_price": 1304.0,
+      "entry_date": "2026-07-04"
+    },
+    "TCS.NS": {
+      "shares": 1.2390780354283253,
+      "avg_price": 2093.5,
+      "entry_date": "2026-07-04"
+    },
+    "HDFCBANK.NS": {
+      "shares": 3.3307071960736567,
+      "avg_price": 801.0499877929688,
+      "entry_date": "2026-07-04"
+    },
+    "HINDUNILVR.NS": {
+      "shares": 1.1562080323684616,
+      "avg_price": 2201.199951171875,
+      "entry_date": "2026-07-04"
+    },
+    "MARUTI.NS": {
+      "shares": 0.18085427977214433,
+      "avg_price": 14366.0,
+      "entry_date": "2026-07-04"
+    },
+    "SUNPHARMA.NS": {
+      "shares": 1.3465595405145139,
+      "avg_price": 1904.800048828125,
+      "entry_date": "2026-07-04"
+    },
+    "LT.NS": {
+      "shares": 0.6841739392272675,
+      "avg_price": 4026.60009765625,
+      "entry_date": "2026-07-04"
+    },
+    "TATASTEEL.NS": {
+      "shares": 13.749431249113156,
+      "avg_price": 189.8000030517578,
+      "entry_date": "2026-07-04"
+    },
+    "ULTRACEMCO.NS": {
+      "shares": 0.21817625229699988,
+      "avg_price": 11723.0,
+      "entry_date": "2026-07-04"
+    },
+    "BHARTIARTL.NS": {
+      "shares": 1.3435509899756224,
+      "avg_price": 1910.4000244140625,
+      "entry_date": "2026-07-04"
+    },
+    "NTPC.NS": {
+      "shares": 7.1874310325233,
+      "avg_price": 356.45001220703125,
+      "entry_date": "2026-07-04"
+    },
+    "DLF.NS": {
+      "shares": 3.860148518594487,
+      "avg_price": 675.9000244140625,
+      "entry_date": "2026-07-04"
+    },
+    "BEL.NS": {
+      "shares": 6.164580113055157,
+      "avg_price": 418.04998779296875,
+      "entry_date": "2026-07-04"
+    },
+    "TRENT.NS": {
+      "shares": 0.8527881464258141,
+      "avg_price": 3340.60009765625,
+      "entry_date": "2026-07-04"
+    },
+    "PIDILITIND.NS": {
+      "shares": 1.663480857414797,
+      "avg_price": 1598.0,
+      "entry_date": "2026-07-04"
+    },
+    "HAL.NS": {
+      "shares": 0.5900523768041838,
+      "avg_price": 4428.89990234375,
+      "entry_date": "2026-07-04"
+    },
+    "TITAN.NS": {
+      "shares": 0.5869900916990645,
+      "avg_price": 4461.10009765625,
+      "entry_date": "2026-07-04"
+    },
+    "COALINDIA.NS": {
+      "shares": 5.933078223777297,
+      "avg_price": 438.70001220703125,
+      "entry_date": "2026-07-04"
+    },
+    "CONCOR.NS": {
+      "shares": 5.268733009057882,
+      "avg_price": 488.20001220703125,
+      "entry_date": "2026-07-04"
+    },
+    "DIXON.NS": {
+      "shares": 0.21088318825241117,
+      "avg_price": 12456.0,
+      "entry_date": "2026-07-04"
+    },
+    "SBIN.NS": {
+      "shares": 2.5139348247172935,
+      "avg_price": 1040.0,
+      "entry_date": "2026-07-04"
+    },
+    "INDIGO.NS": {
+      "shares": 0.527635801753197,
+      "avg_price": 5426.5,
+      "entry_date": "2026-07-04"
+    },
+    "BPCL.NS": {
+      "shares": 8.69705442892909,
+      "avg_price": 308.1499938964844,
+      "entry_date": "2026-07-04"
+    },
+    "IREDA.NS": {
+      "shares": 20.483348577694606,
+      "avg_price": 128.49000549316406,
+      "entry_date": "2026-07-04"
+    },
+    "APOLLOHOSP.NS": {
+      "shares": 0.2834808492398207,
+      "avg_price": 8893.5,
+      "entry_date": "2026-07-04"
+    },
+    "POLYCAB.NS": {
+      "shares": 0.28173555783362014,
+      "avg_price": 9548.5,
+      "entry_date": "2026-07-04"
+    },
+    "LALPATHLAB.NS": {
+      "shares": 1.6187625422795628,
+      "avg_price": 1645.699951171875,
+      "entry_date": "2026-07-04"
+    },
+    "VOLTAS.NS": {
+      "shares": 2.077806191566873,
+      "avg_price": 1280.199951171875,
+      "entry_date": "2026-07-04"
+    },
+    "ICICIBANK.NS": {
+      "shares": 1.8628482608080283,
+      "avg_price": 1411.4000244140625,
+      "entry_date": "2026-07-04"
+    },
+    "M&M.NS": {
+      "shares": 0.8255250547048707,
+      "avg_price": 3136.89990234375,
+      "entry_date": "2026-07-04"
+    },
+    "JSWSTEEL.NS": {
+      "shares": 2.1303505023485014,
+      "avg_price": 1230.199951171875,
+      "entry_date": "2026-07-04"
+    },
+    "ADANIENT.NS": {
+      "shares": 0.7976927935888987,
+      "avg_price": 3212.10009765625,
+      "entry_date": "2026-07-04"
+    },
+    "MUTHOOTFIN.NS": {
+      "shares": 0.8600775915778067,
+      "avg_price": 3054.89990234375,
+      "entry_date": "2026-07-04"
+    },
+    "PAGEIND.NS": {
+      "shares": 0.06203667919152851,
+      "avg_price": 42800.0,
+      "entry_date": "2026-07-04"
+    },
+    "CIPLA.NS": {
+      "shares": 1.8092104780691596,
+      "avg_price": 1458.199951171875,
+      "entry_date": "2026-07-04"
+    },
+    "BRITANNIA.NS": {
+      "shares": 0.4673496785317837,
+      "avg_price": 5379.0,
+      "entry_date": "2026-07-04"
+    },
+    "AUBANK.NS": {
+      "shares": 2.4984651052241746,
+      "avg_price": 1058.4000244140625,
+      "entry_date": "2026-07-04"
+    },
+    "TATACOMM.NS": {
+      "shares": 1.4418379090609967,
+      "avg_price": 1906.699951171875,
+      "entry_date": "2026-07-04"
+    }
+  },
+  "start_date": "2026-07-04",
+  "start_capital": 100000.0,
+  "last_run": "2026-07-04"
+}

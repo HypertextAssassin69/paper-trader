@@ -145,8 +145,9 @@ def main():
     print("Checking Nifty 50 index state...")
     nifty = yf.download(INDEX_TICKER, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
     if nifty.empty:
-        print("  ⚠️ Failed to download index data. Defaulting to Bullish regime.")
+        print("  [WARN] Failed to download index data. Defaulting to Bullish regime.")
         regime = "Bullish"
+
     else:
         if isinstance(nifty.columns, pd.MultiIndex):
             nifty.columns = nifty.columns.get_level_values(0)
@@ -245,7 +246,7 @@ def main():
                     'shares': round(shares_to_sell, 4), 'price': round(price, 2),
                     'value': round(val_to_sell, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                 })
-                print(f"    ❌ SELL {t} @ INR {price:.2f} (reducing exposure)")
+                print(f"    [SELL] {t} @ INR {price:.2f} (reducing exposure)")
                 if state['holdings'][t]['shares'] <= 1e-5:
                     del state['holdings'][t]
 
@@ -274,7 +275,7 @@ def main():
                         'shares': round(shares_to_buy, 4), 'price': round(price, 2),
                         'value': round(val_to_buy, 2), 'reason': f'Rebalance to target weight={target_weights.get(t,0.0):.3f}'
                     })
-                    print(f"    ⭐ BUY {t} @ INR {price:.2f} (acquiring exposure)")
+                    print(f"    [BUY] {t} @ INR {price:.2f} (acquiring exposure)")
 
     # 4. Save States & Log PNL
     assets_final = sum(info['shares'] * current_prices.get(t, info['avg_price']) for t, info in state['holdings'].items())
@@ -307,7 +308,8 @@ def main():
     
     lines = []
     lines.append(f"# Live Baseline No-Stops Systematic Portfolio Report\n")
-    lines.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Portfolio Mode**: 🟢 Always Fully Invested\n")
+    lines.append(f"> **Date**: {today}  |  **Days Live**: {days_live}  |  **Portfolio Mode**: Always Fully Invested\n")
+
     lines.append(f"## Summary Stats")
     lines.append(f"| Metric | Value |")
     lines.append(f"| :--- | :---: |")
