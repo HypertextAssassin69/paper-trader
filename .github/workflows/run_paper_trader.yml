@@ -41,6 +41,24 @@ jobs:
           python paper_trader_strat_bullet_proof.py
           cd ..
 
+      - name: Run comparative paper_trader_strat_v3_ml.py (V3 ML)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v3_ml.py
+          cd ..
+
+      - name: Run comparative paper_trader_strat_v4_heuristic.py (V4 Heuristic)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v4_heuristic.py
+          cd ..
+
+      - name: Run comparative paper_trader_strat_ensemble_70_30.py (V5 Ensemble)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_ensemble_70_30.py
+          cd ..
+
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"

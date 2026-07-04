@@ -1,0 +1,14 @@
+date,ticker,action,shares,price,value,reason
+2026-07-05,HDFCBANK.NS,BUY,4,801.05,3204.2,Rebalance to target weight=0.036
+2026-07-05,SUNPHARMA.NS,BUY,2,1904.8,3809.6,Rebalance to target weight=0.042
+2026-07-05,BHARTIARTL.NS,BUY,1,1910.4,1910.4,Rebalance to target weight=0.037
+2026-07-05,DLF.NS,BUY,6,675.9,4055.4,Rebalance to target weight=0.045
+2026-07-05,TRENT.NS,BUY,1,3340.6,3340.6,Rebalance to target weight=0.061
+2026-07-05,PIDILITIND.NS,BUY,3,1598.0,4794.0,Rebalance to target weight=0.048
+2026-07-05,BPCL.NS,BUY,9,308.15,2773.35,Rebalance to target weight=0.030
+2026-07-05,LALPATHLAB.NS,BUY,2,1645.7,3291.4,Rebalance to target weight=0.049
+2026-07-05,ICICIBANK.NS,BUY,2,1411.4,2822.8,Rebalance to target weight=0.037
+2026-07-05,M&M.NS,BUY,1,3136.9,3136.9,Rebalance to target weight=0.032
+2026-07-05,ADANIENT.NS,BUY,3,3212.1,9636.3,Rebalance to target weight=0.097
+2026-07-05,CIPLA.NS,BUY,3,1458.2,4374.6,Rebalance to target weight=0.047
+2026-07-05,TATACOMM.NS,BUY,3,1906.7,5720.1,Rebalance to target weight=0.059

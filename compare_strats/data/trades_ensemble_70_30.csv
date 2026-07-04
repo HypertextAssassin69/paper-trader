@@ -1,0 +1,15 @@
+date,ticker,action,shares,price,value,reason
+2026-07-05,HDFCBANK.NS,BUY,3,801.05,2403.15,Ensemble Rebalance to target weight=0.028
+2026-07-05,SUNPHARMA.NS,BUY,1,1904.8,1904.8,Ensemble Rebalance to target weight=0.029
+2026-07-05,BHARTIARTL.NS,BUY,1,1910.4,1910.4,Ensemble Rebalance to target weight=0.028
+2026-07-05,DLF.NS,BUY,4,675.9,2703.6,Ensemble Rebalance to target weight=0.031
+2026-07-05,TRENT.NS,BUY,3,3340.6,10021.8,Ensemble Rebalance to target weight=0.103
+2026-07-05,PIDILITIND.NS,BUY,2,1598.0,3196.0,Ensemble Rebalance to target weight=0.034
+2026-07-05,INDIGO.NS,BUY,1,5426.5,5426.5,Ensemble Rebalance to target weight=0.083
+2026-07-05,BPCL.NS,BUY,7,308.15,2157.05,Ensemble Rebalance to target weight=0.024
+2026-07-05,IREDA.NS,BUY,1,128.49,128.49,Ensemble Rebalance to target weight=0.002
+2026-07-05,LALPATHLAB.NS,BUY,2,1645.7,3291.4,Ensemble Rebalance to target weight=0.034
+2026-07-05,ICICIBANK.NS,BUY,1,1411.4,1411.4,Ensemble Rebalance to target weight=0.026
+2026-07-05,ADANIENT.NS,BUY,3,3212.1,9636.3,Ensemble Rebalance to target weight=0.128
+2026-07-05,CIPLA.NS,BUY,2,1458.2,2916.4,Ensemble Rebalance to target weight=0.036
+2026-07-05,TATACOMM.NS,BUY,5,1906.7,9533.5,Ensemble Rebalance to target weight=0.101
