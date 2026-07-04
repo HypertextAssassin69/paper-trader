@@ -26,7 +26,9 @@ TICKERS = [
 
 INDEX_TICKER          = "^NSEI" # Nifty 50 Index
 START_CAPITAL         = 100_000.0
-FEE_RATE              = 0.001
+def calculate_fee(trade_value):
+    return min(0.0005 * trade_value, 20.0)
+
 
 # V3.0 ML Fix-B Parameters
 TEMPERATURE           = 0.30  # Raised from 0.05 -> moderate concentration
@@ -260,7 +262,8 @@ def main():
         print("  [ALERT] Nifty 50 broke below 50-EMA! Flushing all holdings to Cash.")
         for t, info in list(state['holdings'].items()):
             price = current_prices.get(t, info['avg_price'])
-            val = int(info['shares']) * price * (1 - FEE_RATE)
+            trade_val = int(info['shares']) * price
+            val = trade_val - calculate_fee(trade_val)
             state['cash'] += val
             trade_rows.append({
                 'date': today, 'ticker': t, 'action': 'SELL',
@@ -312,7 +315,7 @@ def main():
                 if target_shares < current_shares:
                     shares_to_sell = current_shares - target_shares
                     val_to_sell = shares_to_sell * price
-                    state['cash'] += val_to_sell * (1 - FEE_RATE)
+                    state['cash'] += val_to_sell - calculate_fee(val_to_sell)
                     
                     state['holdings'][t]['shares'] = target_shares
                     trade_rows.append({
@@ -333,12 +336,12 @@ def main():
                 
                 if target_shares > current_shares:
                     shares_to_buy = target_shares - current_shares
-                    cost = shares_to_buy * price * (1 + FEE_RATE)
+                    cost = (shares_to_buy * price) + calculate_fee(shares_to_buy * price)
                     
                     # Check for cash constraints
                     while cost > state['cash'] and shares_to_buy > 0:
                         shares_to_buy -= 1
-                        cost = shares_to_buy * price * (1 + FEE_RATE)
+                        cost = (shares_to_buy * price) + calculate_fee(shares_to_buy * price)
                     
                     if shares_to_buy > 0:
                         state['cash'] -= cost
