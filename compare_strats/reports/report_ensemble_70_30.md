@@ -6,10 +6,10 @@
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 99,943.36 |
-| Cash Balance | INR 43,302.57 |
+| Current Portfolio Value | INR 99,971.68 |
+| Cash Balance | INR 43,330.89 |
 | Active Asset Exposure | INR 56,640.79 |
-| Total Return Since Start | -0.057% |
+| Total Return Since Start | -0.028% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |
@@ -17,8 +17,8 @@
 | HDFCBANK.NS | 3 | INR 801.05 | INR 801.05 | INR 2403.15 | 2.40% |
 | SUNPHARMA.NS | 1 | INR 1904.80 | INR 1904.80 | INR 1904.80 | 1.91% |
 | BHARTIARTL.NS | 1 | INR 1910.40 | INR 1910.40 | INR 1910.40 | 1.91% |
-| DLF.NS | 4 | INR 675.90 | INR 675.90 | INR 2703.60 | 2.71% |
-| TRENT.NS | 3 | INR 3340.60 | INR 3340.60 | INR 10021.80 | 10.03% |
+| DLF.NS | 4 | INR 675.90 | INR 675.90 | INR 2703.60 | 2.70% |
+| TRENT.NS | 3 | INR 3340.60 | INR 3340.60 | INR 10021.80 | 10.02% |
 | PIDILITIND.NS | 2 | INR 1598.00 | INR 1598.00 | INR 3196.00 | 3.20% |
 | INDIGO.NS | 1 | INR 5426.50 | INR 5426.50 | INR 5426.50 | 5.43% |
 | BPCL.NS | 7 | INR 308.15 | INR 308.15 | INR 2157.05 | 2.16% |

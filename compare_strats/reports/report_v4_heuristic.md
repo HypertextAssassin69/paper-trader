@@ -6,10 +6,10 @@
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 99,947.13 |
-| Cash Balance | INR 47,077.48 |
+| Current Portfolio Value | INR 99,973.57 |
+| Cash Balance | INR 47,103.92 |
 | Active Asset Exposure | INR 52,869.65 |
-| Total Return Since Start | -0.053% |
+| Total Return Since Start | -0.026% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |

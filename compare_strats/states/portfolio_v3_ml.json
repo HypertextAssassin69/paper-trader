@@ -1,7 +1,63 @@
 {
-  "cash": 100000.0,
-  "holdings": {},
+  "cash": 35270.371147491445,
+  "holdings": {
+    "HDFCBANK.NS": {
+      "shares": 2,
+      "avg_price": 801.0499877929688,
+      "entry_date": "2026-07-05"
+    },
+    "TRENT.NS": {
+      "shares": 4,
+      "avg_price": 3340.60009765625,
+      "entry_date": "2026-07-05"
+    },
+    "SBIN.NS": {
+      "shares": 1,
+      "avg_price": 1040.0,
+      "entry_date": "2026-07-05"
+    },
+    "INDIGO.NS": {
+      "shares": 2,
+      "avg_price": 5426.5,
+      "entry_date": "2026-07-05"
+    },
+    "BPCL.NS": {
+      "shares": 8,
+      "avg_price": 308.1499938964844,
+      "entry_date": "2026-07-05"
+    },
+    "IREDA.NS": {
+      "shares": 12,
+      "avg_price": 128.49000549316406,
+      "entry_date": "2026-07-05"
+    },
+    "VOLTAS.NS": {
+      "shares": 4,
+      "avg_price": 1280.199951171875,
+      "entry_date": "2026-07-05"
+    },
+    "ADANIENT.NS": {
+      "shares": 4,
+      "avg_price": 3212.10009765625,
+      "entry_date": "2026-07-05"
+    },
+    "CIPLA.NS": {
+      "shares": 1,
+      "avg_price": 1458.199951171875,
+      "entry_date": "2026-07-05"
+    },
+    "AUBANK.NS": {
+      "shares": 1,
+      "avg_price": 1058.4000244140625,
+      "entry_date": "2026-07-05"
+    },
+    "TATACOMM.NS": {
+      "shares": 7,
+      "avg_price": 1906.699951171875,
+      "entry_date": "2026-07-05"
+    }
+  },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": null
+  "last_run": "2026-07-05"
 }

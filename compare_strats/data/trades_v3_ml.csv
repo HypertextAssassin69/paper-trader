@@ -1,1 +1,12 @@
 date,ticker,action,shares,price,value,reason
+2026-07-05,HDFCBANK.NS,BUY,2,801.05,1602.1,ML Rebalance to target weight=0.016
+2026-07-05,TRENT.NS,BUY,4,3340.6,13362.4,ML Rebalance to target weight=0.150
+2026-07-05,SBIN.NS,BUY,1,1040.0,1040.0,ML Rebalance to target weight=0.019
+2026-07-05,INDIGO.NS,BUY,2,5426.5,10853.0,ML Rebalance to target weight=0.150
+2026-07-05,BPCL.NS,BUY,8,308.15,2465.2,ML Rebalance to target weight=0.027
+2026-07-05,IREDA.NS,BUY,12,128.49,1541.88,ML Rebalance to target weight=0.015
+2026-07-05,VOLTAS.NS,BUY,4,1280.2,5120.8,ML Rebalance to target weight=0.055
+2026-07-05,ADANIENT.NS,BUY,4,3212.1,12848.4,ML Rebalance to target weight=0.150
+2026-07-05,CIPLA.NS,BUY,1,1458.2,1458.2,ML Rebalance to target weight=0.019
+2026-07-05,AUBANK.NS,BUY,1,1058.4,1058.4,ML Rebalance to target weight=0.016
+2026-07-05,TATACOMM.NS,BUY,7,1906.7,13346.9,ML Rebalance to target weight=0.150
