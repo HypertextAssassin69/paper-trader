@@ -12,3 +12,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-05,ADANIENT.NS,BUY,3,3212.1,9636.3,Rebalance to target weight=0.097
 2026-07-05,CIPLA.NS,BUY,3,1458.2,4374.6,Rebalance to target weight=0.047
 2026-07-05,TATACOMM.NS,BUY,3,1906.7,5720.1,Rebalance to target weight=0.059
+2026-07-06,BPCL.NS,SELL,9,308.15,2773.35,Rebalance to target weight=0.000
+2026-07-06,ADANIENT.NS,SELL,1,3206.6,3206.6,Rebalance to target weight=0.095
+2026-07-06,TATACOMM.NS,SELL,1,1892.0,1892.0,Rebalance to target weight=0.056
+2026-07-06,AUBANK.NS,BUY,2,1061.4,2122.8,Rebalance to target weight=0.031

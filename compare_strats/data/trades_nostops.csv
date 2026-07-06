@@ -22,3 +22,5 @@ date,ticker,action,shares,price,value,reason
 2026-07-05,CIPLA.NS,BUY,1,1458.2,1458.2,Rebalance to target weight=0.026
 2026-07-05,AUBANK.NS,BUY,2,1058.4,2116.8,Rebalance to target weight=0.026
 2026-07-05,TATACOMM.NS,BUY,1,1906.7,1906.7,Rebalance to target weight=0.028
+2026-07-06,COALINDIA.NS,BUY,1,432.35,432.35,Rebalance to target weight=0.026
+2026-07-06,IREDA.NS,BUY,1,126.74,126.74,Rebalance to target weight=0.027

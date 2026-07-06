@@ -1,5 +1,5 @@
 {
-  "cash": 51753.18862252048,
+  "cash": 51193.81907355121,
   "holdings": {
     "RELIANCE.NS": {
       "shares": 1,
@@ -57,8 +57,8 @@
       "entry_date": "2026-07-05"
     },
     "COALINDIA.NS": {
-      "shares": 5,
-      "avg_price": 438.70001220703125,
+      "shares": 6,
+      "avg_price": 437.6416778564453,
       "entry_date": "2026-07-05"
     },
     "CONCOR.NS": {
@@ -77,8 +77,8 @@
       "entry_date": "2026-07-05"
     },
     "IREDA.NS": {
-      "shares": 20,
-      "avg_price": 128.49000549316406,
+      "shares": 21,
+      "avg_price": 128.40667179652624,
       "entry_date": "2026-07-05"
     },
     "LALPATHLAB.NS": {
@@ -119,5 +119,5 @@
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-05"
+  "last_run": "2026-07-06"
 }

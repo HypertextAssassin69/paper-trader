@@ -1,5 +1,5 @@
 {
-  "cash": 43330.88933692168,
+  "cash": 43362.999320365896,
   "holdings": {
     "HDFCBANK.NS": {
       "shares": 3,
@@ -36,11 +36,6 @@
       "avg_price": 5426.5,
       "entry_date": "2026-07-05"
     },
-    "BPCL.NS": {
-      "shares": 7,
-      "avg_price": 308.1499938964844,
-      "entry_date": "2026-07-05"
-    },
     "IREDA.NS": {
       "shares": 1,
       "avg_price": 128.49000549316406,
@@ -70,9 +65,14 @@
       "shares": 5,
       "avg_price": 1906.699951171875,
       "entry_date": "2026-07-05"
+    },
+    "AUBANK.NS": {
+      "shares": 2,
+      "avg_price": 1061.4000244140625,
+      "entry_date": "2026-07-06"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-05"
+  "last_run": "2026-07-06"
 }
