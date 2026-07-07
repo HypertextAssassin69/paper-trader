@@ -1,9 +1,40 @@
 {
-  "cash": 100000.0,
-  "holdings": {},
-  "start_date": "2026-07-07",
+  "cash": 99140.88692321777,
+  "holdings": {
+    "ICICIBANK.NS/SBIN.NS": {
+      "status": "short_spread",
+      "shares_a": 21,
+      "shares_b": 28,
+      "entry_price_a": 1426.9000244140625,
+      "entry_price_b": 1037.699951171875,
+      "entry_date": "2026-07-06",
+      "beta": 0.7506609214492542,
+      "alpha": 540.1653560636217
+    },
+    "TITAN.NS/SBILIFE.NS": {
+      "status": "short_spread",
+      "shares_a": 6,
+      "shares_b": 16,
+      "entry_price_a": 4484.39990234375,
+      "entry_price_b": 1787.699951171875,
+      "entry_date": "2026-07-06",
+      "beta": -0.4339352801762617,
+      "alpha": 5035.0075697051525
+    },
+    "KOTAKBANK.NS/BAJFINANCE.NS": {
+      "status": "long_spread",
+      "shares_a": 78,
+      "shares_b": 29,
+      "entry_price_a": 381.29998779296875,
+      "entry_price_b": 1029.0999755859375,
+      "entry_date": "2026-07-06",
+      "beta": 0.139958254618146,
+      "alpha": 258.18707651701493
+    }
+  },
+  "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": null,
+  "last_run": "2026-07-07",
   "peak_equity": 100000.0,
   "active_trading": true
 }

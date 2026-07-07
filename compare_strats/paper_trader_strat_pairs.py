@@ -20,6 +20,13 @@ import matplotlib.ticker as mticker
 
 warnings.filterwarnings('ignore')
 
+# Allow date override for backfill runs: DATE_OVERRIDE=2026-07-06
+_DATE_OVERRIDE = os.environ.get('DATE_OVERRIDE', '')
+def _today():
+    if _DATE_OVERRIDE:
+        return datetime.date.fromisoformat(_DATE_OVERRIDE)
+    return _today()
+
 # ─────────────────────────────────────────────────────────────────────────────
 #  CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
@@ -66,7 +73,7 @@ def load_state():
     return {
         "cash": START_CAPITAL,
         "holdings": {},
-        "start_date": str(datetime.date.today()),
+        "start_date": str(_today()),
         "start_capital": START_CAPITAL,
         "last_run": None,
         "peak_equity": START_CAPITAL,
@@ -96,7 +103,7 @@ def append_trades(rows):
 #  RUNNER
 # ─────────────────────────────────────────────────────────────────────────────
 def main():
-    today = str(datetime.date.today())
+    today = str(_today())
     print(f"\n==================================================")
     print(f"  Live Pairs Trading Institutional Broker | {today}")
     print(f"==================================================")
@@ -108,8 +115,8 @@ def main():
 
     # Check Nifty VIX for regime scaling
     print("Checking India VIX levels...")
-    end_dt = datetime.date.today() + datetime.timedelta(days=1)
-    start_dt = datetime.date.today() - datetime.timedelta(days=15)
+    end_dt = _today() + datetime.timedelta(days=1)
+    start_dt = _today() - datetime.timedelta(days=15)
     vix = yf.download(VIX_TICKER, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
     
     vix_val = 15.0
@@ -141,7 +148,7 @@ def main():
         print(f"  Regime: LOW VOLATILITY. Leverage at full capacity {current_leverage:.2f}x.")
 
     # Download tickers history (need last 100 days to compute rolling spreads)
-    ticker_start = datetime.date.today() - datetime.timedelta(days=180)
+    ticker_start = _today() - datetime.timedelta(days=180)
     print("Downloading constituents price database...")
     ticker_data = {}
     current_prices = {}
