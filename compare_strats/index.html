@@ -207,6 +207,26 @@
             <div id="ensReturn" class="text-xs text-growwGreen font-semibold">--</div>
           </div>
         </div>
+
+        <!-- Strategy 6: Version 6.0 Institutional Pairs -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#162840] flex items-center justify-center">
+              <i data-lucide="git-branch" class="w-5 h-5 text-[#3498db]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 6.0 Pairs 📊</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="pairsInvestedText">Invested: INR --</div>
+                <div id="pairsCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="pairsValue" class="font-bold text-sm">INR --</div>
+            <div id="pairsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
       </div>
 
 
@@ -241,8 +261,11 @@
         <button id="toggleHeur" onclick="selectDashboardStrategy('heur')" class="py-2 rounded-md text-growwMuted transition col-span-1">
           ⚙️ V4 Heur
         </button>
-        <button id="toggleEns" onclick="selectDashboardStrategy('ens')" class="py-2 rounded-md text-growwMuted transition col-span-2">
-          ⚖️ V5 Ens (70-30)
+        <button id="toggleEns" onclick="selectDashboardStrategy('ens')" class="py-2 rounded-md text-growwMuted transition">
+          ⚖️ V5 Ens
+        </button>
+        <button id="togglePairs" onclick="selectDashboardStrategy('pairs')" class="py-2 rounded-md text-growwMuted transition col-span-2">
+          📊 V6 Pairs
         </button>
       </div>
 
@@ -435,12 +458,14 @@
     let mlState = null;
     let heurState = null;
     let ensState = null;
+    let pairsState = null;
     
     let bpPnL = [];
     let nsPnL = [];
     let mlPnL = [];
     let heurPnL = [];
     let ensPnL = [];
+    let pairsPnL = [];
     
     let myChart = null;
 
@@ -449,12 +474,13 @@
       
       try {
         // Fetch portfolio JSON states
-        const [rBpState, rNsState, rMlState, rHeurState, rEnsState] = await Promise.all([
+        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState] = await Promise.all([
           fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v4_heuristic.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_ensemble_70_30.json').then(r => r.json()).catch(() => null)
+          fetch('./states/portfolio_ensemble_70_30.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null)
         ]);
         
         bpState = rBpState;
@@ -462,14 +488,16 @@
         mlState = rMlState;
         heurState = rHeurState;
         ensState = rEnsState;
+        pairsState = rPairsState;
 
         // Fetch CSV data
-        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv] = await Promise.all([
+        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv] = await Promise.all([
           fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v4_heuristic.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_ensemble_70_30.csv').then(r => r.text()).catch(() => '')
+          fetch('./data/pnl_ensemble_70_30.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => '')
         ]);
         
         bpPnL = parseCSV(rBpCsv);
@@ -477,6 +505,7 @@
         mlPnL = parseCSV(rMlCsv);
         heurPnL = parseCSV(rHeurCsv);
         ensPnL = parseCSV(rEnsCsv);
+        pairsPnL = parseCSV(rPairsCsv);
 
         // Fetch Nifty Close for index tracker
         // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
@@ -533,24 +562,28 @@
       const mlVal = mlPnL.length ? mlPnL[mlPnL.length - 1].value : 100000.0;
       const heurVal = heurPnL.length ? heurPnL[heurPnL.length - 1].value : 100000.0;
       const ensVal = ensPnL.length ? ensPnL[ensPnL.length - 1].value : 100000.0;
+      const pairsVal = pairsPnL.length ? pairsPnL[pairsPnL.length - 1].value : 100000.0;
       
       const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const mlRet = ((mlVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const heurRet = ((heurVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const ensRet = ((ensVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const pairsRet = ((pairsVal - 100000.0) / 100000.0 * 100).toFixed(2);
 
       const bpCash = bpState ? bpState.cash : 100000.0;
       const nsCash = nsState ? nsState.cash : 100000.0;
       const mlCash = mlState ? mlState.cash : 100000.0;
       const heurCash = heurState ? heurState.cash : 100000.0;
       const ensCash = ensState ? ensState.cash : 100000.0;
+      const pairsCash = pairsState ? pairsState.cash : 100000.0;
 
       const bpInvest = Math.max(0, bpVal - bpCash);
       const nsInvest = Math.max(0, nsVal - nsCash);
       const mlInvest = Math.max(0, mlVal - mlCash);
       const heurInvest = Math.max(0, heurVal - heurCash);
       const ensInvest = Math.max(0, ensVal - ensCash);
+      const pairsInvest = Math.max(0, pairsVal - pairsCash);
 
       document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
@@ -581,6 +614,12 @@
       document.getElementById('ensReturn').className = `text-xs font-semibold ${ensRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('ensInvestedText').innerText = `Invested: INR ${ensInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('ensCashText').innerText = `Cash: INR ${ensCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('pairsValue').innerText = `INR ${pairsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('pairsReturn').innerText = `${pairsRet >= 0 ? '+' : ''}${pairsRet}%`;
+      document.getElementById('pairsReturn').className = `text-xs font-semibold ${pairsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('pairsInvestedText').innerText = `Invested: INR ${pairsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('pairsCashText').innerText = `Cash: INR ${pairsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
 
@@ -596,6 +635,7 @@
       const mlValues = mlPnL.map(x => x.value);
       const heurValues = heurPnL.map(x => x.value);
       const ensValues = ensPnL.map(x => x.value);
+      const pairsValues = pairsPnL.map(x => x.value);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -642,6 +682,15 @@
               label: 'Version 5.0 Ensemble ⚖️',
               data: ensValues.length ? ensValues : [100000],
               borderColor: '#85929e',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Version 6.0 Pairs 📊',
+              data: pairsValues.length ? pairsValues : [100000],
+              borderColor: '#3498db',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -727,12 +776,14 @@
       const toggleML = document.getElementById('toggleML');
       const toggleHeur = document.getElementById('toggleHeur');
       const toggleEns = document.getElementById('toggleEns');
+      const togglePairs = document.getElementById('togglePairs');
 
       toggleBP.className = "py-2 rounded-md text-growwMuted transition";
       toggleNS.className = "py-2 rounded-md text-growwMuted transition";
       toggleML.className = "py-2 rounded-md text-growwMuted transition";
       toggleHeur.className = "py-2 rounded-md text-growwMuted transition";
-      toggleEns.className = "py-2 rounded-md text-growwMuted transition col-span-2";
+      toggleEns.className = "py-2 rounded-md text-growwMuted transition";
+      togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-2";
 
       if (strategy === 'bulletproof') {
         toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
@@ -742,8 +793,10 @@
         toggleML.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else if (strategy === 'heur') {
         toggleHeur.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'ens') {
+        toggleEns.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else {
-        toggleEns.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-2";
+        togglePairs.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-2";
       }
       updateDashboardView();
     }
@@ -752,12 +805,14 @@
       const activeState = (dashStrategy === 'bulletproof') ? bpState : 
                           ((dashStrategy === 'nostops') ? nsState : 
                           ((dashStrategy === 'ml') ? mlState : 
-                          ((dashStrategy === 'heur') ? heurState : ensState)));
+                          ((dashStrategy === 'heur') ? heurState : 
+                          ((dashStrategy === 'ens') ? ensState : pairsState))));
       const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value :
                         ((dashStrategy === 'nostops' && nsPnL.length) ? nsPnL[nsPnL.length-1].value :
                         ((dashStrategy === 'ml' && mlPnL.length) ? mlPnL[mlPnL.length-1].value :
                         ((dashStrategy === 'heur' && heurPnL.length) ? heurPnL[heurPnL.length-1].value :
-                        ((ensPnL.length) ? ensPnL[ensPnL.length-1].value : 100000.0))));
+                        ((dashStrategy === 'ens' && ensPnL.length) ? ensPnL[ensPnL.length-1].value :
+                        ((pairsPnL.length) ? pairsPnL[pairsPnL.length-1].value : 100000.0)))));
       
       const dashEquityEl = document.getElementById('dashEquity');
       const dashCashEl = document.getElementById('dashCash');
@@ -819,7 +874,8 @@
       const suffix = (dashStrategy === 'bulletproof') ? 'bulletproof' : 
                      ((dashStrategy === 'nostops') ? 'nostops' : 
                      ((dashStrategy === 'ml') ? 'v3_ml' : 
-                     ((dashStrategy === 'heur') ? 'v4_heuristic' : 'ensemble_70_30')));
+                     ((dashStrategy === 'heur') ? 'v4_heuristic' : 
+                     ((dashStrategy === 'ens') ? 'ensemble_70_30' : 'pairs'))));
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
