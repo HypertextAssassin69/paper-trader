@@ -59,6 +59,12 @@ jobs:
           python paper_trader_strat_ensemble_70_30.py
           cd ..
 
+      - name: Run institutional pairs paper trader (V6 Pairs)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_pairs.py
+          cd ..
+
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"
