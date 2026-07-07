@@ -71,4 +71,5 @@ jobs:
           git config --local user.name  "Paper Trader Bot"
           git add compare_strats/states/ compare_strats/data/ compare_strats/charts/ compare_strats/reports/ || true
           git diff --staged --quiet || git commit -m "Paper trader comparison update: $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
           git push
