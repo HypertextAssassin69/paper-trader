@@ -1,13 +1,13 @@
 {
-  "cash": 36196.013234352096,
+  "cash": 38824.367919410695,
   "holdings": {
     "HDFCBANK.NS": {
-      "shares": 1,
-      "avg_price": 801.0499877929688,
+      "shares": 2,
+      "avg_price": 815.1749877929688,
       "entry_date": "2026-07-05"
     },
     "TRENT.NS": {
-      "shares": 4,
+      "shares": 2,
       "avg_price": 3340.60009765625,
       "entry_date": "2026-07-05"
     },
@@ -27,8 +27,8 @@
       "entry_date": "2026-07-05"
     },
     "IREDA.NS": {
-      "shares": 10,
-      "avg_price": 128.49000549316406,
+      "shares": 14,
+      "avg_price": 127.538576398577,
       "entry_date": "2026-07-05"
     },
     "VOLTAS.NS": {
@@ -46,28 +46,23 @@
       "avg_price": 1458.199951171875,
       "entry_date": "2026-07-05"
     },
-    "AUBANK.NS": {
-      "shares": 1,
-      "avg_price": 1058.4000244140625,
-      "entry_date": "2026-07-05"
-    },
     "TATACOMM.NS": {
       "shares": 7,
       "avg_price": 1906.699951171875,
       "entry_date": "2026-07-05"
     },
     "NTPC.NS": {
-      "shares": 3,
-      "avg_price": 356.25,
+      "shares": 4,
+      "avg_price": 355.7375030517578,
       "entry_date": "2026-07-06"
     },
     "DLF.NS": {
-      "shares": 2,
-      "avg_price": 673.2999877929688,
+      "shares": 6,
+      "avg_price": 658.4999796549479,
       "entry_date": "2026-07-06"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-06"
+  "last_run": "2026-07-07"
 }

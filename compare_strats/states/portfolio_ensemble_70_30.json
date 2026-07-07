@@ -1,5 +1,5 @@
 {
-  "cash": 43362.999320365896,
+  "cash": 45926.16761103057,
   "holdings": {
     "HDFCBANK.NS": {
       "shares": 3,
@@ -17,12 +17,12 @@
       "entry_date": "2026-07-05"
     },
     "DLF.NS": {
-      "shares": 4,
-      "avg_price": 675.9000244140625,
+      "shares": 5,
+      "avg_price": 670.9400146484375,
       "entry_date": "2026-07-05"
     },
     "TRENT.NS": {
-      "shares": 3,
+      "shares": 1,
       "avg_price": 3340.60009765625,
       "entry_date": "2026-07-05"
     },
@@ -37,8 +37,8 @@
       "entry_date": "2026-07-05"
     },
     "IREDA.NS": {
-      "shares": 1,
-      "avg_price": 128.49000549316406,
+      "shares": 2,
+      "avg_price": 126.82500457763672,
       "entry_date": "2026-07-05"
     },
     "LALPATHLAB.NS": {
@@ -70,9 +70,14 @@
       "shares": 2,
       "avg_price": 1061.4000244140625,
       "entry_date": "2026-07-06"
+    },
+    "BPCL.NS": {
+      "shares": 8,
+      "avg_price": 313.95001220703125,
+      "entry_date": "2026-07-07"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-06"
+  "last_run": "2026-07-07"
 }

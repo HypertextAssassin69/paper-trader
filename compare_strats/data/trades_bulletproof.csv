@@ -24,3 +24,5 @@ date,ticker,action,shares,price,value,reason
 2026-07-05,TATACOMM.NS,BUY,1,1906.7,1906.7,Rebalance to target weight=0.028
 2026-07-06,COALINDIA.NS,BUY,1,432.35,432.35,Rebalance to target weight=0.026
 2026-07-06,IREDA.NS,BUY,1,126.74,126.74,Rebalance to target weight=0.027
+2026-07-07,DLF.NS,BUY,1,651.1,651.1,Rebalance to target weight=0.027
+2026-07-07,TRENT.NS,BUY,1,2927.8,2927.8,Rebalance to target weight=0.033

@@ -15,3 +15,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-05,TATACOMM.NS,BUY,5,1906.7,9533.5,Ensemble Rebalance to target weight=0.101
 2026-07-06,BPCL.NS,SELL,7,308.15,2157.05,Ensemble Rebalance to target weight=0.003
 2026-07-06,AUBANK.NS,BUY,2,1061.4,2122.8,Ensemble Rebalance to target weight=0.024
+2026-07-07,TRENT.NS,SELL,2,2927.8,5855.6,Ensemble Rebalance to target weight=0.039
+2026-07-07,DLF.NS,BUY,1,651.1,651.1,Ensemble Rebalance to target weight=0.034
+2026-07-07,BPCL.NS,BUY,8,313.95,2511.6,Ensemble Rebalance to target weight=0.026
+2026-07-07,IREDA.NS,BUY,1,125.16,125.16,Ensemble Rebalance to target weight=0.003

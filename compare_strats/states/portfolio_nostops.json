@@ -1,5 +1,5 @@
 {
-  "cash": 51193.81907355121,
+  "cash": 47613.12959912494,
   "holdings": {
     "RELIANCE.NS": {
       "shares": 1,
@@ -42,8 +42,8 @@
       "entry_date": "2026-07-05"
     },
     "DLF.NS": {
-      "shares": 3,
-      "avg_price": 675.9000244140625,
+      "shares": 4,
+      "avg_price": 669.7000122070312,
       "entry_date": "2026-07-05"
     },
     "BEL.NS": {
@@ -115,9 +115,14 @@
       "shares": 1,
       "avg_price": 1906.699951171875,
       "entry_date": "2026-07-05"
+    },
+    "TRENT.NS": {
+      "shares": 1,
+      "avg_price": 2927.800048828125,
+      "entry_date": "2026-07-07"
     }
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-06"
+  "last_run": "2026-07-07"
 }

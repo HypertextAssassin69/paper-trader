@@ -16,3 +16,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-06,ADANIENT.NS,SELL,1,3206.6,3206.6,Rebalance to target weight=0.095
 2026-07-06,TATACOMM.NS,SELL,1,1892.0,1892.0,Rebalance to target weight=0.056
 2026-07-06,AUBANK.NS,BUY,2,1061.4,2122.8,Rebalance to target weight=0.031
+2026-07-07,SUNPHARMA.NS,SELL,1,1903.4,1903.4,Rebalance to target weight=0.038
+2026-07-07,HDFCBANK.NS,BUY,1,829.3,829.3,Rebalance to target weight=0.042
+2026-07-07,BPCL.NS,BUY,10,313.95,3139.5,Rebalance to target weight=0.032
+2026-07-07,AUBANK.NS,BUY,1,1066.9,1066.9,Rebalance to target weight=0.034

@@ -1,29 +1,28 @@
 # Live Version 3.0 ML Probabilistic Portfolio Report
 
-> **Date**: 2026-07-06  |  **Days Live**: 2  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-07  |  **Days Live**: 3  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 99,884.96 |
-| Cash Balance | INR 36,196.01 |
-| Active Asset Exposure | INR 63,688.95 |
-| Total Return Since Start | -0.115% |
+| Current Portfolio Value | INR 97,872.76 |
+| Cash Balance | INR 38,824.37 |
+| Active Asset Exposure | INR 59,048.39 |
+| Total Return Since Start | -2.127% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| HDFCBANK.NS | 1 | INR 801.05 | INR 829.85 | INR 829.85 | 0.83% |
-| TRENT.NS | 4 | INR 3340.60 | INR 3343.80 | INR 13375.20 | 13.39% |
-| SBIN.NS | 1 | INR 1040.00 | INR 1037.70 | INR 1037.70 | 1.04% |
-| INDIGO.NS | 2 | INR 5426.50 | INR 5408.50 | INR 10817.00 | 10.83% |
-| BPCL.NS | 9 | INR 308.15 | INR 308.15 | INR 2773.35 | 2.78% |
-| IREDA.NS | 10 | INR 128.49 | INR 126.74 | INR 1267.40 | 1.27% |
-| VOLTAS.NS | 2 | INR 1280.20 | INR 1284.50 | INR 2569.00 | 2.57% |
-| ADANIENT.NS | 4 | INR 3212.10 | INR 3206.60 | INR 12826.40 | 12.84% |
-| CIPLA.NS | 1 | INR 1458.20 | INR 1472.30 | INR 1472.30 | 1.47% |
-| AUBANK.NS | 1 | INR 1058.40 | INR 1061.40 | INR 1061.40 | 1.06% |
-| TATACOMM.NS | 7 | INR 1906.70 | INR 1892.00 | INR 13244.00 | 13.26% |
-| NTPC.NS | 3 | INR 356.25 | INR 356.25 | INR 1068.75 | 1.07% |
-| DLF.NS | 2 | INR 673.30 | INR 673.30 | INR 1346.60 | 1.35% |
+| HDFCBANK.NS | 2 | INR 815.17 | INR 829.30 | INR 1658.60 | 1.69% |
+| TRENT.NS | 2 | INR 3340.60 | INR 2927.80 | INR 5855.60 | 5.98% |
+| SBIN.NS | 1 | INR 1040.00 | INR 1038.10 | INR 1038.10 | 1.06% |
+| INDIGO.NS | 2 | INR 5426.50 | INR 5395.00 | INR 10790.00 | 11.02% |
+| BPCL.NS | 9 | INR 308.15 | INR 313.95 | INR 2825.55 | 2.89% |
+| IREDA.NS | 14 | INR 127.54 | INR 125.16 | INR 1752.24 | 1.79% |
+| VOLTAS.NS | 2 | INR 1280.20 | INR 1288.00 | INR 2576.00 | 2.63% |
+| ADANIENT.NS | 4 | INR 3212.10 | INR 3107.20 | INR 12428.80 | 12.70% |
+| CIPLA.NS | 1 | INR 1458.20 | INR 1451.80 | INR 1451.80 | 1.48% |
+| TATACOMM.NS | 7 | INR 1906.70 | INR 1906.90 | INR 13348.30 | 13.64% |
+| NTPC.NS | 4 | INR 355.74 | INR 354.20 | INR 1416.80 | 1.45% |
+| DLF.NS | 6 | INR 658.50 | INR 651.10 | INR 3906.60 | 3.99% |
