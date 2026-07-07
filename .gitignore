@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+data/*.csv
+!data/best_pairs_params.csv
+!data/best_params.csv
+!data/optimization_results.csv
