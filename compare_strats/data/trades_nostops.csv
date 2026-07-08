@@ -26,3 +26,4 @@ date,ticker,action,shares,price,value,reason
 2026-07-06,IREDA.NS,BUY,1,126.74,126.74,Rebalance to target weight=0.027
 2026-07-07,DLF.NS,BUY,1,651.1,651.1,Rebalance to target weight=0.027
 2026-07-07,TRENT.NS,BUY,1,2927.8,2927.8,Rebalance to target weight=0.033
+2026-07-08,COALINDIA.NS,SELL,1,429.05,429.05,Rebalance to target weight=0.026
