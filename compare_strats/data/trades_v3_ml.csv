@@ -34,3 +34,18 @@ date,ticker,action,shares,price,value,reason
 2026-07-08,TATACOMM.NS,SELL,7,1886.2,13196.8,Nifty EMA-50 Circuit Breaker
 2026-07-08,NTPC.NS,SELL,4,348.7,1394.1,Nifty EMA-50 Circuit Breaker
 2026-07-08,DLF.NS,SELL,6,634.0,3802.1,Nifty EMA-50 Circuit Breaker
+2026-07-10,HDFCBANK.NS,BUY,1,824.95,824.95,ML Rebalance to target weight=0.009
+2026-07-10,TATASTEEL.NS,BUY,3,191.19,573.57,ML Rebalance to target weight=0.006
+2026-07-10,NTPC.NS,BUY,1,344.55,344.55,ML Rebalance to target weight=0.007
+2026-07-10,DLF.NS,BUY,5,685.75,3428.75,ML Rebalance to target weight=0.042
+2026-07-10,BEL.NS,BUY,1,414.85,414.85,ML Rebalance to target weight=0.006
+2026-07-10,TRENT.NS,BUY,2,2902.8,5805.6,ML Rebalance to target weight=0.061
+2026-07-10,COALINDIA.NS,BUY,1,429.3,429.3,ML Rebalance to target weight=0.006
+2026-07-10,CONCOR.NS,BUY,1,463.75,463.75,ML Rebalance to target weight=0.009
+2026-07-10,SBIN.NS,BUY,1,1036.0,1036.0,ML Rebalance to target weight=0.015
+2026-07-10,INDIGO.NS,BUY,2,5312.0,10624.0,ML Rebalance to target weight=0.148
+2026-07-10,BPCL.NS,BUY,10,309.75,3097.5,ML Rebalance to target weight=0.035
+2026-07-10,IREDA.NS,BUY,10,126.4,1264.0,ML Rebalance to target weight=0.014
+2026-07-10,VOLTAS.NS,BUY,2,1286.7,2573.4,ML Rebalance to target weight=0.028
+2026-07-10,ADANIENT.NS,BUY,4,3157.3,12629.2,ML Rebalance to target weight=0.150
+2026-07-10,TATACOMM.NS,BUY,7,1856.2,12993.4,ML Rebalance to target weight=0.141

@@ -34,3 +34,17 @@ date,ticker,action,shares,price,value,reason
 2026-07-08,TATACOMM.NS,SELL,2,1886.2,3770.51,Nifty EMA-50 Circuit Breaker
 2026-07-08,AUBANK.NS,SELL,3,1038.8,3114.84,Nifty EMA-50 Circuit Breaker
 2026-07-08,BPCL.NS,SELL,10,303.55,3033.98,Nifty EMA-50 Circuit Breaker
+2026-07-10,HDFCBANK.NS,BUY,4,824.95,3299.8,Rebalance to target weight=0.042
+2026-07-10,SUNPHARMA.NS,BUY,1,1935.5,1935.5,Rebalance to target weight=0.035
+2026-07-10,BHARTIARTL.NS,BUY,1,1920.4,1920.4,Rebalance to target weight=0.031
+2026-07-10,DLF.NS,BUY,6,685.75,4114.5,Rebalance to target weight=0.043
+2026-07-10,TRENT.NS,BUY,1,2902.8,2902.8,Rebalance to target weight=0.038
+2026-07-10,PIDILITIND.NS,BUY,2,1598.5,3197.0,Rebalance to target weight=0.049
+2026-07-10,SBIN.NS,BUY,2,1036.0,2072.0,Rebalance to target weight=0.028
+2026-07-10,BPCL.NS,BUY,9,309.75,2787.75,Rebalance to target weight=0.031
+2026-07-10,LALPATHLAB.NS,BUY,2,1692.8,3385.6,Rebalance to target weight=0.049
+2026-07-10,ICICIBANK.NS,BUY,2,1401.2,2802.4,Rebalance to target weight=0.040
+2026-07-10,ADANIENT.NS,BUY,2,3157.3,6314.6,Rebalance to target weight=0.083
+2026-07-10,CIPLA.NS,BUY,2,1439.4,2878.8,Rebalance to target weight=0.043
+2026-07-10,AUBANK.NS,BUY,3,1072.1,3216.3,Rebalance to target weight=0.034
+2026-07-10,TATACOMM.NS,BUY,2,1856.2,3712.4,Rebalance to target weight=0.049
