@@ -25,7 +25,7 @@ _DATE_OVERRIDE = os.environ.get('DATE_OVERRIDE', '')
 def _today():
     if _DATE_OVERRIDE:
         return datetime.date.fromisoformat(_DATE_OVERRIDE)
-    return _today()
+    return datetime.date.today()
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  CONFIGURATION

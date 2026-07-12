@@ -227,6 +227,66 @@
             <div id="pairsReturn" class="text-xs text-growwGreen font-semibold">--</div>
           </div>
         </div>
+
+        <!-- Strategy 7: V7 Apex Large-Cap -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#3b0764] flex items-center justify-center">
+              <i data-lucide="crown" class="w-5 h-5 text-[#c084fc]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">V7 Apex Large-Cap 👑</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7lInvestedText">Invested: INR --</div>
+                <div id="v7lCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7lValue" class="font-bold text-sm">INR --</div>
+            <div id="v7lReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
+
+        <!-- Strategy 8: V7 Apex Mid-Cap -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center">
+              <i data-lucide="zap-theme" class="w-5 h-5 text-[#34d399]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">V7 Apex Mid-Cap ⚡</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7mInvestedText">Invested: INR --</div>
+                <div id="v7mCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7mValue" class="font-bold text-sm">INR --</div>
+            <div id="v7mReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
+
+        <!-- Strategy 9: V7 Apex Hybrid -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#581c87] flex items-center justify-center">
+              <i data-lucide="combine" class="w-5 h-5 text-[#a78bfa]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">V7 Apex Hybrid 🧬</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7hInvestedText">Invested: INR --</div>
+                <div id="v7hCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7hValue" class="font-bold text-sm">INR --</div>
+            <div id="v7hReturn" class="text-xs text-growwGreen font-semibold">--</div>
+          </div>
+        </div>
       </div>
 
 
@@ -264,8 +324,17 @@
         <button id="toggleEns" onclick="selectDashboardStrategy('ens')" class="py-2 rounded-md text-growwMuted transition">
           ⚖️ V5 Ens
         </button>
-        <button id="togglePairs" onclick="selectDashboardStrategy('pairs')" class="py-2 rounded-md text-growwMuted transition col-span-2">
+        <button id="togglePairs" onclick="selectDashboardStrategy('pairs')" class="py-2 rounded-md text-growwMuted transition col-span-1">
           📊 V6 Pairs
+        </button>
+        <button id="toggleV7l" onclick="selectDashboardStrategy('v7l')" class="py-2 rounded-md text-growwMuted transition col-span-1">
+          👑 V7 Large
+        </button>
+        <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="py-2 rounded-md text-growwMuted transition col-span-1">
+          ⚡ V7 Mid
+        </button>
+        <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-2">
+          🧬 V7 Hybrid
         </button>
       </div>
 
@@ -459,6 +528,9 @@
     let heurState = null;
     let ensState = null;
     let pairsState = null;
+    let v7lState = null;
+    let v7mState = null;
+    let v7hState = null;
     
     let bpPnL = [];
     let nsPnL = [];
@@ -466,6 +538,9 @@
     let heurPnL = [];
     let ensPnL = [];
     let pairsPnL = [];
+    let v7lPnL = [];
+    let v7mPnL = [];
+    let v7hPnL = [];
     
     let myChart = null;
 
@@ -474,13 +549,16 @@
       
       try {
         // Fetch portfolio JSON states
-        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState] = await Promise.all([
+        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState] = await Promise.all([
           fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v4_heuristic.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_ensemble_70_30.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null)
+          fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_large.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_mid.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null)
         ]);
         
         bpState = rBpState;
@@ -489,15 +567,21 @@
         heurState = rHeurState;
         ensState = rEnsState;
         pairsState = rPairsState;
+        v7lState = rV7lState;
+        v7mState = rV7mState;
+        v7hState = rV7hState;
 
         // Fetch CSV data
-        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv] = await Promise.all([
+        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv] = await Promise.all([
           fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v4_heuristic.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_ensemble_70_30.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => '')
+          fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_large.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_mid.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => '')
         ]);
         
         bpPnL = parseCSV(rBpCsv);
@@ -506,6 +590,9 @@
         heurPnL = parseCSV(rHeurCsv);
         ensPnL = parseCSV(rEnsCsv);
         pairsPnL = parseCSV(rPairsCsv);
+        v7lPnL = parseCSV(rV7lCsv);
+        v7mPnL = parseCSV(rV7mCsv);
+        v7hPnL = parseCSV(rV7hCsv);
 
         // Fetch Nifty Close for index tracker
         // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
@@ -563,6 +650,9 @@
       const heurVal = heurPnL.length ? heurPnL[heurPnL.length - 1].value : 100000.0;
       const ensVal = ensPnL.length ? ensPnL[ensPnL.length - 1].value : 100000.0;
       const pairsVal = pairsPnL.length ? pairsPnL[pairsPnL.length - 1].value : 100000.0;
+      const v7lVal = v7lPnL.length ? v7lPnL[v7lPnL.length - 1].value : 100000.0;
+      const v7mVal = v7mPnL.length ? v7mPnL[v7mPnL.length - 1].value : 100000.0;
+      const v7hVal = v7hPnL.length ? v7hPnL[v7hPnL.length - 1].value : 100000.0;
       
       const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
@@ -570,6 +660,9 @@
       const heurRet = ((heurVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const ensRet = ((ensVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const pairsRet = ((pairsVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7lRet = ((v7lVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7mRet = ((v7mVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7hRet = ((v7hVal - 100000.0) / 100000.0 * 100).toFixed(2);
 
       const bpCash = bpState ? bpState.cash : 100000.0;
       const nsCash = nsState ? nsState.cash : 100000.0;
@@ -577,6 +670,9 @@
       const heurCash = heurState ? heurState.cash : 100000.0;
       const ensCash = ensState ? ensState.cash : 100000.0;
       const pairsCash = pairsState ? pairsState.cash : 100000.0;
+      const v7lCash = v7lState ? v7lState.cash : 100000.0;
+      const v7mCash = v7mState ? v7mState.cash : 100000.0;
+      const v7hCash = v7hState ? v7hState.cash : 100000.0;
 
       const bpInvest = Math.max(0, bpVal - bpCash);
       const nsInvest = Math.max(0, nsVal - nsCash);
@@ -584,6 +680,9 @@
       const heurInvest = Math.max(0, heurVal - heurCash);
       const ensInvest = Math.max(0, ensVal - ensCash);
       const pairsInvest = Math.max(0, pairsVal - pairsCash);
+      const v7lInvest = Math.max(0, v7lVal - v7lCash);
+      const v7mInvest = Math.max(0, v7mVal - v7mCash);
+      const v7hInvest = Math.max(0, v7hVal - v7hCash);
 
       document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
@@ -620,6 +719,24 @@
       document.getElementById('pairsReturn').className = `text-xs font-semibold ${pairsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('pairsInvestedText').innerText = `Invested: INR ${pairsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('pairsCashText').innerText = `Cash: INR ${pairsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7lValue').innerText = `INR ${v7lVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7lReturn').innerText = `${v7lRet >= 0 ? '+' : ''}${v7lRet}%`;
+      document.getElementById('v7lReturn').className = `text-xs font-semibold ${v7lRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7lInvestedText').innerText = `Invested: INR ${v7lInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7lCashText').innerText = `Cash: INR ${v7lCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7mValue').innerText = `INR ${v7mVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7mReturn').innerText = `${v7mRet >= 0 ? '+' : ''}${v7mRet}%`;
+      document.getElementById('v7mReturn').className = `text-xs font-semibold ${v7mRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7mInvestedText').innerText = `Invested: INR ${v7mInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7mCashText').innerText = `Cash: INR ${v7mCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7hValue').innerText = `INR ${v7hVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7hReturn').innerText = `${v7hRet >= 0 ? '+' : ''}${v7hRet}%`;
+      document.getElementById('v7hReturn').className = `text-xs font-semibold ${v7hRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7hInvestedText').innerText = `Invested: INR ${v7hInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7hCashText').innerText = `Cash: INR ${v7hCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
 
@@ -636,6 +753,9 @@
       const heurValues = heurPnL.map(x => x.value);
       const ensValues = ensPnL.map(x => x.value);
       const pairsValues = pairsPnL.map(x => x.value);
+      const v7lValues = v7lPnL.map(x => x.value);
+      const v7mValues = v7mPnL.map(x => x.value);
+      const v7hValues = v7hPnL.map(x => x.value);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -691,6 +811,33 @@
               label: 'Version 6.0 Pairs 📊',
               data: pairsValues.length ? pairsValues : [100000],
               borderColor: '#3498db',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'V7 Large-Cap 👑',
+              data: v7lValues.length ? v7lValues : [100000],
+              borderColor: '#f1c40f',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'V7 Mid-Cap ⚡',
+              data: v7mValues.length ? v7mValues : [100000],
+              borderColor: '#e74c3c',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'V7 Hybrid 🧬',
+              data: v7hValues.length ? v7hValues : [100000],
+              borderColor: '#1abc9c',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -777,13 +924,19 @@
       const toggleHeur = document.getElementById('toggleHeur');
       const toggleEns = document.getElementById('toggleEns');
       const togglePairs = document.getElementById('togglePairs');
+      const toggleV7l = document.getElementById('toggleV7l');
+      const toggleV7m = document.getElementById('toggleV7m');
+      const toggleV7h = document.getElementById('toggleV7h');
 
       toggleBP.className = "py-2 rounded-md text-growwMuted transition";
       toggleNS.className = "py-2 rounded-md text-growwMuted transition";
       toggleML.className = "py-2 rounded-md text-growwMuted transition";
       toggleHeur.className = "py-2 rounded-md text-growwMuted transition";
       toggleEns.className = "py-2 rounded-md text-growwMuted transition";
-      togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-2";
+      togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7l.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7m.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-2";
 
       if (strategy === 'bulletproof') {
         toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
@@ -795,8 +948,14 @@
         toggleHeur.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else if (strategy === 'ens') {
         toggleEns.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else {
-        togglePairs.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-2";
+      } else if (strategy === 'pairs') {
+        togglePairs.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7l') {
+        toggleV7l.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7m') {
+        toggleV7m.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7h') {
+        toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-2";
       }
       updateDashboardView();
     }
@@ -806,13 +965,19 @@
                           ((dashStrategy === 'nostops') ? nsState : 
                           ((dashStrategy === 'ml') ? mlState : 
                           ((dashStrategy === 'heur') ? heurState : 
-                          ((dashStrategy === 'ens') ? ensState : pairsState))));
+                          ((dashStrategy === 'ens') ? ensState : 
+                          ((dashStrategy === 'pairs') ? pairsState : 
+                          ((dashStrategy === 'v7l') ? v7lState : 
+                          ((dashStrategy === 'v7m') ? v7mState : v7hState)))))));
       const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value :
                         ((dashStrategy === 'nostops' && nsPnL.length) ? nsPnL[nsPnL.length-1].value :
                         ((dashStrategy === 'ml' && mlPnL.length) ? mlPnL[mlPnL.length-1].value :
                         ((dashStrategy === 'heur' && heurPnL.length) ? heurPnL[heurPnL.length-1].value :
                         ((dashStrategy === 'ens' && ensPnL.length) ? ensPnL[ensPnL.length-1].value :
-                        ((pairsPnL.length) ? pairsPnL[pairsPnL.length-1].value : 100000.0)))));
+                        ((dashStrategy === 'pairs' && pairsPnL.length) ? pairsPnL[pairsPnL.length-1].value :
+                        ((dashStrategy === 'v7l' && v7lPnL.length) ? v7lPnL[v7lPnL.length-1].value :
+                        ((dashStrategy === 'v7m' && v7mPnL.length) ? v7mPnL[v7mPnL.length-1].value :
+                        ((v7hPnL.length) ? v7hPnL[v7hPnL.length-1].value : 100000.0)))))))));
       
       const dashEquityEl = document.getElementById('dashEquity');
       const dashCashEl = document.getElementById('dashCash');
@@ -875,7 +1040,10 @@
                      ((dashStrategy === 'nostops') ? 'nostops' : 
                      ((dashStrategy === 'ml') ? 'v3_ml' : 
                      ((dashStrategy === 'heur') ? 'v4_heuristic' : 
-                     ((dashStrategy === 'ens') ? 'ensemble_70_30' : 'pairs'))));
+                     ((dashStrategy === 'ens') ? 'ensemble_70_30' : 
+                     ((dashStrategy === 'pairs') ? 'pairs' : 
+                     ((dashStrategy === 'v7l') ? 'v7_large' : 
+                     ((dashStrategy === 'v7m') ? 'v7_mid' : 'v7_hybrid'))))));
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
