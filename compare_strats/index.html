@@ -850,7 +850,17 @@
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              display: false
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#E5E7EB',
+                boxWidth: 12,
+                padding: 15,
+                font: {
+                  size: 9,
+                  family: "'Inter', sans-serif"
+                }
+              }
             }
           },
           scales: {
