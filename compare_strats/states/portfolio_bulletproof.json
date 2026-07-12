@@ -1,128 +1,128 @@
 {
-  "cash": 47613.12959912494,
+  "cash": 47442.01565823749,
   "holdings": {
     "RELIANCE.NS": {
       "shares": 1,
-      "avg_price": 1304.0,
-      "entry_date": "2026-07-05"
+      "avg_price": 1307.800048828125,
+      "entry_date": "2026-07-10"
     },
     "TCS.NS": {
       "shares": 1,
-      "avg_price": 2093.5,
-      "entry_date": "2026-07-05"
+      "avg_price": 2069.0,
+      "entry_date": "2026-07-10"
     },
     "HDFCBANK.NS": {
       "shares": 3,
-      "avg_price": 801.0499877929688,
-      "entry_date": "2026-07-05"
+      "avg_price": 824.9500122070312,
+      "entry_date": "2026-07-10"
     },
     "HINDUNILVR.NS": {
       "shares": 1,
-      "avg_price": 2201.199951171875,
-      "entry_date": "2026-07-05"
+      "avg_price": 2150.60009765625,
+      "entry_date": "2026-07-10"
     },
     "SUNPHARMA.NS": {
       "shares": 1,
-      "avg_price": 1904.800048828125,
-      "entry_date": "2026-07-05"
+      "avg_price": 1935.5,
+      "entry_date": "2026-07-10"
     },
     "TATASTEEL.NS": {
       "shares": 13,
-      "avg_price": 189.8000030517578,
-      "entry_date": "2026-07-05"
+      "avg_price": 191.19000244140625,
+      "entry_date": "2026-07-10"
     },
     "BHARTIARTL.NS": {
       "shares": 1,
-      "avg_price": 1910.4000244140625,
-      "entry_date": "2026-07-05"
+      "avg_price": 1920.4000244140625,
+      "entry_date": "2026-07-10"
     },
     "NTPC.NS": {
       "shares": 7,
-      "avg_price": 356.45001220703125,
-      "entry_date": "2026-07-05"
+      "avg_price": 344.54998779296875,
+      "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 4,
-      "avg_price": 669.7000122070312,
-      "entry_date": "2026-07-05"
+      "shares": 3,
+      "avg_price": 685.75,
+      "entry_date": "2026-07-10"
     },
     "BEL.NS": {
       "shares": 6,
-      "avg_price": 418.04998779296875,
-      "entry_date": "2026-07-05"
-    },
-    "PIDILITIND.NS": {
-      "shares": 1,
-      "avg_price": 1598.0,
-      "entry_date": "2026-07-05"
-    },
-    "COALINDIA.NS": {
-      "shares": 6,
-      "avg_price": 437.6416778564453,
-      "entry_date": "2026-07-05"
-    },
-    "CONCOR.NS": {
-      "shares": 5,
-      "avg_price": 488.20001220703125,
-      "entry_date": "2026-07-05"
-    },
-    "SBIN.NS": {
-      "shares": 2,
-      "avg_price": 1040.0,
-      "entry_date": "2026-07-05"
-    },
-    "BPCL.NS": {
-      "shares": 8,
-      "avg_price": 308.1499938964844,
-      "entry_date": "2026-07-05"
-    },
-    "IREDA.NS": {
-      "shares": 21,
-      "avg_price": 128.40667179652624,
-      "entry_date": "2026-07-05"
-    },
-    "LALPATHLAB.NS": {
-      "shares": 1,
-      "avg_price": 1645.699951171875,
-      "entry_date": "2026-07-05"
-    },
-    "VOLTAS.NS": {
-      "shares": 2,
-      "avg_price": 1280.199951171875,
-      "entry_date": "2026-07-05"
-    },
-    "ICICIBANK.NS": {
-      "shares": 1,
-      "avg_price": 1411.4000244140625,
-      "entry_date": "2026-07-05"
-    },
-    "JSWSTEEL.NS": {
-      "shares": 2,
-      "avg_price": 1230.199951171875,
-      "entry_date": "2026-07-05"
-    },
-    "CIPLA.NS": {
-      "shares": 1,
-      "avg_price": 1458.199951171875,
-      "entry_date": "2026-07-05"
-    },
-    "AUBANK.NS": {
-      "shares": 2,
-      "avg_price": 1058.4000244140625,
-      "entry_date": "2026-07-05"
-    },
-    "TATACOMM.NS": {
-      "shares": 1,
-      "avg_price": 1906.699951171875,
-      "entry_date": "2026-07-05"
+      "avg_price": 414.8500061035156,
+      "entry_date": "2026-07-10"
     },
     "TRENT.NS": {
       "shares": 1,
-      "avg_price": 2927.800048828125,
-      "entry_date": "2026-07-07"
+      "avg_price": 2902.800048828125,
+      "entry_date": "2026-07-10"
+    },
+    "PIDILITIND.NS": {
+      "shares": 1,
+      "avg_price": 1598.5,
+      "entry_date": "2026-07-10"
+    },
+    "COALINDIA.NS": {
+      "shares": 6,
+      "avg_price": 429.29998779296875,
+      "entry_date": "2026-07-10"
+    },
+    "CONCOR.NS": {
+      "shares": 5,
+      "avg_price": 463.75,
+      "entry_date": "2026-07-10"
+    },
+    "SBIN.NS": {
+      "shares": 2,
+      "avg_price": 1036.0,
+      "entry_date": "2026-07-10"
+    },
+    "BPCL.NS": {
+      "shares": 8,
+      "avg_price": 309.75,
+      "entry_date": "2026-07-10"
+    },
+    "IREDA.NS": {
+      "shares": 20,
+      "avg_price": 126.4000015258789,
+      "entry_date": "2026-07-10"
+    },
+    "LALPATHLAB.NS": {
+      "shares": 1,
+      "avg_price": 1692.800048828125,
+      "entry_date": "2026-07-10"
+    },
+    "VOLTAS.NS": {
+      "shares": 2,
+      "avg_price": 1286.699951171875,
+      "entry_date": "2026-07-10"
+    },
+    "ICICIBANK.NS": {
+      "shares": 1,
+      "avg_price": 1401.199951171875,
+      "entry_date": "2026-07-10"
+    },
+    "JSWSTEEL.NS": {
+      "shares": 2,
+      "avg_price": 1245.4000244140625,
+      "entry_date": "2026-07-10"
+    },
+    "CIPLA.NS": {
+      "shares": 1,
+      "avg_price": 1439.4000244140625,
+      "entry_date": "2026-07-10"
+    },
+    "AUBANK.NS": {
+      "shares": 2,
+      "avg_price": 1072.0999755859375,
+      "entry_date": "2026-07-10"
+    },
+    "TATACOMM.NS": {
+      "shares": 1,
+      "avg_price": 1856.199951171875,
+      "entry_date": "2026-07-10"
     }
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-07"
+  "last_run": "2026-07-10"
 }

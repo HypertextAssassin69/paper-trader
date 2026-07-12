@@ -1,30 +1,30 @@
 # Live Version 4.0 Heuristic Probabilistic Portfolio Report
 
-> **Date**: 2026-07-07  |  **Days Live**: 3  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-10  |  **Days Live**: 5  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 99,500.50 |
-| Cash Balance | INR 49,712.30 |
-| Active Asset Exposure | INR 49,788.20 |
-| Total Return Since Start | -0.500% |
+| Current Portfolio Value | INR 98,416.85 |
+| Cash Balance | INR 53,877.00 |
+| Active Asset Exposure | INR 44,539.85 |
+| Total Return Since Start | -1.583% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| HDFCBANK.NS | 5 | INR 806.70 | INR 829.30 | INR 4146.50 | 4.17% |
-| SUNPHARMA.NS | 1 | INR 1904.80 | INR 1903.40 | INR 1903.40 | 1.91% |
-| BHARTIARTL.NS | 1 | INR 1910.40 | INR 1925.80 | INR 1925.80 | 1.94% |
-| DLF.NS | 6 | INR 675.90 | INR 651.10 | INR 3906.60 | 3.93% |
-| TRENT.NS | 1 | INR 3340.60 | INR 2927.80 | INR 2927.80 | 2.94% |
-| PIDILITIND.NS | 3 | INR 1598.00 | INR 1622.30 | INR 4866.90 | 4.89% |
-| LALPATHLAB.NS | 2 | INR 1645.70 | INR 1680.80 | INR 3361.60 | 3.38% |
-| ICICIBANK.NS | 2 | INR 1411.40 | INR 1414.70 | INR 2829.40 | 2.84% |
-| M&M.NS | 1 | INR 3136.90 | INR 3196.40 | INR 3196.40 | 3.21% |
-| ADANIENT.NS | 2 | INR 3212.10 | INR 3107.20 | INR 6214.40 | 6.25% |
-| CIPLA.NS | 3 | INR 1458.20 | INR 1451.80 | INR 4355.40 | 4.38% |
-| TATACOMM.NS | 2 | INR 1906.70 | INR 1906.90 | INR 3813.80 | 3.83% |
-| AUBANK.NS | 3 | INR 1063.23 | INR 1066.90 | INR 3200.70 | 3.22% |
-| BPCL.NS | 10 | INR 313.95 | INR 313.95 | INR 3139.50 | 3.16% |
+| HDFCBANK.NS | 4 | INR 824.95 | INR 824.95 | INR 3299.80 | 3.35% |
+| SUNPHARMA.NS | 1 | INR 1935.50 | INR 1935.50 | INR 1935.50 | 1.97% |
+| BHARTIARTL.NS | 1 | INR 1920.40 | INR 1920.40 | INR 1920.40 | 1.95% |
+| DLF.NS | 6 | INR 685.75 | INR 685.75 | INR 4114.50 | 4.18% |
+| TRENT.NS | 1 | INR 2902.80 | INR 2902.80 | INR 2902.80 | 2.95% |
+| PIDILITIND.NS | 2 | INR 1598.50 | INR 1598.50 | INR 3197.00 | 3.25% |
+| SBIN.NS | 2 | INR 1036.00 | INR 1036.00 | INR 2072.00 | 2.11% |
+| BPCL.NS | 9 | INR 309.75 | INR 309.75 | INR 2787.75 | 2.83% |
+| LALPATHLAB.NS | 2 | INR 1692.80 | INR 1692.80 | INR 3385.60 | 3.44% |
+| ICICIBANK.NS | 2 | INR 1401.20 | INR 1401.20 | INR 2802.40 | 2.85% |
+| ADANIENT.NS | 2 | INR 3157.30 | INR 3157.30 | INR 6314.60 | 6.42% |
+| CIPLA.NS | 2 | INR 1439.40 | INR 1439.40 | INR 2878.80 | 2.93% |
+| AUBANK.NS | 3 | INR 1072.10 | INR 1072.10 | INR 3216.30 | 3.27% |
+| TATACOMM.NS | 2 | INR 1856.20 | INR 1856.20 | INR 3712.40 | 3.77% |
