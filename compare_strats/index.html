@@ -1049,14 +1049,15 @@
 
     async function updateTradesView() {
       const tradesListEl = document.getElementById('tradesList');
-      const suffix = (dashStrategy === 'bulletproof') ? 'bulletproof' : 
-                     ((dashStrategy === 'nostops') ? 'nostops' : 
-                     ((dashStrategy === 'ml') ? 'v3_ml' : 
-                     ((dashStrategy === 'heur') ? 'v4_heuristic' : 
-                     ((dashStrategy === 'ens') ? 'ensemble_70_30' : 
-                     ((dashStrategy === 'pairs') ? 'pairs' : 
-                     ((dashStrategy === 'v7l') ? 'v7_large' : 
-                     ((dashStrategy === 'v7m') ? 'v7_mid' : 'v7_hybrid'))))));
+      let suffix = 'v7_hybrid';
+      if (dashStrategy === 'bulletproof') suffix = 'bulletproof';
+      else if (dashStrategy === 'nostops') suffix = 'nostops';
+      else if (dashStrategy === 'ml') suffix = 'v3_ml';
+      else if (dashStrategy === 'heur') suffix = 'v4_heuristic';
+      else if (dashStrategy === 'ens') suffix = 'ensemble_70_30';
+      else if (dashStrategy === 'pairs') suffix = 'pairs';
+      else if (dashStrategy === 'v7l') suffix = 'v7_large';
+      else if (dashStrategy === 'v7m') suffix = 'v7_mid';
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
