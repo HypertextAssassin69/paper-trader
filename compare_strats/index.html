@@ -959,25 +959,38 @@
       }
       updateDashboardView();
     }
-
     function updateDashboardView() {
-      const activeState = (dashStrategy === 'bulletproof') ? bpState : 
-                          ((dashStrategy === 'nostops') ? nsState : 
-                          ((dashStrategy === 'ml') ? mlState : 
-                          ((dashStrategy === 'heur') ? heurState : 
-                          ((dashStrategy === 'ens') ? ensState : 
-                          ((dashStrategy === 'pairs') ? pairsState : 
-                          ((dashStrategy === 'v7l') ? v7lState : 
-                          ((dashStrategy === 'v7m') ? v7mState : v7hState)))))));
-      const equityVal = (dashStrategy === 'bulletproof' && bpPnL.length) ? bpPnL[bpPnL.length-1].value :
-                        ((dashStrategy === 'nostops' && nsPnL.length) ? nsPnL[nsPnL.length-1].value :
-                        ((dashStrategy === 'ml' && mlPnL.length) ? mlPnL[mlPnL.length-1].value :
-                        ((dashStrategy === 'heur' && heurPnL.length) ? heurPnL[heurPnL.length-1].value :
-                        ((dashStrategy === 'ens' && ensPnL.length) ? ensPnL[ensPnL.length-1].value :
-                        ((dashStrategy === 'pairs' && pairsPnL.length) ? pairsPnL[pairsPnL.length-1].value :
-                        ((dashStrategy === 'v7l' && v7lPnL.length) ? v7lPnL[v7lPnL.length-1].value :
-                        ((dashStrategy === 'v7m' && v7mPnL.length) ? v7mPnL[v7mPnL.length-1].value :
-                        ((v7hPnL.length) ? v7hPnL[v7hPnL.length-1].value : 100000.0)))))))));
+      let activeState = null;
+      if (dashStrategy === 'bulletproof') activeState = bpState;
+      else if (dashStrategy === 'nostops') activeState = nsState;
+      else if (dashStrategy === 'ml') activeState = mlState;
+      else if (dashStrategy === 'heur') activeState = heurState;
+      else if (dashStrategy === 'ens') activeState = ensState;
+      else if (dashStrategy === 'pairs') activeState = pairsState;
+      else if (dashStrategy === 'v7l') activeState = v7lState;
+      else if (dashStrategy === 'v7m') activeState = v7mState;
+      else activeState = v7hState;
+
+      let equityVal = 100000.0;
+      if (dashStrategy === 'bulletproof' && bpPnL.length) {
+        equityVal = bpPnL[bpPnL.length - 1].value;
+      } else if (dashStrategy === 'nostops' && nsPnL.length) {
+        equityVal = nsPnL[nsPnL.length - 1].value;
+      } else if (dashStrategy === 'ml' && mlPnL.length) {
+        equityVal = mlPnL[mlPnL.length - 1].value;
+      } else if (dashStrategy === 'heur' && heurPnL.length) {
+        equityVal = heurPnL[heurPnL.length - 1].value;
+      } else if (dashStrategy === 'ens' && ensPnL.length) {
+        equityVal = ensPnL[ensPnL.length - 1].value;
+      } else if (dashStrategy === 'pairs' && pairsPnL.length) {
+        equityVal = pairsPnL[pairsPnL.length - 1].value;
+      } else if (dashStrategy === 'v7l' && v7lPnL.length) {
+        equityVal = v7lPnL[v7lPnL.length - 1].value;
+      } else if (dashStrategy === 'v7m' && v7mPnL.length) {
+        equityVal = v7mPnL[v7mPnL.length - 1].value;
+      } else if (v7hPnL.length) {
+        equityVal = v7hPnL[v7hPnL.length - 1].value;
+      }
       
       const dashEquityEl = document.getElementById('dashEquity');
       const dashCashEl = document.getElementById('dashCash');
