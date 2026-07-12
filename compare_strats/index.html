@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Chart.js for premium interaction -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 
   <!-- PWA Manifest support -->
   <link rel="manifest" href="manifest.json">
@@ -860,6 +861,21 @@
                   size: 9,
                   family: "'Inter', sans-serif"
                 }
+              }
+            },
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x'
+              },
+              pan: {
+                enabled: true,
+                mode: 'x'
               }
             }
           },
