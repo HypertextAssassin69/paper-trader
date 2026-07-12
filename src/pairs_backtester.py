@@ -380,7 +380,91 @@ class PairsTradingBacktester:
             'Reason': reason
         })
 
-def calculate_pairs_metrics(eq_df, trades_df, initial_capital):
+def calculate_core_position(self, nifty_close, nifty_sma_200, atr_z=None):
+    """
+    Core Engine: Long-term anchor protection logic.
+    Returns True for trend following, False for capital preservation.
+    """
+    # Core logic: Activate trend following only when clear uptrend is established
+    trend_active = nifty_close > nifty_sma_200
+    
+    # Additional risk guard: volatility check if ATR Z-score is provided
+    if atr_z is not None:
+        vol_alert = atr_z > 1.5
+        return trend_active and not vol_alert
+        
+    return trend_active
+
+def calculate_satellite_position(self, price, sma_50, adx_value):
+    """
+    Satellite Engine: Aggressive swing trading activation.
+    Requires both uptrend condition and momentum strength confirmation (ADX > 20)
+    """
+    if price > sma_50 and adx_value > 20:
+        return True  # Position allowed
+    return False  # Stay flat
+
+def enforce_sector_limits(self, candidate_trades, max_per_sector=2):
+    """
+    Sector Diversifier: Enforce maximum positions per sector
+    """
+    sector_holdings = {}
+    filtered_trades = []
+    
+    for trade in candidate_trades:
+        sector = get_sector_from_symbol(trade['ticker'])
+        current_holdings = sector_holdings.get(sector, 0)
+        
+        if current_holdings < max_per_sector:
+            sector_holdings[sector] = current_holdings + 1
+            filtered_trades.append(trade)
+            
+    return filtered_trades
+
+    def calculate_position_size(self, volatility_value, base_risk_pct=0.01):
+        """
+        Position sizing based on volatility with dynamic scaling
+        """
+        if volatility_value == 0:
+            return base_risk_pct
+            
+        # Inverse volatility scaling: higher volatility = smaller position
+        position_size = base_risk_pct / min(volatility_value, 2.0)
+        
+        return min(position_size, base_risk_pct)
+
+
+def get_sector_from_symbol(ticker):
+    """
+    Mock sector mapping function - in production, this would use
+    a database or API lookup to map ticker symbols to sectors
+    """
+    sector_mapping = {
+        'RELIANCE.NS': 'Energy',
+        'TCS.NS': 'IT',
+        'HDFCBANK.NS': 'Banking',
+        'INFY.NS': 'IT',
+        'KOTAKBANK.NS': 'Banking',
+        'SBIN.NS': 'Banking',
+        'LT.NS': 'Infrastructure',
+        'ITC.NS': 'FMCG',
+        'HINDUNILVR.NS': 'FMCG',
+        'AXISBANK.NS': 'Banking',
+        'BHARTIARTL.NS': 'Telecom',
+        'MARUTI.NS': 'Auto',
+        'TATASTEEL.NS': 'Metals',
+        'WIPRO.NS': 'IT',
+        'HCLTECH.NS': 'IT',
+        'SUNPHARMA.NS': 'Pharma',
+        'ASIANPAINT.NS': 'Paint',
+        'TITAN.NS': 'Retail',
+        'ULTRACEMCO.NS': 'Cement',
+    }
+    
+    return sector_mapping.get(ticker, 'Other')
+
+
+def calculate_pairs_metrics_static(eq_df, trades_df, initial_capital):
     if eq_df.empty:
         return {}
         
@@ -433,6 +517,34 @@ def calculate_pairs_metrics(eq_df, trades_df, initial_capital):
         'Total_Trades': total_trades,
         'Profit_Factor': profit_factor
     }
+def get_sector_from_symbol(ticker):
+    """
+    Mock sector mapping function - in production, this would use
+    a database or API lookup to map ticker symbols to sectors
+    """
+    sector_mapping = {
+        'RELIANCE.NS': 'Energy',
+        'TCS.NS': 'IT',
+        'HDFCBANK.NS': 'Banking',
+        'INFY.NS': 'IT',
+        'KOTAKBANK.NS': 'Banking',
+        'SBIN.NS': 'Banking',
+        'LT.NS': 'Infrastructure',
+        'ITC.NS': 'FMCG',
+        'HINDUNILVR.NS': 'FMCG',
+        'AXISBANK.NS': 'Banking',
+        'BHARTIARTL.NS': 'Telecom',
+        'MARUTI.NS': 'Auto',
+        'TATASTEEL.NS': 'Metals',
+        'WIPRO.NS': 'IT',
+        'HCLTECH.NS': 'IT',
+        'SUNPHARMA.NS': 'Pharma',
+        'ASIANPAINT.NS': 'Paint',
+        'TITAN.NS': 'Retail',
+        'ULTRACEMCO.NS': 'Cement',
+    }
+    
+    return sector_mapping.get(ticker, 'Other')
 
 def run_pipeline():
     data_dir = "data"

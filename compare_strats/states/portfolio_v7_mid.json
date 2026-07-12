@@ -1,0 +1,28 @@
+{
+  "cash": 9713.663433853144,
+  "holdings": {
+    "MAXHEALTH.NS": {
+      "shares": 18,
+      "avg_price": 1108.0999755859375
+    },
+    "OBEROIRLTY.NS": {
+      "shares": 10,
+      "avg_price": 1934.4000244140625
+    },
+    "DIXON.NS": {
+      "shares": 1,
+      "avg_price": 12456.0
+    },
+    "COFORGE.NS": {
+      "shares": 13,
+      "avg_price": 1464.0
+    },
+    "HAL.NS": {
+      "shares": 4,
+      "avg_price": 4506.7998046875
+    }
+  },
+  "pairs": {},
+  "regime": "SAFE",
+  "last_run": "2026-07-13"
+}

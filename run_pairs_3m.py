@@ -5,7 +5,7 @@ import numpy as np
 
 # Add the src folder to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
-from pairs_backtester import PairsTradingBacktester, calculate_pairs_metrics
+from pairs_backtester import PairsTradingBacktester, calculate_pairs_metrics_static
 
 def generate_markdown_report_3m(top_pairs, m, trades_df):
     report_path = "reports/pairs_3m_walkthrough.md"
@@ -119,7 +119,7 @@ def run_pipeline_3m():
         leverage=6.0
     )
     
-    m = calculate_pairs_metrics(eq_df, trades_df, downloader.initial_capital)
+    m = calculate_pairs_metrics_static(eq_df, trades_df, downloader.initial_capital)
     
     print("\n" + "="*50)
     print("Pairs Trading 3-Month Out-Of-Sample Results:")

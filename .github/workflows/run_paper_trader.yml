@@ -65,6 +65,24 @@ jobs:
           python paper_trader_strat_pairs.py
           cd ..
 
+      - name: Run V7 Large-Cap paper trader (V7 Apex Large)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_large.py
+          cd ..
+
+      - name: Run V7 Mid-Cap paper trader (V7 Apex Mid)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_mid.py
+          cd ..
+
+      - name: Run V7 Hybrid paper trader (V7 Apex Hybrid)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_hybrid.py
+          cd ..
+
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"

@@ -1,0 +1,32 @@
+{
+  "cash": 6309.946721801753,
+  "holdings": {
+    "BAJFINANCE.NS": {
+      "shares": 16,
+      "avg_price": 1031.4000244140625
+    },
+    "ICICIBANK.NS": {
+      "shares": 11,
+      "avg_price": 1411.4000244140625
+    },
+    "MAXHEALTH.NS": {
+      "shares": 15,
+      "avg_price": 1108.0999755859375
+    },
+    "OBEROIRLTY.NS": {
+      "shares": 8,
+      "avg_price": 1934.4000244140625
+    },
+    "DIXON.NS": {
+      "shares": 1,
+      "avg_price": 12456.0
+    },
+    "HDFCBANK.NS": {
+      "shares": 20,
+      "avg_price": 829.2999877929688
+    }
+  },
+  "pairs": {},
+  "regime": "SAFE",
+  "last_run": "2026-07-13"
+}
