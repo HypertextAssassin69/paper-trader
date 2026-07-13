@@ -1,6 +1,6 @@
 # Live Version 3.0 ML Probabilistic Portfolio Report
 
-> **Date**: 2026-07-13  |  **Days Live**: 6  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-13  |  **Days Live**: 7  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |
