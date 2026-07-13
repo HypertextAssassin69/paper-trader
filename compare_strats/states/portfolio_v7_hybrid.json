@@ -1,17 +1,9 @@
 {
-  "cash": 6309.946721801753,
+  "cash": 8102.002560791012,
   "holdings": {
-    "BAJFINANCE.NS": {
-      "shares": 16,
-      "avg_price": 1031.4000244140625
-    },
     "ICICIBANK.NS": {
       "shares": 11,
       "avg_price": 1411.4000244140625
-    },
-    "MAXHEALTH.NS": {
-      "shares": 15,
-      "avg_price": 1108.0999755859375
     },
     "OBEROIRLTY.NS": {
       "shares": 8,
@@ -24,6 +16,16 @@
     "HDFCBANK.NS": {
       "shares": 20,
       "avg_price": 829.2999877929688
+    },
+    "GRASIM.NS": {
+      "shares": 5,
+      "avg_price": 3144.300048828125,
+      "entry_date": "2026-07-13"
+    },
+    "COFORGE.NS": {
+      "shares": 10,
+      "avg_price": 1540.9000244140625,
+      "entry_date": "2026-07-13"
     }
   },
   "pairs": {},

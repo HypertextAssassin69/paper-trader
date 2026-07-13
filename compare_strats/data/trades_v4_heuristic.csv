@@ -48,3 +48,11 @@ date,ticker,action,shares,price,value,reason
 2026-07-10,CIPLA.NS,BUY,2,1439.4,2878.8,Rebalance to target weight=0.043
 2026-07-10,AUBANK.NS,BUY,3,1072.1,3216.3,Rebalance to target weight=0.034
 2026-07-10,TATACOMM.NS,BUY,2,1856.2,3712.4,Rebalance to target weight=0.049
+2026-07-13,HDFCBANK.NS,BUY,1,817.95,817.95,Rebalance to target weight=0.044
+2026-07-13,PIDILITIND.NS,BUY,1,1580.7,1580.7,Rebalance to target weight=0.054
+2026-07-13,SBIN.NS,BUY,1,1037.0,1037.0,Rebalance to target weight=0.032
+2026-07-13,INDIGO.NS,BUY,1,5229.5,5229.5,Rebalance to target weight=0.054
+2026-07-13,BPCL.NS,BUY,1,307.55,307.55,Rebalance to target weight=0.034
+2026-07-13,ICICIBANK.NS,BUY,1,1409.5,1409.5,Rebalance to target weight=0.045
+2026-07-13,M&M.NS,BUY,1,3160.4,3160.4,Rebalance to target weight=0.034
+2026-07-13,CIPLA.NS,BUY,1,1426.7,1426.7,Rebalance to target weight=0.044

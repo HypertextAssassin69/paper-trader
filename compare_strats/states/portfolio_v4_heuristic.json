@@ -1,9 +1,9 @@
 {
-  "cash": 53877.00216336062,
+  "cash": 38900.21770877078,
   "holdings": {
     "HDFCBANK.NS": {
-      "shares": 4,
-      "avg_price": 824.9500122070312,
+      "shares": 5,
+      "avg_price": 823.5500122070313,
       "entry_date": "2026-07-10"
     },
     "SUNPHARMA.NS": {
@@ -27,18 +27,18 @@
       "entry_date": "2026-07-10"
     },
     "PIDILITIND.NS": {
-      "shares": 2,
-      "avg_price": 1598.5,
+      "shares": 3,
+      "avg_price": 1592.566650390625,
       "entry_date": "2026-07-10"
     },
     "SBIN.NS": {
-      "shares": 2,
-      "avg_price": 1036.0,
+      "shares": 3,
+      "avg_price": 1036.3333333333333,
       "entry_date": "2026-07-10"
     },
     "BPCL.NS": {
-      "shares": 9,
-      "avg_price": 309.75,
+      "shares": 10,
+      "avg_price": 309.5299987792969,
       "entry_date": "2026-07-10"
     },
     "LALPATHLAB.NS": {
@@ -47,8 +47,8 @@
       "entry_date": "2026-07-10"
     },
     "ICICIBANK.NS": {
-      "shares": 2,
-      "avg_price": 1401.199951171875,
+      "shares": 3,
+      "avg_price": 1403.9666341145833,
       "entry_date": "2026-07-10"
     },
     "ADANIENT.NS": {
@@ -57,8 +57,8 @@
       "entry_date": "2026-07-10"
     },
     "CIPLA.NS": {
-      "shares": 2,
-      "avg_price": 1439.4000244140625,
+      "shares": 3,
+      "avg_price": 1435.1666666666667,
       "entry_date": "2026-07-10"
     },
     "AUBANK.NS": {
@@ -70,9 +70,19 @@
       "shares": 2,
       "avg_price": 1856.199951171875,
       "entry_date": "2026-07-10"
+    },
+    "INDIGO.NS": {
+      "shares": 1,
+      "avg_price": 5229.5,
+      "entry_date": "2026-07-13"
+    },
+    "M&M.NS": {
+      "shares": 1,
+      "avg_price": 3160.39990234375,
+      "entry_date": "2026-07-13"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-10"
+  "last_run": "2026-07-13"
 }

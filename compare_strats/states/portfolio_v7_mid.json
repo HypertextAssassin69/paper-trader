@@ -1,5 +1,5 @@
 {
-  "cash": 9713.663433853144,
+  "cash": 9127.53355299377,
   "holdings": {
     "MAXHEALTH.NS": {
       "shares": 18,
@@ -17,9 +17,10 @@
       "shares": 13,
       "avg_price": 1464.0
     },
-    "HAL.NS": {
-      "shares": 4,
-      "avg_price": 4506.7998046875
+    "POLYCAB.NS": {
+      "shares": 2,
+      "avg_price": 9306.5,
+      "entry_date": "2026-07-13"
     }
   },
   "pairs": {},

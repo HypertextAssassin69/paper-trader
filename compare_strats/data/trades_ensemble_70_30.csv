@@ -50,3 +50,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-10,CIPLA.NS,BUY,2,1439.4,2878.8,Ensemble Rebalance to target weight=0.031
 2026-07-10,AUBANK.NS,BUY,2,1072.1,2144.2,Ensemble Rebalance to target weight=0.025
 2026-07-10,TATACOMM.NS,BUY,4,1856.2,7424.8,Ensemble Rebalance to target weight=0.093
+2026-07-13,IREDA.NS,SELL,1,124.81,124.81,Ensemble Rebalance to target weight=0.001
+2026-07-13,DLF.NS,BUY,2,682.35,1364.7,Ensemble Rebalance to target weight=0.054
+2026-07-13,BPCL.NS,BUY,1,307.55,307.55,Ensemble Rebalance to target weight=0.029
+2026-07-13,ICICIBANK.NS,BUY,1,1409.5,1409.5,Ensemble Rebalance to target weight=0.032

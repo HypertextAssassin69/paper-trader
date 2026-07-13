@@ -1,14 +1,9 @@
 {
-  "cash": 47442.01565823749,
+  "cash": 50027.75982506946,
   "holdings": {
     "RELIANCE.NS": {
-      "shares": 1,
-      "avg_price": 1307.800048828125,
-      "entry_date": "2026-07-10"
-    },
-    "TCS.NS": {
-      "shares": 1,
-      "avg_price": 2069.0,
+      "shares": 2,
+      "avg_price": 1302.3500366210938,
       "entry_date": "2026-07-10"
     },
     "HDFCBANK.NS": {
@@ -27,8 +22,8 @@
       "entry_date": "2026-07-10"
     },
     "TATASTEEL.NS": {
-      "shares": 13,
-      "avg_price": 191.19000244140625,
+      "shares": 14,
+      "avg_price": 190.89857373918807,
       "entry_date": "2026-07-10"
     },
     "BHARTIARTL.NS": {
@@ -42,8 +37,8 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 3,
-      "avg_price": 685.75,
+      "shares": 4,
+      "avg_price": 684.8999938964844,
       "entry_date": "2026-07-10"
     },
     "BEL.NS": {
@@ -82,18 +77,13 @@
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 20,
-      "avg_price": 126.4000015258789,
+      "shares": 21,
+      "avg_price": 126.32428705124627,
       "entry_date": "2026-07-10"
     },
     "LALPATHLAB.NS": {
       "shares": 1,
       "avg_price": 1692.800048828125,
-      "entry_date": "2026-07-10"
-    },
-    "VOLTAS.NS": {
-      "shares": 2,
-      "avg_price": 1286.699951171875,
       "entry_date": "2026-07-10"
     },
     "ICICIBANK.NS": {
@@ -124,5 +114,5 @@
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-10"
+  "last_run": "2026-07-13"
 }

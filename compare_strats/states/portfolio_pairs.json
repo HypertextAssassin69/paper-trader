@@ -1,5 +1,5 @@
 {
-  "cash": 99140.88692321777,
+  "cash": 101098.17992321777,
   "holdings": {
     "ICICIBANK.NS/SBIN.NS": {
       "status": "short_spread",
@@ -30,11 +30,21 @@
       "entry_date": "2026-07-06",
       "beta": 0.139958254618146,
       "alpha": 258.18707651701493
+    },
+    "TCS.NS/APOLLOHOSP.NS": {
+      "status": "short_spread",
+      "shares_a": 13,
+      "shares_b": 3,
+      "entry_price_a": 2181.5,
+      "entry_price_b": 8782.5,
+      "entry_date": "2026-07-13",
+      "beta": -0.3309582949954312,
+      "alpha": 4970.2971069111245
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-10",
-  "peak_equity": 100881.98940124511,
+  "last_run": "2026-07-13",
+  "peak_equity": 101010.08754577636,
   "active_trading": true
 }
