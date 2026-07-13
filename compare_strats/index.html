@@ -126,6 +126,7 @@
           <div class="text-right">
             <div id="bpValue" class="font-bold text-sm">INR --</div>
             <div id="bpReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">1.82x</span></div>
           </div>
         </div>
 
@@ -146,6 +147,7 @@
           <div class="text-right">
             <div id="nsValue" class="font-bold text-sm">INR --</div>
             <div id="nsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwRed font-bold">1.27x</span></div>
           </div>
         </div>
 
@@ -166,6 +168,7 @@
           <div class="text-right">
             <div id="mlValue" class="font-bold text-sm">INR --</div>
             <div id="mlReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.44x</span></div>
           </div>
         </div>
 
@@ -186,6 +189,7 @@
           <div class="text-right">
             <div id="heurValue" class="font-bold text-sm">INR --</div>
             <div id="heurReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.68x</span></div>
           </div>
         </div>
 
@@ -206,6 +210,7 @@
           <div class="text-right">
             <div id="ensValue" class="font-bold text-sm">INR --</div>
             <div id="ensReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.86x</span></div>
           </div>
         </div>
 
@@ -226,6 +231,7 @@
           <div class="text-right">
             <div id="pairsValue" class="font-bold text-sm">INR --</div>
             <div id="pairsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">3.50x</span></div>
           </div>
         </div>
 
@@ -246,6 +252,7 @@
           <div class="text-right">
             <div id="v7lValue" class="font-bold text-sm">INR --</div>
             <div id="v7lReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">3.08x</span></div>
           </div>
         </div>
 
@@ -266,6 +273,7 @@
           <div class="text-right">
             <div id="v7mValue" class="font-bold text-sm">INR --</div>
             <div id="v7mReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">4.10x</span></div>
           </div>
         </div>
 
@@ -286,6 +294,7 @@
           <div class="text-right">
             <div id="v7hValue" class="font-bold text-sm">INR --</div>
             <div id="v7hReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">4.37x</span></div>
           </div>
         </div>
       </div>
@@ -340,14 +349,18 @@
       </div>
 
       <!-- Portfolio Summary Cards -->
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-growwDarkCard p-3.5 rounded-xl border border-gray-800">
-          <span class="text-[10px] text-growwMuted block uppercase">Current Value</span>
-          <span id="dashEquity" class="text-base font-bold">INR --</span>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Current Value</span>
+          <span id="dashEquity" class="text-sm font-bold text-white">INR --</span>
         </div>
-        <div class="bg-growwDarkCard p-3.5 rounded-xl border border-gray-800">
-          <span class="text-[10px] text-growwMuted block uppercase">Available Cash</span>
-          <span id="dashCash" class="text-base font-bold">INR --</span>
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Available Cash</span>
+          <span id="dashCash" class="text-sm font-bold text-white">INR --</span>
+        </div>
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Psych Ratio</span>
+          <span id="dashPsychRatio" class="text-sm font-bold text-growwGreen">--</span>
         </div>
       </div>
 
@@ -522,6 +535,18 @@
   <script>
     let activeTab = 'explore';
     let dashStrategy = 'bulletproof';
+
+    const HISTORICAL_PSYCH_RATIOS = {
+      'bulletproof': '1.82x',
+      'nostops': '1.27x',
+      'ml': '2.44x',
+      'heur': '2.68x',
+      'ens': '2.86x',
+      'pairs': '3.50x',
+      'v7l': '3.08x',
+      'v7m': '4.10x',
+      'v7h': '4.37x'
+    };
     
     let bpState = null;
     let nsState = null;
@@ -1020,17 +1045,20 @@
       
       const dashEquityEl = document.getElementById('dashEquity');
       const dashCashEl = document.getElementById('dashCash');
+      const dashPsychRatioEl = document.getElementById('dashPsychRatio');
       const holdingsListEl = document.getElementById('holdingsList');
 
       if (!activeState) {
         dashEquityEl.innerText = "INR --";
         dashCashEl.innerText = "INR --";
+        dashPsychRatioEl.innerText = "--";
         holdingsListEl.innerHTML = `<div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently in Cash)</div>`;
         return;
       }
 
       dashEquityEl.innerText = `INR ${equityVal.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
       dashCashEl.innerText = `INR ${activeState.cash.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
+      dashPsychRatioEl.innerText = HISTORICAL_PSYCH_RATIOS[dashStrategy] || '--';
 
       // Holdings list
       const holdings = activeState.holdings || {};
