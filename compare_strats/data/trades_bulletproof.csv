@@ -80,3 +80,6 @@ date,ticker,action,shares,price,value,reason
 2026-07-13,TATASTEEL.NS,BUY,1,187.11,187.11,Rebalance to target weight=0.028
 2026-07-13,DLF.NS,BUY,1,682.35,682.35,Rebalance to target weight=0.028
 2026-07-13,IREDA.NS,BUY,1,124.81,124.81,Rebalance to target weight=0.027
+2026-07-14,CONCOR.NS,SELL,5,493.15,2465.75,Rebalance to target weight=0.000
+2026-07-14,IREDA.NS,BUY,1,122.08,122.08,Rebalance to target weight=0.028
+2026-07-14,VOLTAS.NS,BUY,1,1358.9,1358.9,Rebalance to target weight=0.026

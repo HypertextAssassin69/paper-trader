@@ -1,5 +1,5 @@
 {
-  "cash": 38066.213280265794,
+  "cash": 39599.08518287658,
   "holdings": {
     "TATASTEEL.NS": {
       "shares": 2,
@@ -12,8 +12,8 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 11,
-      "avg_price": 683.8954412286931,
+      "shares": 12,
+      "avg_price": 682.8583221435547,
       "entry_date": "2026-07-10"
     },
     "BEL.NS": {
@@ -37,8 +37,8 @@
       "entry_date": "2026-07-10"
     },
     "SBIN.NS": {
-      "shares": 1,
-      "avg_price": 1036.0,
+      "shares": 2,
+      "avg_price": 1025.7000122070312,
       "entry_date": "2026-07-10"
     },
     "INDIGO.NS": {
@@ -52,13 +52,8 @@
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 11,
-      "avg_price": 126.25545571067117,
-      "entry_date": "2026-07-10"
-    },
-    "VOLTAS.NS": {
-      "shares": 2,
-      "avg_price": 1286.699951171875,
+      "shares": 22,
+      "avg_price": 124.16772877086292,
       "entry_date": "2026-07-10"
     },
     "ADANIENT.NS": {
@@ -67,7 +62,7 @@
       "entry_date": "2026-07-10"
     },
     "TATACOMM.NS": {
-      "shares": 5,
+      "shares": 4,
       "avg_price": 1856.199951171875,
       "entry_date": "2026-07-10"
     },
@@ -79,5 +74,5 @@
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-13"
+  "last_run": "2026-07-14"
 }

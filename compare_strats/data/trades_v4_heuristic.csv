@@ -56,3 +56,11 @@ date,ticker,action,shares,price,value,reason
 2026-07-13,ICICIBANK.NS,BUY,1,1409.5,1409.5,Rebalance to target weight=0.045
 2026-07-13,M&M.NS,BUY,1,3160.4,3160.4,Rebalance to target weight=0.034
 2026-07-13,CIPLA.NS,BUY,1,1426.7,1426.7,Rebalance to target weight=0.044
+2026-07-14,SBIN.NS,SELL,3,1015.4,3046.2,Rebalance to target weight=0.000
+2026-07-14,M&M.NS,SELL,1,3093.3,3093.3,Rebalance to target weight=0.000
+2026-07-14,SUNPHARMA.NS,BUY,1,1942.6,1942.6,Rebalance to target weight=0.042
+2026-07-14,BHARTIARTL.NS,BUY,1,1936.5,1936.5,Rebalance to target weight=0.045
+2026-07-14,DLF.NS,BUY,1,671.45,671.45,Rebalance to target weight=0.049
+2026-07-14,BPCL.NS,BUY,1,305.35,305.35,Rebalance to target weight=0.036
+2026-07-14,LALPATHLAB.NS,BUY,1,1744.6,1744.6,Rebalance to target weight=0.056
+2026-07-14,TATACOMM.NS,BUY,1,1848.6,1848.6,Rebalance to target weight=0.057

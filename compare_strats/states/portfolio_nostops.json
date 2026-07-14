@@ -1,5 +1,5 @@
 {
-  "cash": 51009.93851749423,
+  "cash": 51992.73509573367,
   "holdings": {
     "RELIANCE.NS": {
       "shares": 2,
@@ -56,11 +56,6 @@
       "avg_price": 436.2513961791992,
       "entry_date": "2026-07-05"
     },
-    "CONCOR.NS": {
-      "shares": 5,
-      "avg_price": 488.20001220703125,
-      "entry_date": "2026-07-05"
-    },
     "SBIN.NS": {
       "shares": 2,
       "avg_price": 1040.0,
@@ -72,8 +67,8 @@
       "entry_date": "2026-07-05"
     },
     "IREDA.NS": {
-      "shares": 21,
-      "avg_price": 128.23540159471992,
+      "shares": 22,
+      "avg_price": 127.95561069637151,
       "entry_date": "2026-07-05"
     },
     "LALPATHLAB.NS": {
@@ -110,9 +105,14 @@
       "shares": 1,
       "avg_price": 2927.800048828125,
       "entry_date": "2026-07-07"
+    },
+    "VOLTAS.NS": {
+      "shares": 1,
+      "avg_price": 1358.9000244140625,
+      "entry_date": "2026-07-14"
     }
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-13"
+  "last_run": "2026-07-14"
 }

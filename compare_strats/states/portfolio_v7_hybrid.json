@@ -1,5 +1,5 @@
 {
-  "cash": 8102.002560791012,
+  "cash": 8782.163048828123,
   "holdings": {
     "ICICIBANK.NS": {
       "shares": 11,
@@ -13,10 +13,6 @@
       "shares": 1,
       "avg_price": 12456.0
     },
-    "HDFCBANK.NS": {
-      "shares": 20,
-      "avg_price": 829.2999877929688
-    },
     "GRASIM.NS": {
       "shares": 5,
       "avg_price": 3144.300048828125,
@@ -26,9 +22,14 @@
       "shares": 10,
       "avg_price": 1540.9000244140625,
       "entry_date": "2026-07-13"
+    },
+    "BHARTIARTL.NS": {
+      "shares": 8,
+      "avg_price": 1936.5,
+      "entry_date": "2026-07-14"
     }
   },
   "pairs": {},
   "regime": "SAFE",
-  "last_run": "2026-07-13"
+  "last_run": "2026-07-14"
 }

@@ -1,5 +1,5 @@
 {
-  "cash": 101098.17992321777,
+  "cash": 99725.2582833252,
   "holdings": {
     "ICICIBANK.NS/SBIN.NS": {
       "status": "short_spread",
@@ -40,11 +40,21 @@
       "entry_date": "2026-07-13",
       "beta": -0.3309582949954312,
       "alpha": 4970.2971069111245
+    },
+    "GRASIM.NS/APOLLOHOSP.NS": {
+      "status": "long_spread",
+      "shares_a": 9,
+      "shares_b": 3,
+      "entry_price_a": 3113.300048828125,
+      "entry_price_b": 8900.5,
+      "entry_date": "2026-07-14",
+      "beta": 0.251248793684537,
+      "alpha": 985.6457272434473
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-13",
+  "last_run": "2026-07-14",
   "peak_equity": 101010.08754577636,
   "active_trading": true
 }

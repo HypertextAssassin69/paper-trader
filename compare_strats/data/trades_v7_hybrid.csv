@@ -3,3 +3,5 @@ date,ticker,action,shares,price,value,reason
 2026-07-13,MAXHEALTH.NS,SELL,15,1106.2,16593.0,V5 Satellite Rebalance: dropped from hybrid top momentum
 2026-07-13,GRASIM.NS,BUY,5,3144.3,15721.5,V5 Satellite Rebalance: hybrid momentum entry
 2026-07-13,COFORGE.NS,BUY,10,1540.9,15409.0,V5 Satellite Rebalance: hybrid momentum entry
+2026-07-14,HDFCBANK.NS,SELL,20,809.4,16188.0,V5 Satellite Rebalance: dropped from hybrid top momentum
+2026-07-14,BHARTIARTL.NS,BUY,8,1936.5,15492.0,V5 Satellite Rebalance: hybrid momentum entry
