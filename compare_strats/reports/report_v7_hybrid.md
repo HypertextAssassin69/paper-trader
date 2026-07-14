@@ -1,4 +1,4 @@
-# Live Version 7.0 Apex Hybrid Portfolio Report
+# Dhurandhar Strat Live Report 👑
 
 > **Date**: 2026-07-13  |  **Days Live**: 5  |  **Market Regime**: SAFE
 

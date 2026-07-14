@@ -235,56 +235,14 @@
           </div>
         </div>
 
-        <!-- Strategy 7: V7 Apex Large-Cap -->
-        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full bg-[#3b0764] flex items-center justify-center">
-              <i data-lucide="crown" class="w-5 h-5 text-[#c084fc]"></i>
-            </div>
-            <div>
-              <div class="font-bold text-sm text-white">V7 Apex Large-Cap 👑</div>
-              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
-                <div id="v7lInvestedText">Invested: INR --</div>
-                <div id="v7lCashText">Cash: INR --</div>
-              </div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div id="v7lValue" class="font-bold text-sm">INR --</div>
-            <div id="v7lReturn" class="text-xs text-growwGreen font-semibold">--</div>
-            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">3.08x</span></div>
-          </div>
-        </div>
-
-        <!-- Strategy 8: V7 Apex Mid-Cap -->
-        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center">
-              <i data-lucide="zap-theme" class="w-5 h-5 text-[#34d399]"></i>
-            </div>
-            <div>
-              <div class="font-bold text-sm text-white">V7 Apex Mid-Cap ⚡</div>
-              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
-                <div id="v7mInvestedText">Invested: INR --</div>
-                <div id="v7mCashText">Cash: INR --</div>
-              </div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div id="v7mValue" class="font-bold text-sm">INR --</div>
-            <div id="v7mReturn" class="text-xs text-growwGreen font-semibold">--</div>
-            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">4.10x</span></div>
-          </div>
-        </div>
-
-        <!-- Strategy 9: V7 Apex Hybrid -->
+        <!-- Strategy 9: Dhurandhar Strat -->
         <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-full bg-[#581c87] flex items-center justify-center">
               <i data-lucide="combine" class="w-5 h-5 text-[#a78bfa]"></i>
             </div>
             <div>
-              <div class="font-bold text-sm text-white">V7 Apex Hybrid 🧬</div>
+              <div class="font-bold text-sm text-white">Dhurandhar Strat 👑</div>
               <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
                 <div id="v7hInvestedText">Invested: INR --</div>
                 <div id="v7hCashText">Cash: INR --</div>
@@ -294,9 +252,11 @@
           <div class="text-right">
             <div id="v7hValue" class="font-bold text-sm">INR --</div>
             <div id="v7hReturn" class="text-xs text-growwGreen font-semibold">--</div>
-            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">4.37x</span></div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">6.50x</span></div>
           </div>
         </div>
+
+
       </div>
 
 
@@ -337,19 +297,11 @@
         <button id="togglePairs" onclick="selectDashboardStrategy('pairs')" class="py-2 rounded-md text-growwMuted transition col-span-1">
           📊 V6 Pairs
         </button>
-        <button id="toggleV7l" onclick="selectDashboardStrategy('v7l')" class="py-2 rounded-md text-growwMuted transition col-span-1">
-          👑 V7 Large
-        </button>
-        <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="py-2 rounded-md text-growwMuted transition col-span-1">
-          ⚡ V7 Mid
-        </button>
-        <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-2">
-          🧬 V7 Hybrid
-        </button>
+        <button id="toggleV7l" onclick="selectDashboardStrategy('v7l')" class="hidden">👑 V7 Large</button>
+        <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="hidden">⚡ V7 Mid</button>
+        <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-3">👑 Dhurandhar Strat</button>
       </div>
 
-      <!-- Portfolio Summary Cards -->
-      <div class="grid grid-cols-3 gap-2">
         <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
           <span class="text-[9px] text-growwMuted block uppercase">Current Value</span>
           <span id="dashEquity" class="text-sm font-bold text-white">INR --</span>
@@ -545,7 +497,8 @@
       'pairs': '3.50x',
       'v7l': '3.08x',
       'v7m': '4.10x',
-      'v7h': '4.37x'
+      'v7h': '6.50x'
+
     };
     
     let bpState = null;
