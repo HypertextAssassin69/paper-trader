@@ -772,6 +772,9 @@
       const allDates = Array.from(new Set([
         ...bpPnL.map(x => x.date),
         ...nsPnL.map(x => x.date),
+        ...mlPnL.map(x => x.date),
+        ...heurPnL.map(x => x.date),
+        ...ensPnL.map(x => x.date),
         ...pairsPnL.map(x => x.date),
         ...v7hPnL.map(x => x.date)
       ])).filter(Boolean).sort();
@@ -795,6 +798,9 @@
       });
       const bpValues = alignDataset(bpPnL, allDates);
       const nsValues = alignDataset(nsPnL, allDates);
+      const mlValues = alignDataset(mlPnL, allDates);
+      const heurValues = alignDataset(heurPnL, allDates);
+      const ensValues = alignDataset(ensPnL, allDates);
       const pairsValues = alignDataset(pairsPnL, allDates);
       const v7hValues = alignDataset(v7hPnL, allDates);
 
@@ -820,6 +826,36 @@
               tension: 0.1,
               pointRadius: 0,
               fill: false
+            },
+            {
+              label: 'Version 3.0 ML 🔮',
+              data: mlValues.length ? mlValues : [100000],
+              borderColor: '#9b59b6',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
+            },
+            {
+              label: 'Version 4.0 Heuristic ⚙️',
+              data: heurValues.length ? heurValues : [100000],
+              borderColor: '#e67e22',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
+            },
+            {
+              label: 'Version 5.0 Ensemble ⚖️',
+              data: ensValues.length ? ensValues : [100000],
+              borderColor: '#85929e',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
             },
             {
               label: 'Version 6.0 Pairs 📊',

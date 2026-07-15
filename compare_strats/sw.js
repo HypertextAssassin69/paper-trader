@@ -1,4 +1,4 @@
-const CACHE_NAME = 'groww-pt-v10';
+const CACHE_NAME = 'groww-pt-v11';
 const ASSETS = [
   'index.html',
   'manifest.json',
