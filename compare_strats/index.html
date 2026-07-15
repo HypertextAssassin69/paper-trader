@@ -789,7 +789,10 @@
         });
       }
 
-      const labels = allDates;
+      const labels = allDates.map(dateStr => {
+        const [year, month, day] = dateStr.split('-');
+        return [`${parseInt(day)}/${parseInt(month)}`, year];
+      });
       const bpValues = alignDataset(bpPnL, allDates);
       const nsValues = alignDataset(nsPnL, allDates);
       const pairsValues = alignDataset(pairsPnL, allDates);
@@ -874,17 +877,19 @@
           scales: {
             x: {
               grid: {
-                display: false
+                display: true,
+                color: 'rgba(255, 255, 255, 0.08)'
               },
               ticks: {
                 color: '#8B9EAE',
                 font: { size: 9 },
-                maxTicksLimit: 5
+                maxTicksLimit: 12
               }
             },
             y: {
               grid: {
-                color: 'rgba(255,255,255,0.05)'
+                display: true,
+                color: 'rgba(255, 255, 255, 0.08)'
               },
               ticks: {
                 color: '#8B9EAE',
