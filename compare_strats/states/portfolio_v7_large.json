@@ -1,13 +1,9 @@
 {
-  "cash": 2287.710930297846,
+  "cash": 2434.323705169674,
   "holdings": {
     "ICICIBANK.NS": {
       "shares": 14,
       "avg_price": 1411.4000244140625
-    },
-    "HDFCBANK.NS": {
-      "shares": 24,
-      "avg_price": 801.0499877929688
     },
     "SUNPHARMA.NS": {
       "shares": 10,
@@ -22,9 +18,14 @@
       "shares": 10,
       "avg_price": 1936.5,
       "entry_date": "2026-07-14"
+    },
+    "BAJFINANCE.NS": {
+      "shares": 19,
+      "avg_price": 1021.2999877929688,
+      "entry_date": "2026-07-15"
     }
   },
   "pairs": {},
   "regime": "SAFE",
-  "last_run": "2026-07-14"
+  "last_run": "2026-07-15"
 }

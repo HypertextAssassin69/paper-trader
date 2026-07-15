@@ -5,3 +5,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-13,COFORGE.NS,BUY,10,1540.9,15409.0,V5 Satellite Rebalance: hybrid momentum entry
 2026-07-14,HDFCBANK.NS,SELL,20,809.4,16188.0,V5 Satellite Rebalance: dropped from hybrid top momentum
 2026-07-14,BHARTIARTL.NS,BUY,8,1936.5,15492.0,V5 Satellite Rebalance: hybrid momentum entry
+2026-07-15,GRASIM.NS,SELL,5,3086.1,15430.5,V5 Satellite Rebalance: dropped from hybrid top momentum
+2026-07-15,BHARTIARTL.NS,SELL,8,1918.3,15346.4,V5 Satellite Rebalance: dropped from hybrid top momentum
+2026-07-15,SUNPHARMA.NS,BUY,8,1951.5,15612.0,V5 Satellite Rebalance: hybrid momentum entry
+2026-07-15,BAJFINANCE.NS,BUY,16,1021.3,16340.8,V5 Satellite Rebalance: hybrid momentum entry

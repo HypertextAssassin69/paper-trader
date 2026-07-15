@@ -1,5 +1,5 @@
 {
-  "cash": 36583.32358573917,
+  "cash": 38953.48180279544,
   "holdings": {
     "HDFCBANK.NS": {
       "shares": 5,
@@ -31,13 +31,8 @@
       "avg_price": 1592.566650390625,
       "entry_date": "2026-07-10"
     },
-    "BPCL.NS": {
-      "shares": 11,
-      "avg_price": 309.14999944513494,
-      "entry_date": "2026-07-10"
-    },
     "LALPATHLAB.NS": {
-      "shares": 3,
+      "shares": 2,
       "avg_price": 1710.0666910807292,
       "entry_date": "2026-07-10"
     },
@@ -70,9 +65,14 @@
       "shares": 1,
       "avg_price": 5229.5,
       "entry_date": "2026-07-13"
+    },
+    "VOLTAS.NS": {
+      "shares": 2,
+      "avg_price": 1377.4000244140625,
+      "entry_date": "2026-07-15"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-14"
+  "last_run": "2026-07-15"
 }

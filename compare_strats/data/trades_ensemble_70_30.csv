@@ -59,3 +59,6 @@ date,ticker,action,shares,price,value,reason
 2026-07-14,DLF.NS,BUY,1,671.45,671.45,Ensemble Rebalance to target weight=0.061
 2026-07-14,IREDA.NS,BUY,2,122.08,244.16,Ensemble Rebalance to target weight=0.003
 2026-07-14,LALPATHLAB.NS,BUY,1,1744.6,1744.6,Ensemble Rebalance to target weight=0.041
+2026-07-15,BPCL.NS,SELL,8,309.6,2476.8,Ensemble Rebalance to target weight=0.006
+2026-07-15,DLF.NS,BUY,1,657.75,657.75,Ensemble Rebalance to target weight=0.064
+2026-07-15,VOLTAS.NS,BUY,1,1377.4,1377.4,Ensemble Rebalance to target weight=0.026

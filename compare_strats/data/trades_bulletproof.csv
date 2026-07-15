@@ -83,3 +83,6 @@ date,ticker,action,shares,price,value,reason
 2026-07-14,CONCOR.NS,SELL,5,493.15,2465.75,Rebalance to target weight=0.000
 2026-07-14,IREDA.NS,BUY,1,122.08,122.08,Rebalance to target weight=0.028
 2026-07-14,VOLTAS.NS,BUY,1,1358.9,1358.9,Rebalance to target weight=0.026
+2026-07-15,RELIANCE.NS,SELL,1,1295.5,1295.5,Rebalance to target weight=0.026
+2026-07-15,TCS.NS,BUY,1,2189.2,2189.2,Rebalance to target weight=0.026
+2026-07-15,CONCOR.NS,BUY,5,492.9,2464.5,Rebalance to target weight=0.026

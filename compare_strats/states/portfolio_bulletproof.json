@@ -1,8 +1,8 @@
 {
-  "cash": 51010.556403308896,
+  "cash": 47649.38188269427,
   "holdings": {
     "RELIANCE.NS": {
-      "shares": 2,
+      "shares": 1,
       "avg_price": 1302.3500366210938,
       "entry_date": "2026-07-10"
     },
@@ -110,9 +110,19 @@
       "shares": 1,
       "avg_price": 1358.9000244140625,
       "entry_date": "2026-07-14"
+    },
+    "TCS.NS": {
+      "shares": 1,
+      "avg_price": 2189.199951171875,
+      "entry_date": "2026-07-15"
+    },
+    "CONCOR.NS": {
+      "shares": 5,
+      "avg_price": 492.8999938964844,
+      "entry_date": "2026-07-15"
     }
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-14"
+  "last_run": "2026-07-15"
 }

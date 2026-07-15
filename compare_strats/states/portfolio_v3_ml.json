@@ -1,5 +1,5 @@
 {
-  "cash": 39599.08518287658,
+  "cash": 40605.89284790039,
   "holdings": {
     "TATASTEEL.NS": {
       "shares": 2,
@@ -12,8 +12,8 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 12,
-      "avg_price": 682.8583221435547,
+      "shares": 13,
+      "avg_price": 680.9269127478966,
       "entry_date": "2026-07-10"
     },
     "BEL.NS": {
@@ -22,7 +22,7 @@
       "entry_date": "2026-07-10"
     },
     "TRENT.NS": {
-      "shares": 2,
+      "shares": 1,
       "avg_price": 2902.800048828125,
       "entry_date": "2026-07-10"
     },
@@ -36,11 +36,6 @@
       "avg_price": 463.75,
       "entry_date": "2026-07-10"
     },
-    "SBIN.NS": {
-      "shares": 2,
-      "avg_price": 1025.7000122070312,
-      "entry_date": "2026-07-10"
-    },
     "INDIGO.NS": {
       "shares": 2,
       "avg_price": 5312.0,
@@ -52,8 +47,8 @@
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 22,
-      "avg_price": 124.16772877086292,
+      "shares": 24,
+      "avg_price": 123.93375142415364,
       "entry_date": "2026-07-10"
     },
     "ADANIENT.NS": {
@@ -70,9 +65,14 @@
       "shares": 1,
       "avg_price": 1725.0999755859375,
       "entry_date": "2026-07-13"
+    },
+    "MUTHOOTFIN.NS": {
+      "shares": 1,
+      "avg_price": 3016.199951171875,
+      "entry_date": "2026-07-15"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-14"
+  "last_run": "2026-07-15"
 }
