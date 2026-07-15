@@ -768,17 +768,32 @@
       
       const ctx = document.getElementById('compChart').getContext('2d');
       
-      // Align dates
-      const labels = bpPnL.map(x => x.date);
-      const bpValues = bpPnL.map(x => x.value);
-      const nsValues = nsPnL.map(x => x.value);
-      const mlValues = mlPnL.map(x => x.value);
-      const heurValues = heurPnL.map(x => x.value);
-      const ensValues = ensPnL.map(x => x.value);
-      const pairsValues = pairsPnL.map(x => x.value);
-      const v7lValues = v7lPnL.map(x => x.value);
-      const v7mValues = v7mPnL.map(x => x.value);
-      const v7hValues = v7hPnL.map(x => x.value);
+      // Get the union of all unique dates across active strategies
+      const allDates = Array.from(new Set([
+        ...bpPnL.map(x => x.date),
+        ...nsPnL.map(x => x.date),
+        ...pairsPnL.map(x => x.date),
+        ...v7hPnL.map(x => x.date)
+      ])).filter(Boolean).sort();
+
+      // Helper function to align and forward-fill values to a unified date scale
+      function alignDataset(pnlList, dates) {
+        const pnlMap = {};
+        pnlList.forEach(x => { pnlMap[x.date] = x.value; });
+        let lastVal = 100000.0;
+        return dates.map(date => {
+          if (pnlMap[date] !== undefined) {
+            lastVal = pnlMap[date];
+          }
+          return lastVal;
+        });
+      }
+
+      const labels = allDates;
+      const bpValues = alignDataset(bpPnL, allDates);
+      const nsValues = alignDataset(nsPnL, allDates);
+      const pairsValues = alignDataset(pairsPnL, allDates);
+      const v7hValues = alignDataset(v7hPnL, allDates);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -798,33 +813,6 @@
               label: 'No-Stops ⚡',
               data: nsValues.length ? nsValues : [100000],
               borderColor: '#FF5C5C',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'Version 3.0 ML 🔮',
-              data: mlValues.length ? mlValues : [100000],
-              borderColor: '#9b59b6',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'Version 4.0 Heuristic ⚙️',
-              data: heurValues.length ? heurValues : [100000],
-              borderColor: '#e67e22',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'Version 5.0 Ensemble ⚖️',
-              data: ensValues.length ? ensValues : [100000],
-              borderColor: '#85929e',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
