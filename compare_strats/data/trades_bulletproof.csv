@@ -86,3 +86,6 @@ date,ticker,action,shares,price,value,reason
 2026-07-15,RELIANCE.NS,SELL,1,1295.5,1295.5,Rebalance to target weight=0.026
 2026-07-15,TCS.NS,BUY,1,2189.2,2189.2,Rebalance to target weight=0.026
 2026-07-15,CONCOR.NS,BUY,5,492.9,2464.5,Rebalance to target weight=0.026
+2026-07-16,TATASTEEL.NS,SELL,1,185.49,185.49,Rebalance to target weight=0.026
+2026-07-16,COALINDIA.NS,SELL,1,427.35,427.35,Rebalance to target weight=0.026
+2026-07-16,IREDA.NS,SELL,1,120.83,120.83,Rebalance to target weight=0.027

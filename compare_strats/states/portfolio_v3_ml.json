@@ -1,9 +1,9 @@
 {
-  "cash": 40605.89284790039,
+  "cash": 41864.56280101775,
   "holdings": {
     "TATASTEEL.NS": {
-      "shares": 2,
-      "avg_price": 191.19000244140625,
+      "shares": 3,
+      "avg_price": 189.29000345865884,
       "entry_date": "2026-07-10"
     },
     "NTPC.NS": {
@@ -12,7 +12,7 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 13,
+      "shares": 12,
       "avg_price": 680.9269127478966,
       "entry_date": "2026-07-10"
     },
@@ -26,14 +26,9 @@
       "avg_price": 2902.800048828125,
       "entry_date": "2026-07-10"
     },
-    "COALINDIA.NS": {
-      "shares": 1,
-      "avg_price": 429.29998779296875,
-      "entry_date": "2026-07-10"
-    },
     "CONCOR.NS": {
-      "shares": 1,
-      "avg_price": 463.75,
+      "shares": 2,
+      "avg_price": 477.0249938964844,
       "entry_date": "2026-07-10"
     },
     "INDIGO.NS": {
@@ -42,12 +37,12 @@
       "entry_date": "2026-07-10"
     },
     "BPCL.NS": {
-      "shares": 12,
+      "shares": 10,
       "avg_price": 309.3833312988281,
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 24,
+      "shares": 22,
       "avg_price": 123.93375142415364,
       "entry_date": "2026-07-10"
     },
@@ -57,7 +52,7 @@
       "entry_date": "2026-07-10"
     },
     "TATACOMM.NS": {
-      "shares": 4,
+      "shares": 3,
       "avg_price": 1856.199951171875,
       "entry_date": "2026-07-10"
     },
@@ -70,9 +65,19 @@
       "shares": 1,
       "avg_price": 3016.199951171875,
       "entry_date": "2026-07-15"
+    },
+    "HDFCBANK.NS": {
+      "shares": 1,
+      "avg_price": 808.2999877929688,
+      "entry_date": "2026-07-16"
+    },
+    "AUBANK.NS": {
+      "shares": 1,
+      "avg_price": 1035.0999755859375,
+      "entry_date": "2026-07-16"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-15"
+  "last_run": "2026-07-16"
 }

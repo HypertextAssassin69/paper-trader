@@ -67,3 +67,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-15,BPCL.NS,SELL,11,309.6,3405.6,Rebalance to target weight=0.000
 2026-07-15,LALPATHLAB.NS,SELL,1,1723.3,1723.3,Rebalance to target weight=0.052
 2026-07-15,VOLTAS.NS,BUY,2,1377.4,2754.8,Rebalance to target weight=0.036
+2026-07-16,DLF.NS,SELL,1,648.1,648.1,Rebalance to target weight=0.043
+2026-07-16,TATACOMM.NS,SELL,1,1839.9,1839.9,Rebalance to target weight=0.054
+2026-07-16,BPCL.NS,BUY,11,312.0,3432.0,Rebalance to target weight=0.037
+2026-07-16,LALPATHLAB.NS,BUY,1,1732.7,1732.7,Rebalance to target weight=0.054
