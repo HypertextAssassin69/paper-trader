@@ -9,3 +9,6 @@ date,ticker,action,shares,price,value,reason
 2026-07-15,BHARTIARTL.NS,SELL,8,1918.3,15346.4,V5 Satellite Rebalance: dropped from hybrid top momentum
 2026-07-15,SUNPHARMA.NS,BUY,8,1951.5,15612.0,V5 Satellite Rebalance: hybrid momentum entry
 2026-07-15,BAJFINANCE.NS,BUY,16,1021.3,16340.8,V5 Satellite Rebalance: hybrid momentum entry
+2026-07-17,SUNPHARMA.NS,SELL,8,1932.6,15460.8,V5 Satellite Rebalance: dropped from hybrid top momentum
+2026-07-17,SBIN.NS,BUY,16,1044.3,16708.8,V5 Satellite Rebalance: hybrid momentum entry
+2026-07-17,COFORGE.NS,BUY,1,1508.4,1508.4,V5 Satellite Rebalance: hybrid momentum entry

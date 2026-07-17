@@ -1,9 +1,9 @@
 {
-  "cash": 45137.136756092084,
+  "cash": 42249.24741075517,
   "holdings": {
     "HDFCBANK.NS": {
-      "shares": 3,
-      "avg_price": 824.9500122070312,
+      "shares": 4,
+      "avg_price": 823.6125030517578,
       "entry_date": "2026-07-10"
     },
     "SUNPHARMA.NS": {
@@ -17,8 +17,8 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 8,
-      "avg_price": 680.2944403754341,
+      "shares": 10,
+      "avg_price": 677.7955498589411,
       "entry_date": "2026-07-10"
     },
     "TRENT.NS": {
@@ -42,7 +42,7 @@
       "entry_date": "2026-07-10"
     },
     "LALPATHLAB.NS": {
-      "shares": 2,
+      "shares": 1,
       "avg_price": 1718.7000122070312,
       "entry_date": "2026-07-10"
     },
@@ -61,11 +61,6 @@
       "avg_price": 1439.4000244140625,
       "entry_date": "2026-07-10"
     },
-    "AUBANK.NS": {
-      "shares": 2,
-      "avg_price": 1072.0999755859375,
-      "entry_date": "2026-07-10"
-    },
     "TATACOMM.NS": {
       "shares": 2,
       "avg_price": 1856.199951171875,
@@ -77,12 +72,17 @@
       "entry_date": "2026-07-14"
     },
     "VOLTAS.NS": {
-      "shares": 1,
-      "avg_price": 1377.4000244140625,
+      "shares": 2,
+      "avg_price": 1359.9000244140625,
       "entry_date": "2026-07-15"
+    },
+    "SBIN.NS": {
+      "shares": 3,
+      "avg_price": 1044.300048828125,
+      "entry_date": "2026-07-17"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-16"
+  "last_run": "2026-07-17"
 }

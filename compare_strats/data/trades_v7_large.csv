@@ -7,3 +7,5 @@ date,ticker,action,shares,price,value,reason
 2026-07-15,BAJFINANCE.NS,BUY,19,1021.3,19404.7,V5 Satellite Rebalance: top momentum entry
 2026-07-16,GRASIM.NS,SELL,6,3072.9,18437.4,V5 Satellite Rebalance: dropped from top momentum
 2026-07-16,HDFCBANK.NS,BUY,24,808.3,19399.2,V5 Satellite Rebalance: top momentum entry
+2026-07-17,SUNPHARMA.NS,SELL,10,1932.6,19326.0,V5 Satellite Rebalance: dropped from top momentum
+2026-07-17,SBIN.NS,BUY,19,1044.3,19841.7,V5 Satellite Rebalance: top momentum entry

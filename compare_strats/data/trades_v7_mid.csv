@@ -1,3 +1,5 @@
 date,ticker,action,shares,price,value,reason
 2026-07-13,HAL.NS,SELL,4,4511.3,18045.2,V5 Satellite Rebalance: dropped from top momentum
 2026-07-13,POLYCAB.NS,BUY,2,9306.5,18613.0,V5 Satellite Rebalance: top momentum entry
+2026-07-17,POLYCAB.NS,SELL,2,8862.0,17724.0,V5 Satellite Rebalance: dropped from top momentum
+2026-07-17,PERSISTENT.NS,BUY,3,5183.9,15551.7,V5 Satellite Rebalance: top momentum entry

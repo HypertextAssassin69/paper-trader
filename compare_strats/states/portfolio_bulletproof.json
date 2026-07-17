@@ -1,11 +1,6 @@
 {
-  "cash": 48382.68506111529,
+  "cash": 48973.673829639454,
   "holdings": {
-    "RELIANCE.NS": {
-      "shares": 1,
-      "avg_price": 1302.3500366210938,
-      "entry_date": "2026-07-10"
-    },
     "HDFCBANK.NS": {
       "shares": 3,
       "avg_price": 824.9500122070312,
@@ -22,8 +17,8 @@
       "entry_date": "2026-07-10"
     },
     "TATASTEEL.NS": {
-      "shares": 13,
-      "avg_price": 190.89857373918807,
+      "shares": 14,
+      "avg_price": 190.54081842850664,
       "entry_date": "2026-07-10"
     },
     "BHARTIARTL.NS": {
@@ -57,8 +52,8 @@
       "entry_date": "2026-07-10"
     },
     "COALINDIA.NS": {
-      "shares": 5,
-      "avg_price": 429.29998779296875,
+      "shares": 6,
+      "avg_price": 429.0249888102214,
       "entry_date": "2026-07-10"
     },
     "SBIN.NS": {
@@ -72,8 +67,8 @@
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 21,
-      "avg_price": 126.13136499578303,
+      "shares": 22,
+      "avg_price": 125.927212013686,
       "entry_date": "2026-07-10"
     },
     "LALPATHLAB.NS": {
@@ -124,5 +119,5 @@
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-16"
+  "last_run": "2026-07-17"
 }

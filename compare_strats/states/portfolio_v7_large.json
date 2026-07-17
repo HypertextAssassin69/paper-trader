@@ -1,13 +1,9 @@
 {
-  "cash": 1453.6051126403763,
+  "cash": 918.3200904235819,
   "holdings": {
     "ICICIBANK.NS": {
       "shares": 14,
       "avg_price": 1411.4000244140625
-    },
-    "SUNPHARMA.NS": {
-      "shares": 10,
-      "avg_price": 1935.5
     },
     "BHARTIARTL.NS": {
       "shares": 10,
@@ -23,9 +19,14 @@
       "shares": 24,
       "avg_price": 808.2999877929688,
       "entry_date": "2026-07-16"
+    },
+    "SBIN.NS": {
+      "shares": 19,
+      "avg_price": 1044.300048828125,
+      "entry_date": "2026-07-17"
     }
   },
   "pairs": {},
   "regime": "SAFE",
-  "last_run": "2026-07-16"
+  "last_run": "2026-07-17"
 }

@@ -1,31 +1,28 @@
 # Live Version 3.0 ML Probabilistic Portfolio Report
 
-> **Date**: 2026-07-16  |  **Days Live**: 10  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-17  |  **Days Live**: 11  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 95,795.34 |
-| Cash Balance | INR 41,864.56 |
-| Active Asset Exposure | INR 53,930.78 |
-| Total Return Since Start | -4.205% |
+| Current Portfolio Value | INR 95,947.40 |
+| Cash Balance | INR 44,518.59 |
+| Active Asset Exposure | INR 51,428.81 |
+| Total Return Since Start | -4.053% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| TATASTEEL.NS | 3 | INR 189.29 | INR 185.49 | INR 556.47 | 0.58% |
-| NTPC.NS | 1 | INR 344.55 | INR 342.45 | INR 342.45 | 0.36% |
-| DLF.NS | 12 | INR 680.93 | INR 648.10 | INR 7777.20 | 8.12% |
-| BEL.NS | 1 | INR 414.85 | INR 407.10 | INR 407.10 | 0.42% |
-| TRENT.NS | 1 | INR 2902.80 | INR 2860.20 | INR 2860.20 | 2.99% |
-| CONCOR.NS | 2 | INR 477.02 | INR 490.30 | INR 980.60 | 1.02% |
-| INDIGO.NS | 2 | INR 5312.00 | INR 5265.50 | INR 10531.00 | 10.99% |
-| BPCL.NS | 10 | INR 309.38 | INR 312.00 | INR 3120.00 | 3.26% |
-| IREDA.NS | 22 | INR 123.93 | INR 120.83 | INR 2658.26 | 2.77% |
-| ADANIENT.NS | 4 | INR 3157.30 | INR 3151.40 | INR 12605.60 | 13.16% |
-| TATACOMM.NS | 3 | INR 1856.20 | INR 1839.90 | INR 5519.70 | 5.76% |
-| LALPATHLAB.NS | 1 | INR 1725.10 | INR 1732.70 | INR 1732.70 | 1.81% |
-| MUTHOOTFIN.NS | 1 | INR 3016.20 | INR 2996.10 | INR 2996.10 | 3.13% |
-| HDFCBANK.NS | 1 | INR 808.30 | INR 808.30 | INR 808.30 | 0.84% |
-| AUBANK.NS | 1 | INR 1035.10 | INR 1035.10 | INR 1035.10 | 1.08% |
+| TATASTEEL.NS | 3 | INR 189.29 | INR 185.89 | INR 557.67 | 0.58% |
+| NTPC.NS | 2 | INR 343.20 | INR 341.85 | INR 683.70 | 0.71% |
+| DLF.NS | 16 | INR 677.65 | INR 667.80 | INR 10684.80 | 11.14% |
+| TRENT.NS | 1 | INR 2902.80 | INR 2842.40 | INR 2842.40 | 2.96% |
+| CONCOR.NS | 4 | INR 481.96 | INR 486.90 | INR 1947.60 | 2.03% |
+| INDIGO.NS | 2 | INR 5312.00 | INR 5248.50 | INR 10497.00 | 10.94% |
+| BPCL.NS | 8 | INR 309.38 | INR 315.55 | INR 2524.40 | 2.63% |
+| IREDA.NS | 21 | INR 123.93 | INR 121.64 | INR 2554.44 | 2.66% |
+| ADANIENT.NS | 4 | INR 3157.30 | INR 3160.70 | INR 12642.80 | 13.18% |
+| TATACOMM.NS | 1 | INR 1856.20 | INR 1817.10 | INR 1817.10 | 1.89% |
+| LALPATHLAB.NS | 1 | INR 1725.10 | INR 1687.40 | INR 1687.40 | 1.76% |
+| MUTHOOTFIN.NS | 1 | INR 3016.20 | INR 2989.50 | INR 2989.50 | 3.12% |
