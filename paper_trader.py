@@ -4,7 +4,7 @@ Version 1.0 Options A/B/C  vs  Version 2.0 Options A/B/C
 Runs daily via GitHub Actions at 3:45 PM IST (10:15 AM UTC)
 """
 
-import os, json, csv, datetime, warnings
+import os, json, csv, datetime, warnings, sqlite3
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -152,6 +152,11 @@ def softmax(x):
 # ─────────────────────────────────────────────────────────────────────────────
 #  STATE MANAGEMENT
 # ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+#  STATE MANAGEMENT
+# ─────────────────────────────────────────────────────────────────────────────
+DB_PATH = os.path.join(DATA_DIR, "trading_journal.db")
+
 def state_path(sid):  return os.path.join(STATES_DIR, f"portfolio_{sid}.json")
 def pnl_path(sid):    return os.path.join(DATA_DIR,   f"pnl_{sid}.csv")
 def trades_path(sid): return os.path.join(DATA_DIR,   f"trades_{sid}.csv")
@@ -159,6 +164,23 @@ def chart_path(sid):  return os.path.join(CHARTS_DIR, f"pnl_{sid}.png")
 def report_path(sid): return os.path.join(REPORTS_DIR,f"report_{sid}.md")
 
 def load_state(sid):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT cash, holdings, start_date, start_capital, last_run FROM portfolio_states WHERE strategy_id = ?", (sid,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return {
+                "cash": float(row[0]),
+                "holdings": json.loads(row[1]),
+                "start_date": str(row[2]),
+                "start_capital": float(row[3]),
+                "last_run": row[4]
+            }
+    except Exception as e:
+        print(f"[DB WARN] Failed to load state for {sid} from DB: {e}. Falling back to JSON.")
+        
     p = state_path(sid)
     if os.path.exists(p):
         with open(p) as f: return json.load(f)
@@ -167,22 +189,85 @@ def load_state(sid):
             "start_capital": START_CAPITAL, "last_run": None}
 
 def save_state(sid, state):
-    with open(state_path(sid), 'w') as f: json.dump(state, f, indent=2)
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("""
+        INSERT OR REPLACE INTO portfolio_states (strategy_id, cash, holdings, start_date, start_capital, last_run)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """, (
+            sid,
+            float(state.get("cash", 100000.0)),
+            json.dumps(state.get("holdings", {})),
+            str(state.get("start_date", datetime.date.today())),
+            float(state.get("start_capital", 100000.0)),
+            state.get("last_run")
+        ))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[DB ERROR] Failed to save state to DB: {e}")
+
+    try:
+        with open(state_path(sid), 'w') as f: json.dump(state, f, indent=2)
+    except Exception as e:
+        print(f"[IO ERROR] Failed to write JSON state fallback: {e}")
 
 def append_pnl(sid, date, value, cash):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("""
+        INSERT INTO pnl_records (strategy_id, date, portfolio_value, cash)
+        VALUES (?, ?, ?, ?)
+        """, (sid, str(date), float(value), float(cash)))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[DB ERROR] Failed to append PnL to DB: {e}")
+
     p = pnl_path(sid); exists = os.path.exists(p)
-    with open(p, 'a', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=['date','portfolio_value','cash'])
-        if not exists: w.writeheader()
-        w.writerow({'date': date, 'portfolio_value': round(value,2), 'cash': round(cash,2)})
+    try:
+        with open(p, 'a', newline='', encoding='utf-8') as f:
+            w = csv.DictWriter(f, fieldnames=['date','portfolio_value','cash'])
+            if not exists: w.writeheader()
+            w.writerow({'date': date, 'portfolio_value': round(value,2), 'cash': round(cash,2)})
+    except Exception as e:
+        print(f"[IO ERROR] Failed to append PnL CSV fallback: {e}")
 
 def append_trades(sid, rows):
     if not rows: return
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        for row in rows:
+            cursor.execute("""
+            INSERT INTO trades (strategy_id, date, ticker, action, shares, price, value, regime, reason)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                sid,
+                str(row.get('date')),
+                str(row.get('ticker')),
+                str(row.get('action')),
+                float(row.get('shares', 0.0)),
+                float(row.get('price', 0.0)),
+                float(row.get('value', 0.0)),
+                str(row.get('regime', 'Unknown')),
+                str(row.get('reason', 'Rebalance'))
+            ))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[DB ERROR] Failed to append trades to DB: {e}")
+
     p = trades_path(sid); exists = os.path.exists(p)
-    with open(p, 'a', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=['date','ticker','action','shares','price','value','regime','reason'])
-        if not exists: w.writeheader()
-        w.writerows(rows)
+    try:
+        with open(p, 'a', newline='', encoding='utf-8') as f:
+            w = csv.DictWriter(f, fieldnames=['date','ticker','action','shares','price','value','regime','reason'])
+            if not exists: w.writeheader()
+            w.writerows(rows)
+    except Exception as e:
+        print(f"[IO ERROR] Failed to append trades CSV fallback: {e}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
