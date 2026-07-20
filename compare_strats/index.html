@@ -319,6 +319,27 @@
           </div>
         </div>
 
+        <!-- Strategy 11: Cheap V7 -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1e3a8a] flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5 text-[#60a5fa]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Cheap V7 ⚡</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7_cheap_20kInvestedText">Invested: INR --</div>
+                <div id="v7_cheap_20kCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7_cheap_20kValue" class="font-bold text-sm">INR --</div>
+            <div id="v7_cheap_20kReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">0.516x</span></div>
+          </div>
+        </div>
+
 
       </div>
 
@@ -364,6 +385,7 @@
         <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="hidden">⚡ V7 Mid</button>
         <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-3">👑 Dhurandhar Strat</button>
         <button id="toggleV7_50k" onclick="selectDashboardStrategy('v7_50k')" class="py-2 rounded-md text-growwMuted transition col-span-3">🛡️ Chota Dhurandhar</button>
+        <button id="toggleV7_cheap_20k" onclick="selectDashboardStrategy('v7_cheap_20k')" class="py-2 rounded-md text-growwMuted transition col-span-3">⚡ Cheap V7 (20k)</button>
       </div>
 
       <!-- Portfolio Summary Cards -->
@@ -564,7 +586,8 @@
       'v7l': '3.08x',
       'v7m': '4.10x',
       'v7h': '6.50x',
-      'v7_50k': '1.56x'
+      'v7_50k': '1.56x',
+      'v7_cheap_20k': '0.516x'
 
     };
     
@@ -578,6 +601,7 @@
     let v7mState = null;
     let v7hState = null;
     let v7_50kState = null;
+    let v7_cheap_20kState = null;
     
     let bpPnL = [];
     let nsPnL = [];
@@ -589,6 +613,7 @@
     let v7mPnL = [];
     let v7hPnL = [];
     let v7_50kPnL = [];
+    let v7_cheap_20kPnL = [];
     
     let myChart = null;
 
@@ -607,7 +632,8 @@
           fetch('./states/portfolio_v7_large.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v7_mid.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_50k.json').then(r => r.json()).catch(() => null)
+          fetch('./states/portfolio_v7_50k.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_cheap_20k.json').then(r => r.json()).catch(() => null)
         ]);
         
         bpState = rBpState;
@@ -620,6 +646,7 @@
         v7mState = rV7mState;
         v7hState = rV7hState;
         v7_50kState = rV7_50kState;
+        v7_cheap_20kState = rV7_cheap_20kState;
 
         // Fetch CSV data
         const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv] = await Promise.all([
@@ -632,7 +659,8 @@
           fetch('./data/pnl_v7_large.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v7_mid.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_50k.csv').then(r => r.text()).catch(() => '')
+          fetch('./data/pnl_v7_50k.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_cheap_20k.csv').then(r => r.text()).catch(() => '')
         ]);
         
         bpPnL = parseCSV(rBpCsv);
@@ -645,6 +673,7 @@
         v7mPnL = parseCSV(rV7mCsv);
         v7hPnL = parseCSV(rV7hCsv);
         v7_50kPnL = parseCSV(rV7_50kCsv);
+        v7_cheap_20kPnL = parseCSV(rV7_cheap_20kCsv);
 
         // Fetch Nifty Close for index tracker
         // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
@@ -741,6 +770,11 @@
       const v7_50kCash = v7_50kState ? v7_50kState.cash : 50000.0;
       const v7_50kInvest = Math.max(0, v7_50kVal - v7_50kCash);
 
+      const v7_cheap_20kVal = v7_cheap_20kPnL.length ? v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value : 20000.0;
+      const v7_cheap_20kRet = ((v7_cheap_20kVal - 20000.0) / 20000.0 * 100).toFixed(2);
+      const v7_cheap_20kCash = v7_cheap_20kState ? v7_cheap_20kState.cash : 20000.0;
+      const v7_cheap_20kInvest = Math.max(0, v7_cheap_20kVal - v7_cheap_20kCash);
+
       document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
       document.getElementById('bpReturn').className = `text-xs font-semibold ${bpRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
@@ -800,6 +834,12 @@
       document.getElementById('v7_50kReturn').className = `text-xs font-semibold ${v7_50kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('v7_50kInvestedText').innerText = `Invested: INR ${v7_50kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7_50kCashText').innerText = `Cash: INR ${v7_50kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7_cheap_20kValue').innerText = `INR ${v7_cheap_20kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_cheap_20kReturn').innerText = `${v7_cheap_20kRet >= 0 ? '+' : ''}${v7_cheap_20kRet}%`;
+      document.getElementById('v7_cheap_20kReturn').className = `text-xs font-semibold ${v7_cheap_20kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7_cheap_20kInvestedText').innerText = `Invested: INR ${v7_cheap_20kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_cheap_20kCashText').innerText = `Cash: INR ${v7_cheap_20kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
 
@@ -817,7 +857,8 @@
         ...ensPnL.map(x => x.date),
         ...pairsPnL.map(x => x.date),
         ...v7hPnL.map(x => x.date),
-        ...v7_50kPnL.map(x => x.date)
+        ...v7_50kPnL.map(x => x.date),
+        ...v7_cheap_20kPnL.map(x => x.date)
       ])).filter(Boolean).sort();
 
       // Helper function to align and forward-fill values to a unified date scale
@@ -845,6 +886,7 @@
       const pairsValues = alignDataset(pairsPnL, allDates, 100000.0);
       const v7hValues = alignDataset(v7hPnL, allDates, 100000.0);
       const v7_50kValues = alignDataset(v7_50kPnL, allDates, 50000.0);
+      const v7_cheap_20kValues = alignDataset(v7_cheap_20kPnL, allDates, 20000.0);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -921,6 +963,15 @@
               label: 'Chota Dhurandhar 🛡️',
               data: v7_50kValues.length ? v7_50kValues.map(v => v * 2) : [100000], // Normalized to 100k for charting comparison
               borderColor: '#818cf8',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Cheap V7 ⚡',
+              data: v7_cheap_20kValues.length ? v7_cheap_20kValues.map(v => v * 5) : [100000], // Normalized to 100k for charting comparison (5x on 20k)
+              borderColor: '#f59e0b',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -1038,6 +1089,7 @@
       const toggleV7m = document.getElementById('toggleV7m');
       const toggleV7h = document.getElementById('toggleV7h');
       const toggleV7_50k = document.getElementById('toggleV7_50k');
+      const toggleV7_cheap_20k = document.getElementById('toggleV7_cheap_20k');
 
       toggleBP.className = "py-2 rounded-md text-growwMuted transition";
       toggleNS.className = "py-2 rounded-md text-growwMuted transition";
@@ -1049,6 +1101,7 @@
       toggleV7m.className = "py-2 rounded-md text-growwMuted transition col-span-1";
       toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-3";
       toggleV7_50k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+      toggleV7_cheap_20k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
 
       if (strategy === 'bulletproof') {
         toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
@@ -1070,6 +1123,8 @@
         toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
       } else if (strategy === 'v7_50k') {
         toggleV7_50k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      } else if (strategy === 'v7_cheap_20k') {
+        toggleV7_cheap_20k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
       }
       updateDashboardView();
     }
@@ -1084,7 +1139,8 @@
       else if (dashStrategy === 'v7l') activeState = v7lState;
       else if (dashStrategy === 'v7m') activeState = v7mState;
       else if (dashStrategy === 'v7h') activeState = v7hState;
-      else activeState = v7_50kState;
+      else if (dashStrategy === 'v7_50k') activeState = v7_50kState;
+      else activeState = v7_cheap_20kState;
 
       let equityVal = 100000.0;
       if (dashStrategy === 'bulletproof' && bpPnL.length) {
@@ -1105,8 +1161,10 @@
         equityVal = v7mPnL[v7mPnL.length - 1].value;
       } else if (dashStrategy === 'v7h' && v7hPnL.length) {
         equityVal = v7hPnL[v7hPnL.length - 1].value;
-      } else if (v7_50kPnL.length) {
+      } else if (dashStrategy === 'v7_50k' && v7_50kPnL.length) {
         equityVal = v7_50kPnL[v7_50kPnL.length - 1].value;
+      } else if (v7_cheap_20kPnL.length) {
+        equityVal = v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value;
       }
       
       const dashEquityEl = document.getElementById('dashEquity');
@@ -1180,6 +1238,7 @@
       else if (dashStrategy === 'v7m') suffix = 'v7_mid';
       else if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
       else if (dashStrategy === 'v7_50k') suffix = 'v7_50k';
+      else if (dashStrategy === 'v7_cheap_20k') suffix = 'v7_cheap_20k';
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');

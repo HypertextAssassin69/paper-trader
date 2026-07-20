@@ -1,0 +1,17 @@
+date,ticker,action,shares,price,value,reason
+2026-07-06,GAIL.NS,BUY,19,175.03,3325.57,Satellite Rebalance: momentum entry
+2026-07-06,BEL.NS,BUY,7,425.55,2978.85,Satellite Rebalance: momentum entry
+2026-07-06,ITC.NS,BUY,11,288.25,3170.75,Satellite Rebalance: momentum entry
+2026-07-06,IOC.NS,BUY,23,141.68,3258.64,Satellite Rebalance: momentum entry
+2026-07-06,NHPC.NS,BUY,41,79.85,3273.85,Satellite Rebalance: momentum entry
+2026-07-06,COALINDIA.NS,BUY,7,432.35,3026.45,Satellite Rebalance: momentum entry
+2026-07-07,COALINDIA.NS,SELL,7,428.95,3002.65,Satellite Rebalance: momentum drop
+2026-07-07,PNB.NS,BUY,31,103.79,3217.49,Satellite Rebalance: momentum entry
+2026-07-08,PNB.NS,BUY,1,100.95,100.95,Satellite Rebalance: momentum entry
+2026-07-09,ITC.NS,SELL,11,282.05,3102.55,Satellite Rebalance: momentum drop
+2026-07-09,BEL.NS,BUY,1,406.2,406.2,Satellite Rebalance: momentum entry
+2026-07-09,HINDALCO.NS,BUY,3,958.45,2875.35,Satellite Rebalance: momentum entry
+2026-07-16,HINDALCO.NS,SELL,3,959.3,2877.9,Satellite Rebalance: momentum drop
+2026-07-16,ITC.NS,BUY,11,279.35,3072.85,Satellite Rebalance: momentum entry
+2026-07-17,BEL.NS,SELL,8,409.45,3275.6,Satellite Rebalance: momentum drop
+2026-07-17,COALINDIA.NS,BUY,7,427.65,2993.55,Satellite Rebalance: momentum entry

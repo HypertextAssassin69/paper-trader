@@ -89,6 +89,12 @@ jobs:
           python paper_trader_strat_v7_hybrid_50k.py
           cd ..
 
+      - name: Run Cheap V7 20k paper trader (Cheap V7)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_cheap_20k.py
+          cd ..
+
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"
