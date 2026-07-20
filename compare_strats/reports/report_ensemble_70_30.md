@@ -1,6 +1,6 @@
 # Live Version 5.0 Ensemble (70-30) Portfolio Report
 
-> **Date**: 2026-07-20  |  **Days Live**: 12  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-20  |  **Days Live**: 13  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |

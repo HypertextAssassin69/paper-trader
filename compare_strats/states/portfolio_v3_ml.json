@@ -1,5 +1,5 @@
 {
-  "cash": 40685.25689941406,
+  "cash": 39242.93612384033,
   "holdings": {
     "DLF.NS": {
       "shares": 20,
@@ -54,6 +54,11 @@
     "VOLTAS.NS": {
       "shares": 1,
       "avg_price": 1357.4000244140625,
+      "entry_date": "2026-07-20"
+    },
+    "CIPLA.NS": {
+      "shares": 1,
+      "avg_price": 1441.5999755859375,
       "entry_date": "2026-07-20"
     }
   },

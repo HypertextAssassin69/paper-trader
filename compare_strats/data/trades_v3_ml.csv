@@ -93,3 +93,4 @@ date,ticker,action,shares,price,value,reason
 2026-07-20,DLF.NS,BUY,4,668.6,2674.4,ML Rebalance to target weight=0.142
 2026-07-20,TRENT.NS,BUY,1,2925.9,2925.9,ML Rebalance to target weight=0.084
 2026-07-20,VOLTAS.NS,BUY,1,1357.4,1357.4,ML Rebalance to target weight=0.015
+2026-07-20,CIPLA.NS,BUY,1,1441.6,1441.6,ML Rebalance to target weight=0.015
