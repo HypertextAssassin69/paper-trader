@@ -7,3 +7,5 @@ data/*.csv
 !data/best_pairs_params.csv
 !data/best_params.csv
 !data/optimization_results.csv
+data/*.db
+data/trading_journal.db

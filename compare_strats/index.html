@@ -298,6 +298,27 @@
           </div>
         </div>
 
+        <!-- Strategy 10: Chota Dhurandhar -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1e1b4b] flex items-center justify-center">
+              <i data-lucide="shield" class="w-5 h-5 text-[#818cf8]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Chota Dhurandhar 🛡️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7_50kInvestedText">Invested: INR --</div>
+                <div id="v7_50kCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7_50kValue" class="font-bold text-sm">INR --</div>
+            <div id="v7_50kReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">1.56x</span></div>
+          </div>
+        </div>
+
 
       </div>
 
@@ -342,6 +363,7 @@
         <button id="toggleV7l" onclick="selectDashboardStrategy('v7l')" class="hidden">👑 V7 Large</button>
         <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="hidden">⚡ V7 Mid</button>
         <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-3">👑 Dhurandhar Strat</button>
+        <button id="toggleV7_50k" onclick="selectDashboardStrategy('v7_50k')" class="py-2 rounded-md text-growwMuted transition col-span-3">🛡️ Chota Dhurandhar</button>
       </div>
 
       <!-- Portfolio Summary Cards -->
@@ -541,7 +563,8 @@
       'pairs': '3.50x',
       'v7l': '3.08x',
       'v7m': '4.10x',
-      'v7h': '6.50x'
+      'v7h': '6.50x',
+      'v7_50k': '1.56x'
 
     };
     
@@ -554,6 +577,7 @@
     let v7lState = null;
     let v7mState = null;
     let v7hState = null;
+    let v7_50kState = null;
     
     let bpPnL = [];
     let nsPnL = [];
@@ -564,6 +588,7 @@
     let v7lPnL = [];
     let v7mPnL = [];
     let v7hPnL = [];
+    let v7_50kPnL = [];
     
     let myChart = null;
 
@@ -572,7 +597,7 @@
       
       try {
         // Fetch portfolio JSON states
-        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState] = await Promise.all([
+        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState, rV7_50kState] = await Promise.all([
           fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
@@ -581,7 +606,8 @@
           fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v7_large.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v7_mid.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null)
+          fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_50k.json').then(r => r.json()).catch(() => null)
         ]);
         
         bpState = rBpState;
@@ -593,9 +619,10 @@
         v7lState = rV7lState;
         v7mState = rV7mState;
         v7hState = rV7hState;
+        v7_50kState = rV7_50kState;
 
         // Fetch CSV data
-        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv] = await Promise.all([
+        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv] = await Promise.all([
           fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
@@ -604,7 +631,8 @@
           fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v7_large.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v7_mid.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => '')
+          fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_50k.csv').then(r => r.text()).catch(() => '')
         ]);
         
         bpPnL = parseCSV(rBpCsv);
@@ -616,6 +644,7 @@
         v7lPnL = parseCSV(rV7lCsv);
         v7mPnL = parseCSV(rV7mCsv);
         v7hPnL = parseCSV(rV7hCsv);
+        v7_50kPnL = parseCSV(rV7_50kCsv);
 
         // Fetch Nifty Close for index tracker
         // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
@@ -707,6 +736,11 @@
       const v7mInvest = Math.max(0, v7mVal - v7mCash);
       const v7hInvest = Math.max(0, v7hVal - v7hCash);
 
+      const v7_50kVal = v7_50kPnL.length ? v7_50kPnL[v7_50kPnL.length - 1].value : 50000.0;
+      const v7_50kRet = ((v7_50kVal - 50000.0) / 50000.0 * 100).toFixed(2);
+      const v7_50kCash = v7_50kState ? v7_50kState.cash : 50000.0;
+      const v7_50kInvest = Math.max(0, v7_50kVal - v7_50kCash);
+
       document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
       document.getElementById('bpReturn').className = `text-xs font-semibold ${bpRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
@@ -760,6 +794,12 @@
       document.getElementById('v7hReturn').className = `text-xs font-semibold ${v7hRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('v7hInvestedText').innerText = `Invested: INR ${v7hInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7hCashText').innerText = `Cash: INR ${v7hCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7_50kValue').innerText = `INR ${v7_50kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_50kReturn').innerText = `${v7_50kRet >= 0 ? '+' : ''}${v7_50kRet}%`;
+      document.getElementById('v7_50kReturn').className = `text-xs font-semibold ${v7_50kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7_50kInvestedText').innerText = `Invested: INR ${v7_50kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_50kCashText').innerText = `Cash: INR ${v7_50kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
 
@@ -776,7 +816,8 @@
         ...heurPnL.map(x => x.date),
         ...ensPnL.map(x => x.date),
         ...pairsPnL.map(x => x.date),
-        ...v7hPnL.map(x => x.date)
+        ...v7hPnL.map(x => x.date),
+        ...v7_50kPnL.map(x => x.date)
       ])).filter(Boolean).sort();
 
       // Helper function to align and forward-fill values to a unified date scale
@@ -803,6 +844,7 @@
       const ensValues = alignDataset(ensPnL, allDates);
       const pairsValues = alignDataset(pairsPnL, allDates);
       const v7hValues = alignDataset(v7hPnL, allDates);
+      const v7_50kValues = alignDataset(v7_50kPnL, allDates);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -870,6 +912,15 @@
               label: 'Dhurandhar Strat 👑',
               data: v7hValues.length ? v7hValues : [100000],
               borderColor: '#1abc9c',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Chota Dhurandhar 🛡️',
+              data: v7_50kValues.length ? v7_50kValues.map(v => v * 2) : [100000], // Normalized to 100k for charting comparison
+              borderColor: '#818cf8',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -986,6 +1037,7 @@
       const toggleV7l = document.getElementById('toggleV7l');
       const toggleV7m = document.getElementById('toggleV7m');
       const toggleV7h = document.getElementById('toggleV7h');
+      const toggleV7_50k = document.getElementById('toggleV7_50k');
 
       toggleBP.className = "py-2 rounded-md text-growwMuted transition";
       toggleNS.className = "py-2 rounded-md text-growwMuted transition";
@@ -995,7 +1047,8 @@
       togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-1";
       toggleV7l.className = "py-2 rounded-md text-growwMuted transition col-span-1";
       toggleV7m.className = "py-2 rounded-md text-growwMuted transition col-span-1";
-      toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-2";
+      toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+      toggleV7_50k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
 
       if (strategy === 'bulletproof') {
         toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
@@ -1014,7 +1067,9 @@
       } else if (strategy === 'v7m') {
         toggleV7m.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
       } else if (strategy === 'v7h') {
-        toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-2";
+        toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      } else if (strategy === 'v7_50k') {
+        toggleV7_50k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
       }
       updateDashboardView();
     }
@@ -1028,7 +1083,8 @@
       else if (dashStrategy === 'pairs') activeState = pairsState;
       else if (dashStrategy === 'v7l') activeState = v7lState;
       else if (dashStrategy === 'v7m') activeState = v7mState;
-      else activeState = v7hState;
+      else if (dashStrategy === 'v7h') activeState = v7hState;
+      else activeState = v7_50kState;
 
       let equityVal = 100000.0;
       if (dashStrategy === 'bulletproof' && bpPnL.length) {
@@ -1047,8 +1103,10 @@
         equityVal = v7lPnL[v7lPnL.length - 1].value;
       } else if (dashStrategy === 'v7m' && v7mPnL.length) {
         equityVal = v7mPnL[v7mPnL.length - 1].value;
-      } else if (v7hPnL.length) {
+      } else if (dashStrategy === 'v7h' && v7hPnL.length) {
         equityVal = v7hPnL[v7hPnL.length - 1].value;
+      } else if (v7_50kPnL.length) {
+        equityVal = v7_50kPnL[v7_50kPnL.length - 1].value;
       }
       
       const dashEquityEl = document.getElementById('dashEquity');
@@ -1120,6 +1178,8 @@
       else if (dashStrategy === 'pairs') suffix = 'pairs';
       else if (dashStrategy === 'v7l') suffix = 'v7_large';
       else if (dashStrategy === 'v7m') suffix = 'v7_mid';
+      else if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
+      else if (dashStrategy === 'v7_50k') suffix = 'v7_50k';
       
       try {
         const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');

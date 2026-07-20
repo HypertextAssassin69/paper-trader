@@ -83,6 +83,12 @@ jobs:
           python paper_trader_strat_v7_hybrid.py
           cd ..
 
+      - name: Run V7 Hybrid 50k paper trader (Chota Dhurandhar)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_hybrid_50k.py
+          cd ..
+
       - name: Commit and push all results
         run: |
           git config --local user.email "papertrader@github-actions.bot"

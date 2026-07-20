@@ -1,0 +1,17 @@
+date,ticker,action,shares,price,value,reason
+2026-07-06,GRASIM.NS,BUY,2,3213.0,6426.0,Satellite Rebalance: momentum entry
+2026-07-06,BAJFINANCE.NS,BUY,8,1029.1,8232.8,Satellite Rebalance: momentum entry
+2026-07-06,ICICIBANK.NS,BUY,5,1426.9,7134.5,Satellite Rebalance: momentum entry
+2026-07-06,COFORGE.NS,BUY,5,1481.9,7409.5,Satellite Rebalance: momentum entry
+2026-07-06,OBEROIRLTY.NS,BUY,4,1953.4,7813.6,Satellite Rebalance: momentum entry
+2026-07-06,MAXHEALTH.NS,BUY,7,1132.5,7927.5,Satellite Rebalance: momentum entry
+2026-07-13,BAJFINANCE.NS,SELL,8,1022.6,8180.8,Satellite Rebalance: momentum drop
+2026-07-13,HDFCBANK.NS,BUY,10,817.95,8179.5,Satellite Rebalance: momentum entry
+2026-07-14,HDFCBANK.NS,SELL,10,809.4,8094.0,Satellite Rebalance: momentum drop
+2026-07-14,BHARTIARTL.NS,BUY,4,1936.5,7746.0,Satellite Rebalance: momentum entry
+2026-07-15,GRASIM.NS,SELL,2,3086.1,6172.2,Satellite Rebalance: momentum drop
+2026-07-15,BHARTIARTL.NS,SELL,4,1918.3,7673.2,Satellite Rebalance: momentum drop
+2026-07-15,SUNPHARMA.NS,BUY,4,1951.5,7806.0,Satellite Rebalance: momentum entry
+2026-07-15,BAJFINANCE.NS,BUY,8,1021.3,8170.4,Satellite Rebalance: momentum entry
+2026-07-17,SUNPHARMA.NS,SELL,4,1932.6,7730.4,Satellite Rebalance: momentum drop
+2026-07-17,SBIN.NS,BUY,7,1044.3,7310.1,Satellite Rebalance: momentum entry
