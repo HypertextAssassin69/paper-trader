@@ -93,3 +93,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-17,TATASTEEL.NS,BUY,1,185.89,185.89,Rebalance to target weight=0.027
 2026-07-17,COALINDIA.NS,BUY,1,427.65,427.65,Rebalance to target weight=0.026
 2026-07-17,IREDA.NS,BUY,1,121.64,121.64,Rebalance to target weight=0.027
+2026-07-20,TATASTEEL.NS,SELL,1,186.41,186.41,Rebalance to target weight=0.026
+2026-07-20,TRENT.NS,SELL,1,2925.9,2925.9,Rebalance to target weight=0.029
+2026-07-20,JSWSTEEL.NS,SELL,2,1257.0,2514.0,Rebalance to target weight=0.000
+2026-07-20,RELIANCE.NS,BUY,1,1323.1,1323.1,Rebalance to target weight=0.026

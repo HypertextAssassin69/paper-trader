@@ -1,13 +1,13 @@
 {
-  "cash": 32723.15563250736,
+  "cash": 41188.22106181339,
   "holdings": {
     "HDFCBANK.NS": {
-      "shares": 5,
+      "shares": 4,
       "avg_price": 823.5500122070313,
       "entry_date": "2026-07-10"
     },
     "SUNPHARMA.NS": {
-      "shares": 2,
+      "shares": 1,
       "avg_price": 1939.0499877929688,
       "entry_date": "2026-07-10"
     },
@@ -17,7 +17,7 @@
       "entry_date": "2026-07-10"
     },
     "DLF.NS": {
-      "shares": 7,
+      "shares": 6,
       "avg_price": 681.4346936284279,
       "entry_date": "2026-07-10"
     },
@@ -27,7 +27,7 @@
       "entry_date": "2026-07-10"
     },
     "PIDILITIND.NS": {
-      "shares": 3,
+      "shares": 2,
       "avg_price": 1592.566650390625,
       "entry_date": "2026-07-10"
     },
@@ -42,7 +42,7 @@
       "entry_date": "2026-07-10"
     },
     "ADANIENT.NS": {
-      "shares": 3,
+      "shares": 2,
       "avg_price": 3158.433349609375,
       "entry_date": "2026-07-10"
     },
@@ -67,7 +67,7 @@
       "entry_date": "2026-07-15"
     },
     "BPCL.NS": {
-      "shares": 12,
+      "shares": 11,
       "avg_price": 312.29583231608075,
       "entry_date": "2026-07-16"
     },
@@ -79,5 +79,5 @@
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-17"
+  "last_run": "2026-07-20"
 }

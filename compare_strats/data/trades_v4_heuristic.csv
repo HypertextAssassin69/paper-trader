@@ -77,3 +77,9 @@ date,ticker,action,shares,price,value,reason
 2026-07-17,SBIN.NS,BUY,4,1044.3,4177.2,Rebalance to target weight=0.045
 2026-07-17,BPCL.NS,BUY,1,315.55,315.55,Rebalance to target weight=0.041
 2026-07-17,ADANIENT.NS,BUY,1,3160.7,3160.7,Rebalance to target weight=0.099
+2026-07-20,HDFCBANK.NS,SELL,1,777.6,777.6,Rebalance to target weight=0.039
+2026-07-20,SUNPHARMA.NS,SELL,1,1956.4,1956.4,Rebalance to target weight=0.038
+2026-07-20,DLF.NS,SELL,1,668.6,668.6,Rebalance to target weight=0.047
+2026-07-20,PIDILITIND.NS,SELL,1,1565.8,1565.8,Rebalance to target weight=0.047
+2026-07-20,BPCL.NS,SELL,1,317.6,317.6,Rebalance to target weight=0.038
+2026-07-20,ADANIENT.NS,SELL,1,3183.3,3183.3,Rebalance to target weight=0.087

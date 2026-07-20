@@ -1,24 +1,14 @@
 {
-  "cash": 44518.58620115661,
+  "cash": 40685.25689941406,
   "holdings": {
-    "TATASTEEL.NS": {
-      "shares": 3,
-      "avg_price": 189.29000345865884,
-      "entry_date": "2026-07-10"
-    },
-    "NTPC.NS": {
-      "shares": 2,
-      "avg_price": 343.1999969482422,
-      "entry_date": "2026-07-10"
-    },
     "DLF.NS": {
-      "shares": 16,
-      "avg_price": 677.6451815091647,
+      "shares": 20,
+      "avg_price": 675.8361403245192,
       "entry_date": "2026-07-10"
     },
     "TRENT.NS": {
-      "shares": 1,
-      "avg_price": 2902.800048828125,
+      "shares": 2,
+      "avg_price": 2914.3499755859375,
       "entry_date": "2026-07-10"
     },
     "CONCOR.NS": {
@@ -32,23 +22,18 @@
       "entry_date": "2026-07-10"
     },
     "BPCL.NS": {
-      "shares": 8,
+      "shares": 6,
       "avg_price": 309.3833312988281,
       "entry_date": "2026-07-10"
     },
     "IREDA.NS": {
-      "shares": 21,
+      "shares": 13,
       "avg_price": 123.93375142415364,
       "entry_date": "2026-07-10"
     },
     "ADANIENT.NS": {
       "shares": 4,
       "avg_price": 3157.300048828125,
-      "entry_date": "2026-07-10"
-    },
-    "TATACOMM.NS": {
-      "shares": 1,
-      "avg_price": 1856.199951171875,
       "entry_date": "2026-07-10"
     },
     "LALPATHLAB.NS": {
@@ -60,9 +45,19 @@
       "shares": 1,
       "avg_price": 3016.199951171875,
       "entry_date": "2026-07-15"
+    },
+    "HDFCBANK.NS": {
+      "shares": 2,
+      "avg_price": 777.5999755859375,
+      "entry_date": "2026-07-20"
+    },
+    "VOLTAS.NS": {
+      "shares": 1,
+      "avg_price": 1357.4000244140625,
+      "entry_date": "2026-07-20"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-17"
+  "last_run": "2026-07-20"
 }

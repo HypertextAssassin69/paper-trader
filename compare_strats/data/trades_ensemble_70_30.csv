@@ -71,3 +71,7 @@ date,ticker,action,shares,price,value,reason
 2026-07-17,DLF.NS,BUY,2,667.8,1335.6,Ensemble Rebalance to target weight=0.075
 2026-07-17,SBIN.NS,BUY,3,1044.3,3132.9,Ensemble Rebalance to target weight=0.033
 2026-07-17,VOLTAS.NS,BUY,1,1342.4,1342.4,Ensemble Rebalance to target weight=0.028
+2026-07-20,HDFCBANK.NS,SELL,1,777.6,777.6,Ensemble Rebalance to target weight=0.030
+2026-07-20,VOLTAS.NS,SELL,1,1357.4,1357.4,Ensemble Rebalance to target weight=0.027
+2026-07-20,TATACOMM.NS,SELL,1,1822.6,1822.6,Ensemble Rebalance to target weight=0.034
+2026-07-20,DLF.NS,BUY,1,668.6,668.6,Ensemble Rebalance to target weight=0.078

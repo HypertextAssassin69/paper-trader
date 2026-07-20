@@ -1,5 +1,5 @@
 {
-  "cash": 48616.125127487205,
+  "cash": 51161.82792631533,
   "holdings": {
     "HDFCBANK.NS": {
       "shares": 3,
@@ -76,11 +76,6 @@
       "avg_price": 1411.4000244140625,
       "entry_date": "2026-07-05"
     },
-    "JSWSTEEL.NS": {
-      "shares": 2,
-      "avg_price": 1230.199951171875,
-      "entry_date": "2026-07-05"
-    },
     "CIPLA.NS": {
       "shares": 1,
       "avg_price": 1458.199951171875,
@@ -102,7 +97,7 @@
       "entry_date": "2026-07-07"
     },
     "VOLTAS.NS": {
-      "shares": 2,
+      "shares": 1,
       "avg_price": 1350.6500244140625,
       "entry_date": "2026-07-14"
     },
@@ -115,9 +110,14 @@
       "shares": 5,
       "avg_price": 492.8999938964844,
       "entry_date": "2026-07-15"
+    },
+    "RELIANCE.NS": {
+      "shares": 1,
+      "avg_price": 1323.0999755859375,
+      "entry_date": "2026-07-20"
     }
   },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-17"
+  "last_run": "2026-07-20"
 }
