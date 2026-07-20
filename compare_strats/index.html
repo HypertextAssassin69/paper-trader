@@ -821,10 +821,10 @@
       ])).filter(Boolean).sort();
 
       // Helper function to align and forward-fill values to a unified date scale
-      function alignDataset(pnlList, dates) {
+      function alignDataset(pnlList, dates, initialVal = 100000.0) {
         const pnlMap = {};
         pnlList.forEach(x => { pnlMap[x.date] = x.value; });
-        let lastVal = 100000.0;
+        let lastVal = initialVal;
         return dates.map(date => {
           if (pnlMap[date] !== undefined) {
             lastVal = pnlMap[date];
@@ -837,14 +837,14 @@
         const [year, month, day] = dateStr.split('-');
         return [`${parseInt(day)}/${parseInt(month)}`, year];
       });
-      const bpValues = alignDataset(bpPnL, allDates);
-      const nsValues = alignDataset(nsPnL, allDates);
-      const mlValues = alignDataset(mlPnL, allDates);
-      const heurValues = alignDataset(heurPnL, allDates);
-      const ensValues = alignDataset(ensPnL, allDates);
-      const pairsValues = alignDataset(pairsPnL, allDates);
-      const v7hValues = alignDataset(v7hPnL, allDates);
-      const v7_50kValues = alignDataset(v7_50kPnL, allDates);
+      const bpValues = alignDataset(bpPnL, allDates, 100000.0);
+      const nsValues = alignDataset(nsPnL, allDates, 100000.0);
+      const mlValues = alignDataset(mlPnL, allDates, 100000.0);
+      const heurValues = alignDataset(heurPnL, allDates, 100000.0);
+      const ensValues = alignDataset(ensPnL, allDates, 100000.0);
+      const pairsValues = alignDataset(pairsPnL, allDates, 100000.0);
+      const v7hValues = alignDataset(v7hPnL, allDates, 100000.0);
+      const v7_50kValues = alignDataset(v7_50kPnL, allDates, 50000.0);
 
       myChart = new Chart(ctx, {
         type: 'line',
