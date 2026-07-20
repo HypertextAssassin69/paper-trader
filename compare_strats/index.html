@@ -622,7 +622,7 @@
       
       try {
         // Fetch portfolio JSON states
-        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState, rV7_50kState] = await Promise.all([
+        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
           fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
           fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
@@ -649,7 +649,7 @@
         v7_cheap_20kState = rV7_cheap_20kState;
 
         // Fetch CSV data
-        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv] = await Promise.all([
+        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
           fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
           fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
