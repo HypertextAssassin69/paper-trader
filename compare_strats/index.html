@@ -429,20 +429,24 @@
 
     function parseCSV(csvText) {
       if (!csvText) return [];
-      const lines = csvText.trim().split('\n');
+      const lines = csvText.trim().split(/\r?\n/);
       if (lines.length < 2) return [];
-      const header = lines[0].split(',');
+      const header = lines[0].split(',').map(h => h.trim());
       const valIdx = header.indexOf('portfolio_value');
       const dateIdx = header.indexOf('date');
+      if (valIdx === -1 || dateIdx === -1) return [];
       
       const data = [];
       for (let i = 1; i < lines.length; i++) {
-        const cols = lines[i].split(',');
-        if (cols.length >= header.length && cols[valIdx] && cols[dateIdx]) {
-          data.push({
-            date: cols[dateIdx].trim(),
-            value: parseFloat(cols[valIdx])
-          });
+        const cols = lines[i].split(',').map(c => c.trim());
+        if (cols.length >= header.length && cols[valIdx] !== undefined && cols[dateIdx]) {
+          const v = parseFloat(cols[valIdx]);
+          if (!isNaN(v)) {
+            data.push({
+              date: cols[dateIdx],
+              value: v
+            });
+          }
         }
       }
       return data;
