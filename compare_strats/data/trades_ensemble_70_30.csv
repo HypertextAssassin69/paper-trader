@@ -75,3 +75,19 @@ date,ticker,action,shares,price,value,reason
 2026-07-20,VOLTAS.NS,SELL,1,1357.4,1357.4,Ensemble Rebalance to target weight=0.027
 2026-07-20,TATACOMM.NS,SELL,1,1822.6,1822.6,Ensemble Rebalance to target weight=0.034
 2026-07-20,DLF.NS,BUY,1,668.6,668.6,Ensemble Rebalance to target weight=0.078
+2026-07-22,HDFCBANK.NS,SELL,3,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,SUNPHARMA.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,BHARTIARTL.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,DLF.NS,SELL,11,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,TRENT.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,PIDILITIND.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,INDIGO.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,BPCL.NS,SELL,9,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,LALPATHLAB.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,ICICIBANK.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,ADANIENT.NS,SELL,3,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,CIPLA.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,TATACOMM.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,IREDA.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,VOLTAS.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,SBIN.NS,SELL,3,nan,nan,Nifty EMA-50 Circuit Breaker

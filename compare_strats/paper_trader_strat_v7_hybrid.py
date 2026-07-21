@@ -276,9 +276,9 @@ def main():
         # RUN V6 PAIRS (Market-Neutral Cointegrated Pairs)
         # Volatility Sizing (VIX Matrix)
         if vix_val < 15.0:
-            leverage = 6.0
+            leverage = 2.0  # RISK-MANDATE: Hard cap 2.0x (was 6.0x)
         elif vix_val < 22.0:
-            leverage = 6.0 - (vix_val - 15.0) * (5.0 / 7.0)
+            leverage = 2.0 - (vix_val - 15.0) * (1.0 / 7.0)  # Linear scale 2.0x -> 1.0x
         elif vix_val < 25.0:
             leverage = 1.0
         else:

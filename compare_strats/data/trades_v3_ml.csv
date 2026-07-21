@@ -94,3 +94,16 @@ date,ticker,action,shares,price,value,reason
 2026-07-20,TRENT.NS,BUY,1,2925.9,2925.9,ML Rebalance to target weight=0.084
 2026-07-20,VOLTAS.NS,BUY,1,1357.4,1357.4,ML Rebalance to target weight=0.015
 2026-07-20,CIPLA.NS,BUY,1,1441.6,1441.6,ML Rebalance to target weight=0.015
+2026-07-22,DLF.NS,SELL,20,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,TRENT.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,CONCOR.NS,SELL,4,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,INDIGO.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,BPCL.NS,SELL,6,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,IREDA.NS,SELL,13,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,ADANIENT.NS,SELL,4,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,LALPATHLAB.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,MUTHOOTFIN.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,HDFCBANK.NS,SELL,2,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,VOLTAS.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,CIPLA.NS,SELL,1,nan,nan,Nifty EMA-50 Circuit Breaker
+2026-07-22,CIPLA.NS,SELL,1,1441.6,1441.6,ML Rebalance to target weight=0.015

@@ -146,13 +146,16 @@ def main():
     # 1. Check Nifty 50 Index for Regime classification
     print("Checking Nifty 50 index state...")
     nifty = yf.download(INDEX_TICKER, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
+    if not nifty.empty:
+        if isinstance(nifty.columns, pd.MultiIndex):
+            nifty.columns = nifty.columns.get_level_values(0)
+        nifty = nifty.dropna(subset=['Adj Close'])
+        
     if nifty.empty:
         print("  [WARN] Failed to download index data. Defaulting to Bullish regime.")
         regime = "Bullish"
 
     else:
-        if isinstance(nifty.columns, pd.MultiIndex):
-            nifty.columns = nifty.columns.get_level_values(0)
         nifty['Close'] = nifty['Adj Close']
         nifty['Ret_20'] = nifty['Close'].pct_change(20)
         nifty['Vol_20'] = nifty['Close'].pct_change().rolling(20).std()
@@ -182,6 +185,9 @@ def main():
             continue
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+        df = df.dropna(subset=['Adj Close'])
+        if df.empty or len(df) < 50:
+            continue
             
         # Scale OHLC to use Adj Close
         adj_ratio = df['Adj Close'] / df['Close']

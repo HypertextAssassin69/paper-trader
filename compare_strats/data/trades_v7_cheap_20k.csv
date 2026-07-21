@@ -15,3 +15,5 @@ date,ticker,action,shares,price,value,reason
 2026-07-16,ITC.NS,BUY,11,279.35,3072.85,Satellite Rebalance: momentum entry
 2026-07-17,BEL.NS,SELL,8,409.45,3275.6,Satellite Rebalance: momentum drop
 2026-07-17,COALINDIA.NS,BUY,7,427.65,2993.55,Satellite Rebalance: momentum entry
+2026-07-22,COALINDIA.NS,SELL,7,429.4,3005.8,Satellite Rebalance: momentum drop
+2026-07-22,BEL.NS,BUY,8,408.15,3265.2,Satellite Rebalance: momentum entry

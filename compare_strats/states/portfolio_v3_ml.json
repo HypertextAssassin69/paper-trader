@@ -1,5 +1,5 @@
 {
-  "cash": 39242.93612384033,
+  "cash": 40683.81529943847,
   "holdings": {
     "DLF.NS": {
       "shares": 20,
@@ -55,14 +55,9 @@
       "shares": 1,
       "avg_price": 1357.4000244140625,
       "entry_date": "2026-07-20"
-    },
-    "CIPLA.NS": {
-      "shares": 1,
-      "avg_price": 1441.5999755859375,
-      "entry_date": "2026-07-20"
     }
   },
   "start_date": "2026-07-06",
   "start_capital": 100000.0,
-  "last_run": "2026-07-20"
+  "last_run": "2026-07-22"
 }

@@ -1,6 +1,6 @@
 # Paper Portfolio: Institutional Cointegrated Pairs Strategy (V6 Pairs)
 
-**Last Updated:** `2026-07-20`  
+**Last Updated:** `2026-07-22`  
 **Current Net Portfolio Equity:** `INR 98,248.40`  
 **Current Free Cash Balance:** `INR 99,359.10`  
 **Trailing Peak Equity:** `INR 101,010.09`  
@@ -12,7 +12,7 @@
 
 * **Starting Capital:** `INR 100,000.00`
 * **Total Return:** `-1.75%`
-* **Current Volatility Regime (India VIX):** `12.98` (Current Leverage Multiplier: `6.00x`)
+* **Current Volatility Regime (India VIX):** `15.00` (Current Leverage Multiplier: `2.00x`)
 
 ---
 

@@ -128,8 +128,8 @@ def main():
             vix_val = 15.0
     print(f"  Current India VIX: {vix_val:.2f}")
 
-    # Set leverage scaling parameters
-    leverage = 6.0
+    # Set leverage scaling parameters — RISK-MANDATE: Hard cap 2.0x (was 6.0x, structurally disqualified)
+    leverage = 2.0
     current_leverage = leverage
     allow_new_entries = True
 
@@ -155,10 +155,14 @@ def main():
     
     for t in TICKERS:
         df = yf.download(t, start=str(ticker_start), end=str(end_dt), auto_adjust=False, progress=False)
+        if not df.empty:
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+            df = df.dropna(subset=['Adj Close'])
+            
         if df.empty or len(df) < 60:
             continue
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
+            
         df['Close'] = df['Adj Close']
         ticker_data[t] = df
         current_prices[t] = df['Close'].iloc[-1]

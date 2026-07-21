@@ -195,12 +195,15 @@ def main():
     # 1. Check Nifty 50 Index & Macro Switch
     print("Checking Nifty 50 index state...")
     nifty = yf.download(INDEX_TICKER, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
+    if not nifty.empty:
+        if isinstance(nifty.columns, pd.MultiIndex):
+            nifty.columns = nifty.columns.get_level_values(0)
+        nifty = nifty.dropna(subset=['Adj Close'])
+        
     if nifty.empty:
         print("  [WARN] Failed to download index data. Defaulting to Bullish regime.")
         is_nifty_bullish = True
     else:
-        if isinstance(nifty.columns, pd.MultiIndex):
-            nifty.columns = nifty.columns.get_level_values(0)
         nifty['Close'] = nifty['Adj Close']
         nifty['EMA_50'] = nifty['Close'].ewm(span=50, adjust=False).mean()
         
@@ -217,10 +220,13 @@ def main():
     
     for t in TICKERS:
         df = yf.download(t, start=str(start_dt), end=str(end_dt), auto_adjust=False, progress=False)
+        if not df.empty:
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+            df = df.dropna(subset=['Adj Close'])
+            
         if df.empty or len(df) < 100:
             continue
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
             
         # Scale OHLC to use Adj Close
         adj_ratio = df['Adj Close'] / df['Close']

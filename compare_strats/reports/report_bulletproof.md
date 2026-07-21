@@ -1,6 +1,6 @@
 # Live Bulletproof Systematic Portfolio Report (EMA-50 Switch)
 
-> **Date**: 2026-07-20  |  **Days Live**: 14  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-22  |  **Days Live**: 15  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |

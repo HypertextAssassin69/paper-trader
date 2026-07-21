@@ -1,15 +1,15 @@
 # Live Version 3.0 ML Probabilistic Portfolio Report
 
-> **Date**: 2026-07-20  |  **Days Live**: 13  |  **Nifty Index Switch**: Risk-On
+> **Date**: 2026-07-22  |  **Days Live**: 14  |  **Nifty Index Switch**: Risk-On
 
 ## Summary Stats
 | Metric | Value |
 | :--- | :---: |
 | Starting Capital | INR 100,000.00 |
-| Current Portfolio Value | INR 96,173.63 |
-| Cash Balance | INR 39,242.94 |
-| Active Asset Exposure | INR 56,930.69 |
-| Total Return Since Start | -3.826% |
+| Current Portfolio Value | INR 96,172.90 |
+| Cash Balance | INR 40,683.82 |
+| Active Asset Exposure | INR 55,489.09 |
+| Total Return Since Start | -3.827% |
 
 ## Active Stock Holdings
 | Ticker | Shares | Avg Price | Current Price | Market Value | Allocation |
@@ -25,4 +25,3 @@
 | MUTHOOTFIN.NS | 1 | INR 3016.20 | INR 2982.80 | INR 2982.80 | 3.10% |
 | HDFCBANK.NS | 2 | INR 777.60 | INR 777.60 | INR 1555.20 | 1.62% |
 | VOLTAS.NS | 1 | INR 1357.40 | INR 1357.40 | INR 1357.40 | 1.41% |
-| CIPLA.NS | 1 | INR 1441.60 | INR 1441.60 | INR 1441.60 | 1.50% |
