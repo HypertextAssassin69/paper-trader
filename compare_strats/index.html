@@ -109,14 +109,14 @@
       <div class="space-y-3">
         <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Comparative Returns</h3>
         
-        <!-- Strategy 1: V8 Master Hybrid Engine -->
+        <!-- Strategy 1: Dhurandhar Master (V8 Hybrid) -->
         <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition border-l-4 border-l-purple-500">
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-full bg-[#581c87] flex items-center justify-center">
               <i data-lucide="crown" class="w-5 h-5 text-[#a78bfa]"></i>
             </div>
             <div>
-              <div class="font-bold text-sm text-white">V8 Master Hybrid 👑</div>
+              <div class="font-bold text-sm text-white">Dhurandhar Master 👑</div>
               <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
                 <div id="v7hInvestedText">Invested: INR --</div>
                 <div id="v7hCashText">Cash: INR --</div>
@@ -130,14 +130,35 @@
           </div>
         </div>
 
-        <!-- Strategy 2: Cheap V7 20k -->
+        <!-- Strategy 2: Chota Dhurandhar (50k) -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition border-l-4 border-l-indigo-500">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1e1b4b] flex items-center justify-center">
+              <i data-lucide="shield" class="w-5 h-5 text-[#818cf8]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Chota Dhurandhar (50k) 🛡️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7_50kInvestedText">Invested: INR --</div>
+                <div id="v7_50kCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7_50kValue" class="font-bold text-sm">INR --</div>
+            <div id="v7_50kReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Scale: ₹50,000</div>
+          </div>
+        </div>
+
+        <!-- Strategy 3: Cheap V7 (20k) -->
         <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition border-l-4 border-l-blue-500">
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-full bg-[#1e3a8a] flex items-center justify-center">
               <i data-lucide="zap" class="w-5 h-5 text-[#60a5fa]"></i>
             </div>
             <div>
-              <div class="font-bold text-sm text-white">Cheap V7 (20k-50k) ⚡</div>
+              <div class="font-bold text-sm text-white">Cheap V7 (20k) ⚡</div>
               <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
                 <div id="v7_cheap_20kInvestedText">Invested: INR --</div>
                 <div id="v7_cheap_20kCashText">Cash: INR --</div>
@@ -147,7 +168,7 @@
           <div class="text-right">
             <div id="v7_cheap_20kValue" class="font-bold text-sm">INR --</div>
             <div id="v7_cheap_20kReturn" class="text-xs text-growwGreen font-semibold">--</div>
-            <div class="text-[9px] text-growwMuted mt-1">Small Capital Scale</div>
+            <div class="text-[9px] text-growwMuted mt-1">Scale: ₹20,000</div>
           </div>
         </div>
 
@@ -172,13 +193,16 @@
     ────────────────────────────────────────────────────────────────────────── -->
     <section id="contentDashboard" class="hidden space-y-6">
       
-      <!-- Strategy Selector Toggle (Clean 2-Strategy layout) -->
-      <div class="grid grid-cols-2 gap-2 bg-growwDarkCard p-1.5 rounded-lg border border-gray-800 text-xs font-bold text-center">
+      <!-- Strategy Selector Toggle (Clean 3-Dhurandhar layout) -->
+      <div class="grid grid-cols-3 gap-1.5 bg-growwDarkCard p-1.5 rounded-lg border border-gray-800 text-[10px] font-bold text-center">
         <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
-          👑 V8 Master Engine
+          👑 Master (1L+)
+        </button>
+        <button id="toggleV7_50k" onclick="selectDashboardStrategy('v7_50k')" class="py-2.5 rounded-md text-growwMuted hover:text-white transition">
+          🛡️ Chota (50k)
         </button>
         <button id="toggleV7_cheap_20k" onclick="selectDashboardStrategy('v7_cheap_20k')" class="py-2.5 rounded-md text-growwMuted hover:text-white transition">
-          ⚡ Cheap V7 (20k)
+          ⚡ Cheap (20k)
         </button>
       </div>
 

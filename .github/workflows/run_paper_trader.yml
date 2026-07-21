@@ -35,13 +35,20 @@ jobs:
         run: python D:\College\analyst\update_universe.py
         continue-on-error: true  # If screening fails, keep running with last known good tickers
 
-      - name: Run V8 Master Hybrid paper trader (Capital: 1L - 15L)
+      - name: Run Dhurandhar V8 Master Hybrid paper trader (Capital: 1L - 15L)
         run: |
           cd compare_strats
           python v8_improved_pairs_engine.py
+          python paper_trader_strat_v7_hybrid.py
           cd ..
 
-      - name: Run Cheap V7 20k paper trader (Capital: 20k - 50k)
+      - name: Run Chota Dhurandhar 50k paper trader (Capital: 50k)
+        run: |
+          cd compare_strats
+          python paper_trader_strat_v7_hybrid_50k.py
+          cd ..
+
+      - name: Run Cheap V7 20k paper trader (Capital: 20k)
         run: |
           cd compare_strats
           python paper_trader_strat_v7_cheap_20k.py
