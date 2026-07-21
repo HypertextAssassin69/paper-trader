@@ -367,26 +367,46 @@
     
     let myChart = null;
 
+    async function fetchSmartJson(path) {
+      try {
+        let r = await fetch(path);
+        if (r.ok) return await r.json();
+        r = await fetch('./compare_strats/' + path.replace('./', ''));
+        if (r.ok) return await r.json();
+      } catch (e) {}
+      return null;
+    }
+
+    async function fetchSmartText(path) {
+      try {
+        let r = await fetch(path);
+        if (r.ok) return await r.text();
+        r = await fetch('./compare_strats/' + path.replace('./', ''));
+        if (r.ok) return await r.text();
+      } catch (e) {}
+      return '';
+    }
+
     async function initApp() {
       document.getElementById('refreshBtn').classList.add('animate-spin');
       
       try {
-        // Fetch 3 Dhurandhar JSON portfolio states
+        // Fetch 3 Dhurandhar JSON portfolio states with fallback
         const [rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
-          fetch('./states/portfolio_v7_hybrid.json').then(r => r.ok ? r.json() : null).catch(() => null),
-          fetch('./states/portfolio_v7_50k.json').then(r => r.ok ? r.json() : null).catch(() => null),
-          fetch('./states/portfolio_v7_cheap_20k.json').then(r => r.ok ? r.json() : null).catch(() => null)
+          fetchSmartJson('./states/portfolio_v7_hybrid.json'),
+          fetchSmartJson('./states/portfolio_v7_50k.json'),
+          fetchSmartJson('./states/portfolio_v7_cheap_20k.json')
         ]);
         
         v7hState = rV7hState;
         v7_50kState = rV7_50kState;
         v7_cheap_20kState = rV7_cheap_20kState;
 
-        // Fetch 3 Dhurandhar CSV data
+        // Fetch 3 Dhurandhar CSV data with fallback
         const [rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
-          fetch('./data/pnl_v7_hybrid.csv').then(r => r.ok ? r.text() : '').catch(() => ''),
-          fetch('./data/pnl_v7_50k.csv').then(r => r.ok ? r.text() : '').catch(() => ''),
-          fetch('./data/pnl_v7_cheap_20k.csv').then(r => r.ok ? r.text() : '').catch(() => '')
+          fetchSmartText('./data/pnl_v7_hybrid.csv'),
+          fetchSmartText('./data/pnl_v7_50k.csv'),
+          fetchSmartText('./data/pnl_v7_cheap_20k.csv')
         ]);
         
         v7hPnL = parseCSV(rV7hCsv);
