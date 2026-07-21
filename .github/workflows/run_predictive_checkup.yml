@@ -1,0 +1,41 @@
+name: Future Large-Caps — Monthly Predictive Checkup
+
+on:
+  schedule:
+    # Runs at 12:00 AM UTC on the 1st of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch:   # allows manual trigger from GitHub UI at any time
+
+permissions:
+  contents: write
+
+jobs:
+  run-checkup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Multi-Factor Predictive Model
+        run: |
+          python compare_strats/predict_next_large_caps.py
+
+      - name: Commit and push updated leaderboard report
+        run: |
+          git config --local user.email "predictivemodel@github-actions.bot"
+          git config --local user.name "Github Actions Predictive Bot"
+          git add reports/predictive_largecaps_model.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto: Update future large-caps predictive leaderboard" && git push origin main)
