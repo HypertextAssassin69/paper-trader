@@ -67,8 +67,8 @@ We recommend replacing or updating the `MID_BASKET` inside your **Dhurandhar Mai
 * **1-Year Price Run:** Outperformed the market with a **12.1%** return.
 
 ## 🛠️ Step-by-Step Universe Integration Plan
-To integrate these 5 stocks into your live **Dhurandhar Main** trading script:
+To integrate these stocks into your live **Dhurandhar Main** trading script:
 1. Open `compare_strats/paper_trader_strat_v7_hybrid.py`
 2. Locate the `MID_BASKET` list variable.
-3. Replace any lower-ranked mid-caps with the top 5 candidates from this report.
-4. The live runner will automatically begin trading them in the next daily session.
+3. **Threshold Rule:** Only replace a stock currently in your basket if its rank on the leaderboard falls below **Rank 5** (i.e. it drops to Rank 6 or lower). This prevents excessive trading churn for minor rank fluctuations.
+4. Replace the demoted stock with the new entrant that has climbed into the Top 5.

@@ -134,11 +134,11 @@ def main():
             f.write(f"* **1-Year Price Run:** Outperformed the market with a **{row['1Y Return %']:.1f}%** return.\n\n")
             
         f.write("## 🛠️ Step-by-Step Universe Integration Plan\n")
-        f.write("To integrate these 5 stocks into your live **Dhurandhar Main** trading script:\n")
+        f.write("To integrate these stocks into your live **Dhurandhar Main** trading script:\n")
         f.write("1. Open `compare_strats/paper_trader_strat_v7_hybrid.py`\n")
         f.write("2. Locate the `MID_BASKET` list variable.\n")
-        f.write("3. Replace any lower-ranked mid-caps with the top 5 candidates from this report.\n")
-        f.write("4. The live runner will automatically begin trading them in the next daily session.\n")
+        f.write("3. **Threshold Rule:** Only replace a stock currently in your basket if its rank on the leaderboard falls below **Rank 5** (i.e. it drops to Rank 6 or lower). This prevents excessive trading churn for minor rank fluctuations.\n")
+        f.write("4. Replace the demoted stock with the new entrant that has climbed into the Top 5.\n")
         
     print(f"\nReport written successfully to {report_path}")
 
