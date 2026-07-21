@@ -652,36 +652,12 @@
     }
     function updateDashboardView() {
       let activeState = null;
-      if (dashStrategy === 'bulletproof') activeState = bpState;
-      else if (dashStrategy === 'nostops') activeState = nsState;
-      else if (dashStrategy === 'ml') activeState = mlState;
-      else if (dashStrategy === 'heur') activeState = heurState;
-      else if (dashStrategy === 'ens') activeState = ensState;
-      else if (dashStrategy === 'pairs') activeState = pairsState;
-      else if (dashStrategy === 'v7l') activeState = v7lState;
-      else if (dashStrategy === 'v7m') activeState = v7mState;
-      else if (dashStrategy === 'v7h') activeState = v7hState;
+      if (dashStrategy === 'v7h') activeState = v7hState;
       else if (dashStrategy === 'v7_50k') activeState = v7_50kState;
       else activeState = v7_cheap_20kState;
 
       let equityVal = 100000.0;
-      if (dashStrategy === 'bulletproof' && bpPnL.length) {
-        equityVal = bpPnL[bpPnL.length - 1].value;
-      } else if (dashStrategy === 'nostops' && nsPnL.length) {
-        equityVal = nsPnL[nsPnL.length - 1].value;
-      } else if (dashStrategy === 'ml' && mlPnL.length) {
-        equityVal = mlPnL[mlPnL.length - 1].value;
-      } else if (dashStrategy === 'heur' && heurPnL.length) {
-        equityVal = heurPnL[heurPnL.length - 1].value;
-      } else if (dashStrategy === 'ens' && ensPnL.length) {
-        equityVal = ensPnL[ensPnL.length - 1].value;
-      } else if (dashStrategy === 'pairs' && pairsPnL.length) {
-        equityVal = pairsPnL[pairsPnL.length - 1].value;
-      } else if (dashStrategy === 'v7l' && v7lPnL.length) {
-        equityVal = v7lPnL[v7lPnL.length - 1].value;
-      } else if (dashStrategy === 'v7m' && v7mPnL.length) {
-        equityVal = v7mPnL[v7mPnL.length - 1].value;
-      } else if (dashStrategy === 'v7h' && v7hPnL.length) {
+      if (dashStrategy === 'v7h' && v7hPnL.length) {
         equityVal = v7hPnL[v7hPnL.length - 1].value;
       } else if (dashStrategy === 'v7_50k' && v7_50kPnL.length) {
         equityVal = v7_50kPnL[v7_50kPnL.length - 1].value;
@@ -750,20 +726,12 @@
     async function updateTradesView() {
       const tradesListEl = document.getElementById('tradesList');
       let suffix = 'v7_hybrid';
-      if (dashStrategy === 'bulletproof') suffix = 'bulletproof';
-      else if (dashStrategy === 'nostops') suffix = 'nostops';
-      else if (dashStrategy === 'ml') suffix = 'v3_ml';
-      else if (dashStrategy === 'heur') suffix = 'v4_heuristic';
-      else if (dashStrategy === 'ens') suffix = 'ensemble_70_30';
-      else if (dashStrategy === 'pairs') suffix = 'pairs';
-      else if (dashStrategy === 'v7l') suffix = 'v7_large';
-      else if (dashStrategy === 'v7m') suffix = 'v7_mid';
-      else if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
+      if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
       else if (dashStrategy === 'v7_50k') suffix = 'v7_50k';
       else if (dashStrategy === 'v7_cheap_20k') suffix = 'v7_cheap_20k';
       
       try {
-        const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
+        const csvText = await fetchSmartText(`./data/trades_${suffix}.csv`);
         if (!csvText) {
           tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">No trades logged yet</div>`;
           return;
