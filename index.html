@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groww Paper Tracker</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js for premium interaction -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+
+  <!-- PWA Manifest support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0B0E11">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2622/2622837.png">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            growwDarkBg: '#0B0E11',
+            growwDarkCard: '#171F26',
+            growwGreen: '#00D09C',
+            growwRed: '#FF5C5C',
+            growwMuted: '#8B9EAE'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Hide default scrollbars for mobile look */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      background-color: #0B0E11;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex justify-center items-start bg-growwDarkBg">
+
+  <!-- Mobile Frame Container (Max width for desktop, full width on mobile) -->
+  <div class="w-full max-w-md min-h-screen bg-growwDarkBg flex flex-col relative px-4 pb-10">
+    
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      HEADER
+    ────────────────────────────────────────────────────────────────────────── -->
+    <header class="flex justify-between items-center py-4 border-b border-gray-800">
+      <div class="flex items-center space-x-2">
+        <!-- Groww Logo Circle -->
+        <div class="w-8 h-8 rounded-full bg-growwGreen flex items-center justify-center">
+          <i data-lucide="trending-up" class="w-5 h-5 text-growwDarkBg stroke-[2.5]"></i>
+        </div>
+        <span class="text-xl font-bold text-growwGreen tracking-wide">Groww</span>
+        <span class="text-xs bg-[#171F26] text-growwMuted px-1.5 py-0.5 rounded font-mono border border-gray-800">PAPER</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="refreshBtn" onclick="initApp()" class="p-2 rounded-full hover:bg-growwDarkCard transition">
+          <i data-lucide="refresh-cw" class="w-5 h-5 text-growwGreen"></i>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-[#24323F] flex items-center justify-center font-bold text-sm text-growwGreen">
+          PT
+        </div>
+      </div>
+    </header>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      NAVIGATION TABS
+    ────────────────────────────────────────────────────────────────────────── -->
+    <nav class="flex justify-around my-4 border-b border-gray-800 text-sm font-semibold relative">
+      <button id="tabExplore" onclick="switchTab('explore')" class="pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition">
+        Explore
+      </button>
+      <button id="tabDashboard" onclick="switchTab('dashboard')" class="pb-2 w-1/3 text-center text-growwMuted hover:text-white transition">
+        Dashboard
+      </button>
+      <button id="tabManual" onclick="switchTab('manual')" class="pb-2 w-1/3 text-center text-growwMuted hover:text-white transition">
+        Manual
+      </button>
+    </nav>
+
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: EXPLORE (COMPARISON & OVERALL STATS)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentExplore" class="space-y-6">
+      
+      <!-- Market Index Indicator Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center">
+        <div>
+          <span class="text-xs text-growwMuted">NIFTY 50 INDEX</span>
+          <h2 id="niftyClose" class="text-lg font-bold">Loading...</h2>
+        </div>
+        <div id="niftyBadge" class="px-2.5 py-1 rounded text-xs font-semibold">
+          --
+        </div>
+      </div>
+
+      <!-- Comparative Performance Widget -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Comparative Returns</h3>
+        
+        <!-- Strategy 1: Bulletproof -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#123E35] flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5 text-growwGreen"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Bulletproof 🛡️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="bpInvestedText">Invested: INR --</div>
+                <div id="bpCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="bpValue" class="font-bold text-sm">INR --</div>
+            <div id="bpReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">1.82x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 2: No-Stops -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#382625] flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5 text-growwRed"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">No-Stops ⚡</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="nsInvestedText">Invested: INR --</div>
+                <div id="nsCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="nsValue" class="font-bold text-sm">INR --</div>
+            <div id="nsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwRed font-bold">1.27x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 3: Version 3.0 ML -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#2A1D36] flex items-center justify-center">
+              <i data-lucide="brain-circuit" class="w-5 h-5 text-[#9b59b6]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 3.0 ML 🔮</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="mlInvestedText">Invested: INR --</div>
+                <div id="mlCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="mlValue" class="font-bold text-sm">INR --</div>
+            <div id="mlReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.44x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 4: Version 4.0 Heuristic -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#342416] flex items-center justify-center">
+              <i data-lucide="settings" class="w-5 h-5 text-[#e67e22]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 4.0 Heuristic ⚙️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="heurInvestedText">Invested: INR --</div>
+                <div id="heurCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="heurValue" class="font-bold text-sm">INR --</div>
+            <div id="heurReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.68x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 5: Version 5.0 Ensemble (70-30) -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1C2833] flex items-center justify-center">
+              <i data-lucide="scale" class="w-5 h-5 text-[#85929e]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 5.0 Ensemble (70-30) ⚖️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="ensInvestedText">Invested: INR --</div>
+                <div id="ensCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="ensValue" class="font-bold text-sm">INR --</div>
+            <div id="ensReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">2.86x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 6: Version 6.0 Institutional Pairs -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#162840] flex items-center justify-center">
+              <i data-lucide="git-branch" class="w-5 h-5 text-[#3498db]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Version 6.0 Pairs 📊</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="pairsInvestedText">Invested: INR --</div>
+                <div id="pairsCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="pairsValue" class="font-bold text-sm">INR --</div>
+            <div id="pairsReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">3.50x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 7: V7 Apex Large-Cap -->
+        <div class="hidden bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#3b0764] flex items-center justify-center">
+              <i data-lucide="crown" class="w-5 h-5 text-[#c084fc]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">V7 Apex Large-Cap 👑</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7lInvestedText">Invested: INR --</div>
+                <div id="v7lCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7lValue" class="font-bold text-sm">INR --</div>
+            <div id="v7lReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">3.08x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 8: V7 Apex Mid-Cap -->
+        <div class="hidden bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center">
+              <i data-lucide="zap-theme" class="w-5 h-5 text-[#34d399]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">V7 Apex Mid-Cap ⚡</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7mInvestedText">Invested: INR --</div>
+                <div id="v7mCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7mValue" class="font-bold text-sm">INR --</div>
+            <div id="v7mReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">4.10x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 9: Dhurandhar Strat -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#581c87] flex items-center justify-center">
+              <i data-lucide="combine" class="w-5 h-5 text-[#a78bfa]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Dhurandhar Strat 👑</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7hInvestedText">Invested: INR --</div>
+                <div id="v7hCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7hValue" class="font-bold text-sm">INR --</div>
+            <div id="v7hReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">6.50x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 10: Chota Dhurandhar -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1e1b4b] flex items-center justify-center">
+              <i data-lucide="shield" class="w-5 h-5 text-[#818cf8]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Chota Dhurandhar 🛡️</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7_50kInvestedText">Invested: INR --</div>
+                <div id="v7_50kCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7_50kValue" class="font-bold text-sm">INR --</div>
+            <div id="v7_50kReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">1.56x</span></div>
+          </div>
+        </div>
+
+        <!-- Strategy 11: Cheap V7 -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#1e3a8a] flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5 text-[#60a5fa]"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Cheap V7 ⚡</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="v7_cheap_20kInvestedText">Invested: INR --</div>
+                <div id="v7_cheap_20kCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="v7_cheap_20kValue" class="font-bold text-sm">INR --</div>
+            <div id="v7_cheap_20kReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">Psych Ratio: <span class="text-growwGreen font-bold">0.516x</span></div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <!-- Interactive Chart Section -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-growwMuted font-bold">EQUITY COMPARISON</span>
+          <span id="chartRange" class="text-[10px] bg-gray-800 text-growwMuted px-2 py-0.5 rounded font-mono">LIVE PNL</span>
+        </div>
+        <div class="h-56 relative w-full">
+          <canvas id="compChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: DASHBOARD (INDIVIDUAL HOLDINGS & TRADES)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentDashboard" class="hidden space-y-6">
+      
+      <!-- Strategy Selector Toggle (Grid for mobile sizing) -->
+      <div class="grid grid-cols-3 gap-1.5 bg-growwDarkCard p-1.5 rounded-lg border border-gray-800 text-[10px] font-bold text-center">
+        <button id="toggleBulletproof" onclick="selectDashboardStrategy('bulletproof')" class="py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
+          🛡️ V2 BP
+        </button>
+        <button id="toggleNoStops" onclick="selectDashboardStrategy('nostops')" class="py-2 rounded-md text-growwMuted transition">
+          ⚡ V2 NS
+        </button>
+        <button id="toggleML" onclick="selectDashboardStrategy('ml')" class="py-2 rounded-md text-growwMuted transition">
+          🔮 V3 ML
+        </button>
+        <button id="toggleHeur" onclick="selectDashboardStrategy('heur')" class="py-2 rounded-md text-growwMuted transition col-span-1">
+          ⚙️ V4 Heur
+        </button>
+        <button id="toggleEns" onclick="selectDashboardStrategy('ens')" class="py-2 rounded-md text-growwMuted transition">
+          ⚖️ V5 Ens
+        </button>
+        <button id="togglePairs" onclick="selectDashboardStrategy('pairs')" class="py-2 rounded-md text-growwMuted transition col-span-1">
+          📊 V6 Pairs
+        </button>
+        <button id="toggleV7l" onclick="selectDashboardStrategy('v7l')" class="hidden">👑 V7 Large</button>
+        <button id="toggleV7m" onclick="selectDashboardStrategy('v7m')" class="hidden">⚡ V7 Mid</button>
+        <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2 rounded-md text-growwMuted transition col-span-3">👑 Dhurandhar Strat</button>
+        <button id="toggleV7_50k" onclick="selectDashboardStrategy('v7_50k')" class="py-2 rounded-md text-growwMuted transition col-span-3">🛡️ Chota Dhurandhar</button>
+        <button id="toggleV7_cheap_20k" onclick="selectDashboardStrategy('v7_cheap_20k')" class="py-2 rounded-md text-growwMuted transition col-span-3">⚡ Cheap V7 (20k)</button>
+      </div>
+
+      <!-- Portfolio Summary Cards -->
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Current Value</span>
+          <span id="dashEquity" class="text-sm font-bold text-white">INR --</span>
+        </div>
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Available Cash</span>
+          <span id="dashCash" class="text-sm font-bold text-white">INR --</span>
+        </div>
+        <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800">
+          <span class="text-[9px] text-growwMuted block uppercase">Psych Ratio</span>
+          <span id="dashPsychRatio" class="text-sm font-bold text-growwGreen">--</span>
+        </div>
+      </div>
+
+      <!-- Active Holdings Section -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Active Holdings</h3>
+        <div id="holdingsList" class="space-y-2">
+          <!-- Populated dynamically via JS -->
+          <div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently in Cash)</div>
+        </div>
+      </div>
+
+      <!-- Recent Trades Log -->
+      <div class="space-y-3">
+        <h3 class="text-xs text-growwMuted font-bold uppercase tracking-wider">Recent Trades</h3>
+        <div id="tradesList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+      TAB CONTENT: MANUAL (IN-APP STRATEGY DOCUMENTATION)
+    ────────────────────────────────────────────────────────────────────────── -->
+    <section id="contentManual" class="hidden space-y-6">
+      
+      <!-- Blueprints Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-4">
+        <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Strategy Architecture & Rules</span>
+        </h2>
+        <div class="text-[11px] text-growwMuted space-y-3 leading-relaxed">
+          <p><strong class="text-white">1. V2 Option A Momentum:</strong> Relies on a Gaussian Mixture Model (GMM) index regime classifier. In a <span class="text-growwGreen font-semibold">Bullish</span> regime, it picks stocks with positive Supertrend direction ranked by 20-day returns. In a <span class="text-white font-semibold">Choppy</span> regime, it selects stocks trading below their Bollinger Band upper limits, scoring them by reversion distance.</p>
+          <p><strong class="text-white">2. Softmax Allocation:</strong> Weights the scored stocks exponentially, concentrating funds in the strongest configurations while distributing minor parts to avoid single-stock risk.</p>
+          <p><strong class="text-white">3. Nifty EMA-50 Switch (Bulletproof):</strong> Daily safety breaker. If the Nifty 50 close price is below its 50-day EMA, it liquidates all holdings at market close to sit in <span class="text-growwGreen font-semibold">100% Cash</span>.</p>
+        </div>
+      </div>
+
+      <!-- Backtest History Card -->
+      <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 space-y-6 max-h-[500px] overflow-y-auto pr-1">
+        <h2 class="text-growwGreen font-bold text-sm flex items-center space-x-2">
+          <i data-lucide="line-chart" class="w-4 h-4"></i>
+          <span>Verified Backtest Records & Charts</span>
+        </h2>
+        
+        <!-- Section A: 7.5 Year -->
+        <div class="space-y-3 border-b border-gray-800 pb-5">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">7.5-Year Stress-Test (2019-2026)</span>
+            <span class="text-[8px] bg-[#123E35] text-growwGreen px-1.5 py-0.5 rounded font-mono font-bold">10 STOCKS</span>
+          </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">Option A (Full)</th>
+                <th class="py-1 text-center">Option C (Hybrid)</th>
+                <th class="py-1 text-right">Buy & Hold</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwGreen font-bold">26.99%</td>
+                <td class="py-1 text-center">22.94%</td>
+                <td class="py-1 text-right">16.35%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwGreen font-bold">-23.23%</td>
+                <td class="py-1 text-center">-20.46%</td>
+                <td class="py-1 text-right text-growwRed">-32.20%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center font-semibold">1.075</td>
+                <td class="py-1 text-center">1.035</td>
+                <td class="py-1 text-right">0.688</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sortino Ratio</td>
+                <td class="py-1 text-center">1.609</td>
+                <td class="py-1 text-center">1.526</td>
+                <td class="py-1 text-right">0.843</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_7yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="7-Year Backtest PnL" />
+        </div>
+
+        <!-- Section B: 20 Year -->
+        <div class="space-y-3 border-b border-gray-800 pb-5">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">20-Year Clean Run (2006-2026)</span>
+            <span class="text-[8px] bg-[#382625] text-growwRed px-1.5 py-0.5 rounded font-mono font-bold">DYNAMIC 40</span>
+          </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">No-Stops</th>
+                <th class="py-1 text-right">Bulletproof</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwRed">17.18%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">16.33%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwRed">-52.70%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">-29.92%</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center">0.624</td>
+                <td class="py-1 text-right text-growwGreen font-bold">0.695</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_20yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="20-Year Backtest PnL" />
+        </div>
+
+        <!-- Section C: 30 Year -->
+        <div class="space-y-3 pb-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">30-Year Long Run (1996-2026)</span>
+            <span class="text-[8px] bg-[#24323F] text-growwMuted px-1.5 py-0.5 rounded font-mono font-bold">STATIC 40</span>
+          </div>
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">No-Stops</th>
+                <th class="py-1 text-right">Bulletproof</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwRed">25.98%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwRed">-89.39%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center">0.305</td>
+                <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_30yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="30-Year Backtest PnL" />
+        </div>
+      </div>
+
+    </section>
+
+
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+    APPLICATION JAVASCRIPT
+  ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    let activeTab = 'explore';
+    let dashStrategy = 'bulletproof';
+
+    const HISTORICAL_PSYCH_RATIOS = {
+      'bulletproof': '1.82x',
+      'nostops': '1.27x',
+      'ml': '2.44x',
+      'heur': '2.68x',
+      'ens': '2.86x',
+      'pairs': '3.50x',
+      'v7l': '3.08x',
+      'v7m': '4.10x',
+      'v7h': '6.50x',
+      'v7_50k': '1.56x',
+      'v7_cheap_20k': '0.516x'
+
+    };
+    
+    let bpState = null;
+    let nsState = null;
+    let mlState = null;
+    let heurState = null;
+    let ensState = null;
+    let pairsState = null;
+    let v7lState = null;
+    let v7mState = null;
+    let v7hState = null;
+    let v7_50kState = null;
+    let v7_cheap_20kState = null;
+    
+    let bpPnL = [];
+    let nsPnL = [];
+    let mlPnL = [];
+    let heurPnL = [];
+    let ensPnL = [];
+    let pairsPnL = [];
+    let v7lPnL = [];
+    let v7mPnL = [];
+    let v7hPnL = [];
+    let v7_50kPnL = [];
+    let v7_cheap_20kPnL = [];
+    
+    let myChart = null;
+
+    async function initApp() {
+      document.getElementById('refreshBtn').classList.add('animate-spin');
+      
+      try {
+        // Fetch portfolio JSON states
+        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
+          fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v4_heuristic.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_ensemble_70_30.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_large.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_mid.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_50k.json').then(r => r.json()).catch(() => null),
+          fetch('./states/portfolio_v7_cheap_20k.json').then(r => r.json()).catch(() => null)
+        ]);
+        
+        bpState = rBpState;
+        nsState = rNsState;
+        mlState = rMlState;
+        heurState = rHeurState;
+        ensState = rEnsState;
+        pairsState = rPairsState;
+        v7lState = rV7lState;
+        v7mState = rV7mState;
+        v7hState = rV7hState;
+        v7_50kState = rV7_50kState;
+        v7_cheap_20kState = rV7_cheap_20kState;
+
+        // Fetch CSV data
+        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
+          fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v4_heuristic.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_ensemble_70_30.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_large.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_mid.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_50k.csv').then(r => r.text()).catch(() => ''),
+          fetch('./data/pnl_v7_cheap_20k.csv').then(r => r.text()).catch(() => '')
+        ]);
+        
+        bpPnL = parseCSV(rBpCsv);
+        nsPnL = parseCSV(rNsCsv);
+        mlPnL = parseCSV(rMlCsv);
+        heurPnL = parseCSV(rHeurCsv);
+        ensPnL = parseCSV(rEnsCsv);
+        pairsPnL = parseCSV(rPairsCsv);
+        v7lPnL = parseCSV(rV7lCsv);
+        v7mPnL = parseCSV(rV7mCsv);
+        v7hPnL = parseCSV(rV7hCsv);
+        v7_50kPnL = parseCSV(rV7_50kCsv);
+        v7_cheap_20kPnL = parseCSV(rV7_cheap_20kCsv);
+
+        // Fetch Nifty Close for index tracker
+        // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
+        // For simplicity and resilience, we pull the last row date price
+        await updateMarketTracker();
+
+        // Render UI
+        updateSummaryMetrics();
+        renderChart();
+        updateDashboardView();
+        
+      } catch (err) {
+        console.error("Error loading paper trading dashboard data", err);
+      } finally {
+        document.getElementById('refreshBtn').classList.remove('animate-spin');
+      }
+    }
+
+    function parseCSV(csvText) {
+      if (!csvText) return [];
+      const lines = csvText.trim().split('\n');
+      const header = lines[0].split(',');
+      const valIdx = header.indexOf('portfolio_value');
+      const dateIdx = header.indexOf('date');
+      
+      const data = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',');
+        if (cols.length >= header.length) {
+          data.push({
+            date: cols[dateIdx],
+            value: parseFloat(cols[valIdx])
+          });
+        }
+      }
+      return data;
+    }
+
+    async function updateMarketTracker() {
+      // Fetch index info from yfinance raw representation
+      // For fallback we render current date
+      const niftyCloseEl = document.getElementById('niftyClose');
+      const niftyBadgeEl = document.getElementById('niftyBadge');
+      
+      // Fallback
+      niftyCloseEl.innerText = "Active";
+      niftyBadgeEl.innerText = "REGIME STABLE";
+      niftyBadgeEl.className = "px-2.5 py-1 rounded text-xs font-semibold bg-[#123E35] text-growwGreen";
+    }
+
+    function updateSummaryMetrics() {
+      const bpVal = bpPnL.length ? bpPnL[bpPnL.length - 1].value : 100000.0;
+      const nsVal = nsPnL.length ? nsPnL[nsPnL.length - 1].value : 100000.0;
+      const mlVal = mlPnL.length ? mlPnL[mlPnL.length - 1].value : 100000.0;
+      const heurVal = heurPnL.length ? heurPnL[heurPnL.length - 1].value : 100000.0;
+      const ensVal = ensPnL.length ? ensPnL[ensPnL.length - 1].value : 100000.0;
+      const pairsVal = pairsPnL.length ? pairsPnL[pairsPnL.length - 1].value : 100000.0;
+      const v7lVal = v7lPnL.length ? v7lPnL[v7lPnL.length - 1].value : 100000.0;
+      const v7mVal = v7mPnL.length ? v7mPnL[v7mPnL.length - 1].value : 100000.0;
+      const v7hVal = v7hPnL.length ? v7hPnL[v7hPnL.length - 1].value : 100000.0;
+      
+      const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const mlRet = ((mlVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const heurRet = ((heurVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const ensRet = ((ensVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const pairsRet = ((pairsVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7lRet = ((v7lVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7mRet = ((v7mVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const v7hRet = ((v7hVal - 100000.0) / 100000.0 * 100).toFixed(2);
+
+      const bpCash = bpState ? bpState.cash : 100000.0;
+      const nsCash = nsState ? nsState.cash : 100000.0;
+      const mlCash = mlState ? mlState.cash : 100000.0;
+      const heurCash = heurState ? heurState.cash : 100000.0;
+      const ensCash = ensState ? ensState.cash : 100000.0;
+      const pairsCash = pairsState ? pairsState.cash : 100000.0;
+      const v7lCash = v7lState ? v7lState.cash : 100000.0;
+      const v7mCash = v7mState ? v7mState.cash : 100000.0;
+      const v7hCash = v7hState ? v7hState.cash : 100000.0;
+
+      const bpInvest = Math.max(0, bpVal - bpCash);
+      const nsInvest = Math.max(0, nsVal - nsCash);
+      const mlInvest = Math.max(0, mlVal - mlCash);
+      const heurInvest = Math.max(0, heurVal - heurCash);
+      const ensInvest = Math.max(0, ensVal - ensCash);
+      const pairsInvest = Math.max(0, pairsVal - pairsCash);
+      const v7lInvest = Math.max(0, v7lVal - v7lCash);
+      const v7mInvest = Math.max(0, v7mVal - v7mCash);
+      const v7hInvest = Math.max(0, v7hVal - v7hCash);
+
+      const v7_50kVal = v7_50kPnL.length ? v7_50kPnL[v7_50kPnL.length - 1].value : 50000.0;
+      const v7_50kRet = ((v7_50kVal - 50000.0) / 50000.0 * 100).toFixed(2);
+      const v7_50kCash = v7_50kState ? v7_50kState.cash : 50000.0;
+      const v7_50kInvest = Math.max(0, v7_50kVal - v7_50kCash);
+
+      const v7_cheap_20kVal = v7_cheap_20kPnL.length ? v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value : 20000.0;
+      const v7_cheap_20kRet = ((v7_cheap_20kVal - 20000.0) / 20000.0 * 100).toFixed(2);
+      const v7_cheap_20kCash = v7_cheap_20kState ? v7_cheap_20kState.cash : 20000.0;
+      const v7_cheap_20kInvest = Math.max(0, v7_cheap_20kVal - v7_cheap_20kCash);
+
+      document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
+      document.getElementById('bpReturn').className = `text-xs font-semibold ${bpRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('bpInvestedText').innerText = `Invested: INR ${bpInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('bpCashText').innerText = `Cash: INR ${bpCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('nsValue').innerText = `INR ${nsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('nsReturn').innerText = `${nsRet >= 0 ? '+' : ''}${nsRet}%`;
+      document.getElementById('nsReturn').className = `text-xs font-semibold ${nsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('nsInvestedText').innerText = `Invested: INR ${nsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('nsCashText').innerText = `Cash: INR ${nsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('mlValue').innerText = `INR ${mlVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('mlReturn').innerText = `${mlRet >= 0 ? '+' : ''}${mlRet}%`;
+      document.getElementById('mlReturn').className = `text-xs font-semibold ${mlRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('mlInvestedText').innerText = `Invested: INR ${mlInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('mlCashText').innerText = `Cash: INR ${mlCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('heurValue').innerText = `INR ${heurVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('heurReturn').innerText = `${heurRet >= 0 ? '+' : ''}${heurRet}%`;
+      document.getElementById('heurReturn').className = `text-xs font-semibold ${heurRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('heurInvestedText').innerText = `Invested: INR ${heurInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('heurCashText').innerText = `Cash: INR ${heurCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('ensValue').innerText = `INR ${ensVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('ensReturn').innerText = `${ensRet >= 0 ? '+' : ''}${ensRet}%`;
+      document.getElementById('ensReturn').className = `text-xs font-semibold ${ensRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('ensInvestedText').innerText = `Invested: INR ${ensInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('ensCashText').innerText = `Cash: INR ${ensCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('pairsValue').innerText = `INR ${pairsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('pairsReturn').innerText = `${pairsRet >= 0 ? '+' : ''}${pairsRet}%`;
+      document.getElementById('pairsReturn').className = `text-xs font-semibold ${pairsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('pairsInvestedText').innerText = `Invested: INR ${pairsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('pairsCashText').innerText = `Cash: INR ${pairsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7lValue').innerText = `INR ${v7lVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7lReturn').innerText = `${v7lRet >= 0 ? '+' : ''}${v7lRet}%`;
+      document.getElementById('v7lReturn').className = `text-xs font-semibold ${v7lRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7lInvestedText').innerText = `Invested: INR ${v7lInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7lCashText').innerText = `Cash: INR ${v7lCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7mValue').innerText = `INR ${v7mVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7mReturn').innerText = `${v7mRet >= 0 ? '+' : ''}${v7mRet}%`;
+      document.getElementById('v7mReturn').className = `text-xs font-semibold ${v7mRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7mInvestedText').innerText = `Invested: INR ${v7mInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7mCashText').innerText = `Cash: INR ${v7mCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7hValue').innerText = `INR ${v7hVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7hReturn').innerText = `${v7hRet >= 0 ? '+' : ''}${v7hRet}%`;
+      document.getElementById('v7hReturn').className = `text-xs font-semibold ${v7hRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7hInvestedText').innerText = `Invested: INR ${v7hInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7hCashText').innerText = `Cash: INR ${v7hCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7_50kValue').innerText = `INR ${v7_50kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_50kReturn').innerText = `${v7_50kRet >= 0 ? '+' : ''}${v7_50kRet}%`;
+      document.getElementById('v7_50kReturn').className = `text-xs font-semibold ${v7_50kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7_50kInvestedText').innerText = `Invested: INR ${v7_50kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_50kCashText').innerText = `Cash: INR ${v7_50kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      document.getElementById('v7_cheap_20kValue').innerText = `INR ${v7_cheap_20kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_cheap_20kReturn').innerText = `${v7_cheap_20kRet >= 0 ? '+' : ''}${v7_cheap_20kRet}%`;
+      document.getElementById('v7_cheap_20kReturn').className = `text-xs font-semibold ${v7_cheap_20kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('v7_cheap_20kInvestedText').innerText = `Invested: INR ${v7_cheap_20kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('v7_cheap_20kCashText').innerText = `Cash: INR ${v7_cheap_20kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+    }
+
+
+    function renderChart() {
+      if (myChart) myChart.destroy();
+      
+      const ctx = document.getElementById('compChart').getContext('2d');
+      
+      // Get the union of all unique dates across active strategies
+      const allDates = Array.from(new Set([
+        ...bpPnL.map(x => x.date),
+        ...nsPnL.map(x => x.date),
+        ...mlPnL.map(x => x.date),
+        ...heurPnL.map(x => x.date),
+        ...ensPnL.map(x => x.date),
+        ...pairsPnL.map(x => x.date),
+        ...v7hPnL.map(x => x.date),
+        ...v7_50kPnL.map(x => x.date),
+        ...v7_cheap_20kPnL.map(x => x.date)
+      ])).filter(Boolean).sort();
+
+      // Helper function to align and forward-fill values to a unified date scale
+      function alignDataset(pnlList, dates, initialVal = 100000.0) {
+        const pnlMap = {};
+        pnlList.forEach(x => { pnlMap[x.date] = x.value; });
+        let lastVal = initialVal;
+        return dates.map(date => {
+          if (pnlMap[date] !== undefined) {
+            lastVal = pnlMap[date];
+          }
+          return lastVal;
+        });
+      }
+
+      const labels = allDates.map(dateStr => {
+        const [year, month, day] = dateStr.split('-');
+        return [`${parseInt(day)}/${parseInt(month)}`, year];
+      });
+      const bpValues = alignDataset(bpPnL, allDates, 100000.0);
+      const nsValues = alignDataset(nsPnL, allDates, 100000.0);
+      const mlValues = alignDataset(mlPnL, allDates, 100000.0);
+      const heurValues = alignDataset(heurPnL, allDates, 100000.0);
+      const ensValues = alignDataset(ensPnL, allDates, 100000.0);
+      const pairsValues = alignDataset(pairsPnL, allDates, 100000.0);
+      const v7hValues = alignDataset(v7hPnL, allDates, 100000.0);
+      const v7_50kValues = alignDataset(v7_50kPnL, allDates, 50000.0);
+      const v7_cheap_20kValues = alignDataset(v7_cheap_20kPnL, allDates, 20000.0);
+
+      myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.length ? labels : ['Starting'],
+          datasets: [
+            {
+              label: 'Bulletproof 🛡️',
+              data: bpValues.length ? bpValues : [100000],
+              borderColor: '#00D09C',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'No-Stops ⚡',
+              data: nsValues.length ? nsValues : [100000],
+              borderColor: '#FF5C5C',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Version 3.0 ML 🔮',
+              data: mlValues.length ? mlValues : [100000],
+              borderColor: '#9b59b6',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
+            },
+            {
+              label: 'Version 4.0 Heuristic ⚙️',
+              data: heurValues.length ? heurValues : [100000],
+              borderColor: '#e67e22',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
+            },
+            {
+              label: 'Version 5.0 Ensemble ⚖️',
+              data: ensValues.length ? ensValues : [100000],
+              borderColor: '#85929e',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false,
+              hidden: true
+            },
+            {
+              label: 'Version 6.0 Pairs 📊',
+              data: pairsValues.length ? pairsValues : [100000],
+              borderColor: '#3498db',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Dhurandhar Strat 👑',
+              data: v7hValues.length ? v7hValues : [100000],
+              borderColor: '#1abc9c',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Chota Dhurandhar 🛡️',
+              data: v7_50kValues.length ? v7_50kValues.map(v => v * 2) : [100000], // Normalized to 100k for charting comparison
+              borderColor: '#818cf8',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'Cheap V7 ⚡',
+              data: v7_cheap_20kValues.length ? v7_cheap_20kValues.map(v => v * 5) : [100000], // Normalized to 100k for charting comparison (5x on 20k)
+              borderColor: '#f59e0b',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#E5E7EB',
+                boxWidth: 12,
+                padding: 15,
+                font: {
+                  size: 9,
+                  family: "'Inter', sans-serif"
+                }
+              }
+            },
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x'
+              },
+              pan: {
+                enabled: true,
+                mode: 'x'
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: true,
+                color: 'rgba(255, 255, 255, 0.08)'
+              },
+              ticks: {
+                color: '#8B9EAE',
+                font: { size: 9 },
+                maxTicksLimit: 12
+              }
+            },
+            y: {
+              grid: {
+                display: true,
+                color: 'rgba(255, 255, 255, 0.08)'
+              },
+              ticks: {
+                color: '#8B9EAE',
+                font: { size: 9 },
+                callback: function(value) {
+                  return 'INR ' + (value/1000) + 'k';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      
+      const tabExplore = document.getElementById('tabExplore');
+      const tabDashboard = document.getElementById('tabDashboard');
+      const tabManual = document.getElementById('tabManual');
+      
+      const contentExplore = document.getElementById('contentExplore');
+      const contentDashboard = document.getElementById('contentDashboard');
+      const contentManual = document.getElementById('contentManual');
+
+      // Reset styling
+      tabExplore.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+      tabDashboard.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+      tabManual.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
+
+      // Hide all content
+      contentExplore.classList.add('hidden');
+      contentDashboard.classList.add('hidden');
+      contentManual.classList.add('hidden');
+
+      // Activate selected
+      if (tab === 'explore') {
+        tabExplore.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
+        contentExplore.classList.remove('hidden');
+      } else if (tab === 'dashboard') {
+        tabDashboard.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
+        contentDashboard.classList.remove('hidden');
+      } else {
+        tabManual.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
+        contentManual.classList.remove('hidden');
+      }
+    }
+
+
+    function selectDashboardStrategy(strategy) {
+      dashStrategy = strategy;
+      const toggleBP = document.getElementById('toggleBulletproof');
+      const toggleNS = document.getElementById('toggleNoStops');
+      const toggleML = document.getElementById('toggleML');
+      const toggleHeur = document.getElementById('toggleHeur');
+      const toggleEns = document.getElementById('toggleEns');
+      const togglePairs = document.getElementById('togglePairs');
+      const toggleV7l = document.getElementById('toggleV7l');
+      const toggleV7m = document.getElementById('toggleV7m');
+      const toggleV7h = document.getElementById('toggleV7h');
+      const toggleV7_50k = document.getElementById('toggleV7_50k');
+      const toggleV7_cheap_20k = document.getElementById('toggleV7_cheap_20k');
+
+      toggleBP.className = "py-2 rounded-md text-growwMuted transition";
+      toggleNS.className = "py-2 rounded-md text-growwMuted transition";
+      toggleML.className = "py-2 rounded-md text-growwMuted transition";
+      toggleHeur.className = "py-2 rounded-md text-growwMuted transition";
+      toggleEns.className = "py-2 rounded-md text-growwMuted transition";
+      togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7l.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7m.className = "py-2 rounded-md text-growwMuted transition col-span-1";
+      toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+      toggleV7_50k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+      toggleV7_cheap_20k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+
+      if (strategy === 'bulletproof') {
+        toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'nostops') {
+        toggleNS.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'ml') {
+        toggleML.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'heur') {
+        toggleHeur.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'ens') {
+        toggleEns.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'pairs') {
+        togglePairs.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7l') {
+        toggleV7l.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7m') {
+        toggleV7m.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
+      } else if (strategy === 'v7h') {
+        toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      } else if (strategy === 'v7_50k') {
+        toggleV7_50k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      } else if (strategy === 'v7_cheap_20k') {
+        toggleV7_cheap_20k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      }
+      updateDashboardView();
+    }
+    function updateDashboardView() {
+      let activeState = null;
+      if (dashStrategy === 'bulletproof') activeState = bpState;
+      else if (dashStrategy === 'nostops') activeState = nsState;
+      else if (dashStrategy === 'ml') activeState = mlState;
+      else if (dashStrategy === 'heur') activeState = heurState;
+      else if (dashStrategy === 'ens') activeState = ensState;
+      else if (dashStrategy === 'pairs') activeState = pairsState;
+      else if (dashStrategy === 'v7l') activeState = v7lState;
+      else if (dashStrategy === 'v7m') activeState = v7mState;
+      else if (dashStrategy === 'v7h') activeState = v7hState;
+      else if (dashStrategy === 'v7_50k') activeState = v7_50kState;
+      else activeState = v7_cheap_20kState;
+
+      let equityVal = 100000.0;
+      if (dashStrategy === 'bulletproof' && bpPnL.length) {
+        equityVal = bpPnL[bpPnL.length - 1].value;
+      } else if (dashStrategy === 'nostops' && nsPnL.length) {
+        equityVal = nsPnL[nsPnL.length - 1].value;
+      } else if (dashStrategy === 'ml' && mlPnL.length) {
+        equityVal = mlPnL[mlPnL.length - 1].value;
+      } else if (dashStrategy === 'heur' && heurPnL.length) {
+        equityVal = heurPnL[heurPnL.length - 1].value;
+      } else if (dashStrategy === 'ens' && ensPnL.length) {
+        equityVal = ensPnL[ensPnL.length - 1].value;
+      } else if (dashStrategy === 'pairs' && pairsPnL.length) {
+        equityVal = pairsPnL[pairsPnL.length - 1].value;
+      } else if (dashStrategy === 'v7l' && v7lPnL.length) {
+        equityVal = v7lPnL[v7lPnL.length - 1].value;
+      } else if (dashStrategy === 'v7m' && v7mPnL.length) {
+        equityVal = v7mPnL[v7mPnL.length - 1].value;
+      } else if (dashStrategy === 'v7h' && v7hPnL.length) {
+        equityVal = v7hPnL[v7hPnL.length - 1].value;
+      } else if (dashStrategy === 'v7_50k' && v7_50kPnL.length) {
+        equityVal = v7_50kPnL[v7_50kPnL.length - 1].value;
+      } else if (v7_cheap_20kPnL.length) {
+        equityVal = v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value;
+      }
+      
+      const dashEquityEl = document.getElementById('dashEquity');
+      const dashCashEl = document.getElementById('dashCash');
+      const dashPsychRatioEl = document.getElementById('dashPsychRatio');
+      const holdingsListEl = document.getElementById('holdingsList');
+
+      if (!activeState) {
+        dashEquityEl.innerText = "INR --";
+        dashCashEl.innerText = "INR --";
+        dashPsychRatioEl.innerText = "--";
+        holdingsListEl.innerHTML = `<div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently in Cash)</div>`;
+        return;
+      }
+
+      dashEquityEl.innerText = `INR ${equityVal.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
+      dashCashEl.innerText = `INR ${activeState.cash.toLocaleString('en-IN', {maximumFractionDigits:2})}`;
+      dashPsychRatioEl.innerText = HISTORICAL_PSYCH_RATIOS[dashStrategy] || '--';
+
+      // Holdings list
+      const holdings = activeState.holdings || {};
+      const holdingKeys = Object.keys(holdings);
+
+      if (holdingKeys.length === 0) {
+        holdingsListEl.innerHTML = `<div class="text-center text-sm text-growwMuted py-4">No active holdings (Currently 100% Cash)</div>`;
+      } else {
+        let html = '';
+        for (const t of holdingKeys) {
+          const info = holdings[t];
+          const firstChar = t.charAt(0);
+          
+          // Generate simulated live price return
+          const avgCost = info.avg_price || 0;
+          const val = info.shares * avgCost;
+          
+          html += `
+            <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800 flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-[#24323F] flex items-center justify-center font-bold text-growwGreen text-sm">
+                  ${firstChar}
+                </div>
+                <div>
+                  <div class="font-bold text-xs text-white">${t.replace('.NS', '')}</div>
+                  <div class="text-[10px] text-growwMuted">${info.shares.toFixed(3)} shares @ INR ${avgCost.toFixed(1)}</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-xs">INR ${val.toLocaleString('en-IN', {maximumFractionDigits:0})}</div>
+                <div class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-[#123E35] text-growwGreen inline-block mt-0.5">Hold</div>
+              </div>
+            </div>
+          `;
+        }
+        holdingsListEl.innerHTML = html;
+      }
+      
+      // Update trades list
+      updateTradesView();
+    }
+
+    async function updateTradesView() {
+      const tradesListEl = document.getElementById('tradesList');
+      let suffix = 'v7_hybrid';
+      if (dashStrategy === 'bulletproof') suffix = 'bulletproof';
+      else if (dashStrategy === 'nostops') suffix = 'nostops';
+      else if (dashStrategy === 'ml') suffix = 'v3_ml';
+      else if (dashStrategy === 'heur') suffix = 'v4_heuristic';
+      else if (dashStrategy === 'ens') suffix = 'ensemble_70_30';
+      else if (dashStrategy === 'pairs') suffix = 'pairs';
+      else if (dashStrategy === 'v7l') suffix = 'v7_large';
+      else if (dashStrategy === 'v7m') suffix = 'v7_mid';
+      else if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
+      else if (dashStrategy === 'v7_50k') suffix = 'v7_50k';
+      else if (dashStrategy === 'v7_cheap_20k') suffix = 'v7_cheap_20k';
+      
+      try {
+        const csvText = await fetch(`./data/trades_${suffix}.csv`).then(r => r.text()).catch(() => '');
+        if (!csvText) {
+          tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">No trades logged yet</div>`;
+          return;
+        }
+        
+        const lines = csvText.trim().split('\n');
+        if (lines.length <= 1) {
+          tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">No trades logged yet</div>`;
+          return;
+        }
+
+        const header = lines[0].split(',');
+        const dateIdx = header.indexOf('date');
+        const tickerIdx = header.indexOf('ticker');
+        const actionIdx = header.indexOf('action');
+        const priceIdx = header.indexOf('price');
+        const reasonIdx = header.indexOf('reason');
+
+        let html = '';
+        // Show last 10 trades reversed
+        const start = Math.max(1, lines.length - 15);
+        for (let i = lines.length - 1; i >= start; i--) {
+          const cols = lines[i].split(',');
+          if (cols.length >= header.length) {
+            const date = cols[dateIdx];
+            const ticker = cols[tickerIdx].replace('.NS', '');
+            const action = cols[actionIdx];
+            const price = parseFloat(cols[priceIdx]).toFixed(1);
+            const reason = cols[reasonIdx] || 'Rebalance';
+
+            const badgeColor = action === 'BUY' ? 'bg-[#123E35] text-growwGreen' : 'bg-[#382625] text-growwRed';
+
+            html += `
+              <div class="bg-growwDarkCard p-3 rounded-xl border border-gray-800 flex justify-between items-start text-xs">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span class="font-bold text-white">${ticker}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase ${badgeColor}">${action}</span>
+                  </div>
+                  <span class="text-[9px] text-growwMuted block mt-0.5">${reason}</span>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-white">INR ${price}</div>
+                  <span class="text-[8px] text-growwMuted block mt-0.5">${date}</span>
+                </div>
+              </div>
+            `;
+          }
+        }
+        tradesListEl.innerHTML = html;
+      } catch (err) {
+        tradesListEl.innerHTML = `<div class="text-center text-xs text-growwMuted py-4">Failed to load trades log</div>`;
+      }
+    }
+
+    // Initialize the Lucide Icons
+    lucide.createIcons();
+    initApp();
+  </script>
+</body>
+</html>
