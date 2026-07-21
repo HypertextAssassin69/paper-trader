@@ -350,6 +350,45 @@
           <div class="flex justify-between items-center">
             <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">30-Year Long Run (1996-2026)</span>
             <span class="text-[8px] bg-[#24323F] text-growwMuted px-1.5 py-0.5 rounded font-mono font-bold">STATIC 40</span>
+          </div>
+
+          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-white font-bold">
+                <th class="py-1">Metric</th>
+                <th class="py-1 text-center">No-Stops</th>
+                <th class="py-1 text-right">Bulletproof</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">CAGR</td>
+                <td class="py-1 text-center text-growwRed">25.98%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-1 font-semibold text-white">Max Drawdown</td>
+                <td class="py-1 text-center text-growwRed">-89.39%</td>
+                <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
+                <td class="py-1 text-center">0.305</td>
+                <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
+              </tr>
+            </tbody>
+          </table>
+          <img src="charts/backtest_30yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="30-Year Backtest PnL" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+    APPLICATION JAVASCRIPT
+  ────────────────────────────────────────────────────────────────────────── -->
+  <script>
+    let activeTab = 'explore';
     let dashStrategy = 'v7h';
     const HISTORICAL_PSYCH_RATIOS = {
       'v7h': '6.50x',
