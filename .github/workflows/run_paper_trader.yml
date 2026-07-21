@@ -4,6 +4,8 @@ on:
   schedule:
     # 10:15 AM UTC = 3:45 PM IST  (Mon–Fri only)
     - cron: '15 10 * * 1-5'
+    # Run walk-forward backtest every Sunday at 6 AM IST (00:30 AM UTC)
+    - cron: '30 0 * * 0'
   workflow_dispatch:   # allows manual trigger from GitHub UI
 
 permissions:
@@ -29,67 +31,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run comparative paper_trader.py (No-Stops)
+      - name: Update stock universe (screen & rotate tickers)
+        run: python D:\College\analyst\update_universe.py
+        continue-on-error: true  # If screening fails, keep running with last known good tickers
+
+      - name: Run V8 Master Hybrid paper trader (Capital: 1L - 15L)
         run: |
           cd compare_strats
-          python paper_trader.py
+          python v8_improved_pairs_engine.py
           cd ..
 
-      - name: Run comparative paper_trader_strat_bullet_proof.py (Bulletproof)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_bullet_proof.py
-          cd ..
-
-      - name: Run comparative paper_trader_strat_v3_ml.py (V3 ML)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v3_ml.py
-          cd ..
-
-      - name: Run comparative paper_trader_strat_v4_heuristic.py (V4 Heuristic)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v4_heuristic.py
-          cd ..
-
-      - name: Run comparative paper_trader_strat_ensemble_70_30.py (V5 Ensemble)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_ensemble_70_30.py
-          cd ..
-
-      - name: Run institutional pairs paper trader (V6 Pairs)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_pairs.py
-          cd ..
-
-      - name: Run V7 Large-Cap paper trader (V7 Apex Large)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v7_large.py
-          cd ..
-
-      - name: Run V7 Mid-Cap paper trader (V7 Apex Mid)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v7_mid.py
-          cd ..
-
-      - name: Run V7 Hybrid paper trader (V7 Apex Hybrid)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v7_hybrid.py
-          cd ..
-
-      - name: Run V7 Hybrid 50k paper trader (Chota Dhurandhar)
-        run: |
-          cd compare_strats
-          python paper_trader_strat_v7_hybrid_50k.py
-          cd ..
-
-      - name: Run Cheap V7 20k paper trader (Cheap V7)
+      - name: Run Cheap V7 20k paper trader (Capital: 20k - 50k)
         run: |
           cd compare_strats
           python paper_trader_strat_v7_cheap_20k.py
