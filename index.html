@@ -350,85 +350,17 @@
           <div class="flex justify-between items-center">
             <span class="text-[10px] text-growwGreen font-bold uppercase tracking-wider">30-Year Long Run (1996-2026)</span>
             <span class="text-[8px] bg-[#24323F] text-growwMuted px-1.5 py-0.5 rounded font-mono font-bold">STATIC 40</span>
-          </div>
-          <table class="w-full text-[9px] text-left text-growwMuted border-collapse">
-            <thead>
-              <tr class="border-b border-gray-800 text-white font-bold">
-                <th class="py-1">Metric</th>
-                <th class="py-1 text-center">No-Stops</th>
-                <th class="py-1 text-right">Bulletproof</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-800">
-                <td class="py-1 font-semibold text-white">CAGR</td>
-                <td class="py-1 text-center text-growwRed">25.98%</td>
-                <td class="py-1 text-right text-growwGreen font-bold">21.52%</td>
-              </tr>
-              <tr class="border-b border-gray-800">
-                <td class="py-1 font-semibold text-white">Max Drawdown</td>
-                <td class="py-1 text-center text-growwRed">-89.39%</td>
-                <td class="py-1 text-right text-growwGreen font-bold">-21.39%</td>
-              </tr>
-              <tr>
-                <td class="py-1 font-semibold text-white">Sharpe Ratio</td>
-                <td class="py-1 text-center">0.305</td>
-                <td class="py-1 text-right text-growwGreen font-bold">0.988</td>
-              </tr>
-            </tbody>
-          </table>
-          <img src="charts/backtest_30yr.png" class="w-full rounded-lg mt-2 border border-gray-800" alt="30-Year Backtest PnL" />
-        </div>
-      </div>
-
-    </section>
-
-
-  </div>
-
-
-  <!-- ─────────────────────────────────────────────────────────────────────────
-    APPLICATION JAVASCRIPT
-  ────────────────────────────────────────────────────────────────────────── -->
-  <script>
-    let activeTab = 'explore';
-    let dashStrategy = 'bulletproof';
-
-    const HISTORICAL_PSYCH_RATIOS = {
-      'bulletproof': '1.82x',
-      'nostops': '1.27x',
-      'ml': '2.44x',
-      'heur': '2.68x',
-      'ens': '2.86x',
-      'pairs': '3.50x',
-      'v7l': '3.08x',
-      'v7m': '4.10x',
+    let dashStrategy = 'v7h';
+    const psychRatios = {
       'v7h': '6.50x',
       'v7_50k': '1.56x',
       'v7_cheap_20k': '0.516x'
-
     };
     
-    let bpState = null;
-    let nsState = null;
-    let mlState = null;
-    let heurState = null;
-    let ensState = null;
-    let pairsState = null;
-    let v7lState = null;
-    let v7mState = null;
     let v7hState = null;
     let v7_50kState = null;
     let v7_cheap_20kState = null;
     
-    let bpPnL = [];
-    let nsPnL = [];
-    let mlPnL = [];
-    let heurPnL = [];
-    let ensPnL = [];
-    let pairsPnL = [];
-    let v7lPnL = [];
-    let v7mPnL = [];
     let v7hPnL = [];
     let v7_50kPnL = [];
     let v7_cheap_20kPnL = [];
@@ -439,63 +371,28 @@
       document.getElementById('refreshBtn').classList.add('animate-spin');
       
       try {
-        // Fetch portfolio JSON states
-        const [rBpState, rNsState, rMlState, rHeurState, rEnsState, rPairsState, rV7lState, rV7mState, rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
-          fetch('./states/portfolio_bulletproof.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_nostops.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v3_ml.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v4_heuristic.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_ensemble_70_30.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_pairs.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_large.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_mid.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_hybrid.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_50k.json').then(r => r.json()).catch(() => null),
-          fetch('./states/portfolio_v7_cheap_20k.json').then(r => r.json()).catch(() => null)
+        // Fetch 3 Dhurandhar JSON portfolio states
+        const [rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
+          fetch('./states/portfolio_v7_hybrid.json').then(r => r.ok ? r.json() : null).catch(() => null),
+          fetch('./states/portfolio_v7_50k.json').then(r => r.ok ? r.json() : null).catch(() => null),
+          fetch('./states/portfolio_v7_cheap_20k.json').then(r => r.ok ? r.json() : null).catch(() => null)
         ]);
         
-        bpState = rBpState;
-        nsState = rNsState;
-        mlState = rMlState;
-        heurState = rHeurState;
-        ensState = rEnsState;
-        pairsState = rPairsState;
-        v7lState = rV7lState;
-        v7mState = rV7mState;
         v7hState = rV7hState;
         v7_50kState = rV7_50kState;
         v7_cheap_20kState = rV7_cheap_20kState;
 
-        // Fetch CSV data
-        const [rBpCsv, rNsCsv, rMlCsv, rHeurCsv, rEnsCsv, rPairsCsv, rV7lCsv, rV7mCsv, rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
-          fetch('./data/pnl_bulletproof.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_nostops.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v3_ml.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v4_heuristic.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_ensemble_70_30.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_pairs.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_large.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_mid.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_hybrid.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_50k.csv').then(r => r.text()).catch(() => ''),
-          fetch('./data/pnl_v7_cheap_20k.csv').then(r => r.text()).catch(() => '')
+        // Fetch 3 Dhurandhar CSV data
+        const [rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
+          fetch('./data/pnl_v7_hybrid.csv').then(r => r.ok ? r.text() : '').catch(() => ''),
+          fetch('./data/pnl_v7_50k.csv').then(r => r.ok ? r.text() : '').catch(() => ''),
+          fetch('./data/pnl_v7_cheap_20k.csv').then(r => r.ok ? r.text() : '').catch(() => '')
         ]);
         
-        bpPnL = parseCSV(rBpCsv);
-        nsPnL = parseCSV(rNsCsv);
-        mlPnL = parseCSV(rMlCsv);
-        heurPnL = parseCSV(rHeurCsv);
-        ensPnL = parseCSV(rEnsCsv);
-        pairsPnL = parseCSV(rPairsCsv);
-        v7lPnL = parseCSV(rV7lCsv);
-        v7mPnL = parseCSV(rV7mCsv);
         v7hPnL = parseCSV(rV7hCsv);
         v7_50kPnL = parseCSV(rV7_50kCsv);
         v7_cheap_20kPnL = parseCSV(rV7_cheap_20kCsv);
 
-        // Fetch Nifty Close for index tracker
-        // We fetch the live Close from yahoo finance raw link through proxy or mock it with index valuation
-        // For simplicity and resilience, we pull the last row date price
         await updateMarketTracker();
 
         // Render UI
@@ -513,6 +410,7 @@
     function parseCSV(csvText) {
       if (!csvText) return [];
       const lines = csvText.trim().split('\n');
+      if (lines.length < 2) return [];
       const header = lines[0].split(',');
       const valIdx = header.indexOf('portfolio_value');
       const dateIdx = header.indexOf('date');
@@ -520,9 +418,9 @@
       const data = [];
       for (let i = 1; i < lines.length; i++) {
         const cols = lines[i].split(',');
-        if (cols.length >= header.length) {
+        if (cols.length >= header.length && cols[valIdx] && cols[dateIdx]) {
           data.push({
-            date: cols[dateIdx],
+            date: cols[dateIdx].trim(),
             value: parseFloat(cols[valIdx])
           });
         }
@@ -531,115 +429,20 @@
     }
 
     async function updateMarketTracker() {
-      // Fetch index info from yfinance raw representation
-      // For fallback we render current date
       const niftyCloseEl = document.getElementById('niftyClose');
       const niftyBadgeEl = document.getElementById('niftyBadge');
       
-      // Fallback
       niftyCloseEl.innerText = "Active";
       niftyBadgeEl.innerText = "REGIME STABLE";
       niftyBadgeEl.className = "px-2.5 py-1 rounded text-xs font-semibold bg-[#123E35] text-growwGreen";
     }
 
     function updateSummaryMetrics() {
-      const bpVal = bpPnL.length ? bpPnL[bpPnL.length - 1].value : 100000.0;
-      const nsVal = nsPnL.length ? nsPnL[nsPnL.length - 1].value : 100000.0;
-      const mlVal = mlPnL.length ? mlPnL[mlPnL.length - 1].value : 100000.0;
-      const heurVal = heurPnL.length ? heurPnL[heurPnL.length - 1].value : 100000.0;
-      const ensVal = ensPnL.length ? ensPnL[ensPnL.length - 1].value : 100000.0;
-      const pairsVal = pairsPnL.length ? pairsPnL[pairsPnL.length - 1].value : 100000.0;
-      const v7lVal = v7lPnL.length ? v7lPnL[v7lPnL.length - 1].value : 100000.0;
-      const v7mVal = v7mPnL.length ? v7mPnL[v7mPnL.length - 1].value : 100000.0;
+      // 1. Dhurandhar Master (100k start)
       const v7hVal = v7hPnL.length ? v7hPnL[v7hPnL.length - 1].value : 100000.0;
-      
-      const bpRet = ((bpVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const nsRet = ((nsVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const mlRet = ((mlVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const heurRet = ((heurVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const ensRet = ((ensVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const pairsRet = ((pairsVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const v7lRet = ((v7lVal - 100000.0) / 100000.0 * 100).toFixed(2);
-      const v7mRet = ((v7mVal - 100000.0) / 100000.0 * 100).toFixed(2);
       const v7hRet = ((v7hVal - 100000.0) / 100000.0 * 100).toFixed(2);
-
-      const bpCash = bpState ? bpState.cash : 100000.0;
-      const nsCash = nsState ? nsState.cash : 100000.0;
-      const mlCash = mlState ? mlState.cash : 100000.0;
-      const heurCash = heurState ? heurState.cash : 100000.0;
-      const ensCash = ensState ? ensState.cash : 100000.0;
-      const pairsCash = pairsState ? pairsState.cash : 100000.0;
-      const v7lCash = v7lState ? v7lState.cash : 100000.0;
-      const v7mCash = v7mState ? v7mState.cash : 100000.0;
       const v7hCash = v7hState ? v7hState.cash : 100000.0;
-
-      const bpInvest = Math.max(0, bpVal - bpCash);
-      const nsInvest = Math.max(0, nsVal - nsCash);
-      const mlInvest = Math.max(0, mlVal - mlCash);
-      const heurInvest = Math.max(0, heurVal - heurCash);
-      const ensInvest = Math.max(0, ensVal - ensCash);
-      const pairsInvest = Math.max(0, pairsVal - pairsCash);
-      const v7lInvest = Math.max(0, v7lVal - v7lCash);
-      const v7mInvest = Math.max(0, v7mVal - v7mCash);
       const v7hInvest = Math.max(0, v7hVal - v7hCash);
-
-      const v7_50kVal = v7_50kPnL.length ? v7_50kPnL[v7_50kPnL.length - 1].value : 50000.0;
-      const v7_50kRet = ((v7_50kVal - 50000.0) / 50000.0 * 100).toFixed(2);
-      const v7_50kCash = v7_50kState ? v7_50kState.cash : 50000.0;
-      const v7_50kInvest = Math.max(0, v7_50kVal - v7_50kCash);
-
-      const v7_cheap_20kVal = v7_cheap_20kPnL.length ? v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value : 20000.0;
-      const v7_cheap_20kRet = ((v7_cheap_20kVal - 20000.0) / 20000.0 * 100).toFixed(2);
-      const v7_cheap_20kCash = v7_cheap_20kState ? v7_cheap_20kState.cash : 20000.0;
-      const v7_cheap_20kInvest = Math.max(0, v7_cheap_20kVal - v7_cheap_20kCash);
-
-      document.getElementById('bpValue').innerText = `INR ${bpVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('bpReturn').innerText = `${bpRet >= 0 ? '+' : ''}${bpRet}%`;
-      document.getElementById('bpReturn').className = `text-xs font-semibold ${bpRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('bpInvestedText').innerText = `Invested: INR ${bpInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('bpCashText').innerText = `Cash: INR ${bpCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('nsValue').innerText = `INR ${nsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('nsReturn').innerText = `${nsRet >= 0 ? '+' : ''}${nsRet}%`;
-      document.getElementById('nsReturn').className = `text-xs font-semibold ${nsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('nsInvestedText').innerText = `Invested: INR ${nsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('nsCashText').innerText = `Cash: INR ${nsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('mlValue').innerText = `INR ${mlVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('mlReturn').innerText = `${mlRet >= 0 ? '+' : ''}${mlRet}%`;
-      document.getElementById('mlReturn').className = `text-xs font-semibold ${mlRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('mlInvestedText').innerText = `Invested: INR ${mlInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('mlCashText').innerText = `Cash: INR ${mlCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('heurValue').innerText = `INR ${heurVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('heurReturn').innerText = `${heurRet >= 0 ? '+' : ''}${heurRet}%`;
-      document.getElementById('heurReturn').className = `text-xs font-semibold ${heurRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('heurInvestedText').innerText = `Invested: INR ${heurInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('heurCashText').innerText = `Cash: INR ${heurCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('ensValue').innerText = `INR ${ensVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('ensReturn').innerText = `${ensRet >= 0 ? '+' : ''}${ensRet}%`;
-      document.getElementById('ensReturn').className = `text-xs font-semibold ${ensRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('ensInvestedText').innerText = `Invested: INR ${ensInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('ensCashText').innerText = `Cash: INR ${ensCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('pairsValue').innerText = `INR ${pairsVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('pairsReturn').innerText = `${pairsRet >= 0 ? '+' : ''}${pairsRet}%`;
-      document.getElementById('pairsReturn').className = `text-xs font-semibold ${pairsRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('pairsInvestedText').innerText = `Invested: INR ${pairsInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('pairsCashText').innerText = `Cash: INR ${pairsCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('v7lValue').innerText = `INR ${v7lVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('v7lReturn').innerText = `${v7lRet >= 0 ? '+' : ''}${v7lRet}%`;
-      document.getElementById('v7lReturn').className = `text-xs font-semibold ${v7lRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('v7lInvestedText').innerText = `Invested: INR ${v7lInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('v7lCashText').innerText = `Cash: INR ${v7lCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-
-      document.getElementById('v7mValue').innerText = `INR ${v7mVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('v7mReturn').innerText = `${v7mRet >= 0 ? '+' : ''}${v7mRet}%`;
-      document.getElementById('v7mReturn').className = `text-xs font-semibold ${v7mRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
-      document.getElementById('v7mInvestedText').innerText = `Invested: INR ${v7mInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
-      document.getElementById('v7mCashText').innerText = `Cash: INR ${v7mCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
 
       document.getElementById('v7hValue').innerText = `INR ${v7hVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7hReturn').innerText = `${v7hRet >= 0 ? '+' : ''}${v7hRet}%`;
@@ -647,11 +450,23 @@
       document.getElementById('v7hInvestedText').innerText = `Invested: INR ${v7hInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7hCashText').innerText = `Cash: INR ${v7hCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
 
+      // 2. Chota Dhurandhar (50k start)
+      const v7_50kVal = v7_50kPnL.length ? v7_50kPnL[v7_50kPnL.length - 1].value : 50000.0;
+      const v7_50kRet = ((v7_50kVal - 50000.0) / 50000.0 * 100).toFixed(2);
+      const v7_50kCash = v7_50kState ? v7_50kState.cash : 50000.0;
+      const v7_50kInvest = Math.max(0, v7_50kVal - v7_50kCash);
+
       document.getElementById('v7_50kValue').innerText = `INR ${v7_50kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7_50kReturn').innerText = `${v7_50kRet >= 0 ? '+' : ''}${v7_50kRet}%`;
       document.getElementById('v7_50kReturn').className = `text-xs font-semibold ${v7_50kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('v7_50kInvestedText').innerText = `Invested: INR ${v7_50kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7_50kCashText').innerText = `Cash: INR ${v7_50kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      // 3. Cheap V7 (20k start)
+      const v7_cheap_20kVal = v7_cheap_20kPnL.length ? v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value : 20000.0;
+      const v7_cheap_20kRet = ((v7_cheap_20kVal - 20000.0) / 20000.0 * 100).toFixed(2);
+      const v7_cheap_20kCash = v7_cheap_20kState ? v7_cheap_20kState.cash : 20000.0;
+      const v7_cheap_20kInvest = Math.max(0, v7_cheap_20kVal - v7_cheap_20kCash);
 
       document.getElementById('v7_cheap_20kValue').innerText = `INR ${v7_cheap_20kVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7_cheap_20kReturn').innerText = `${v7_cheap_20kRet >= 0 ? '+' : ''}${v7_cheap_20kRet}%`;
@@ -660,27 +475,19 @@
       document.getElementById('v7_cheap_20kCashText').innerText = `Cash: INR ${v7_cheap_20kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
-
     function renderChart() {
       if (myChart) myChart.destroy();
       
       const ctx = document.getElementById('compChart').getContext('2d');
       
-      // Get the union of all unique dates across active strategies
+      // Union of all unique dates across 3 Dhurandhar strategies
       const allDates = Array.from(new Set([
-        ...bpPnL.map(x => x.date),
-        ...nsPnL.map(x => x.date),
-        ...mlPnL.map(x => x.date),
-        ...heurPnL.map(x => x.date),
-        ...ensPnL.map(x => x.date),
-        ...pairsPnL.map(x => x.date),
         ...v7hPnL.map(x => x.date),
         ...v7_50kPnL.map(x => x.date),
         ...v7_cheap_20kPnL.map(x => x.date)
       ])).filter(Boolean).sort();
 
-      // Helper function to align and forward-fill values to a unified date scale
-      function alignDataset(pnlList, dates, initialVal = 100000.0) {
+      function alignDataset(pnlList, dates, initialVal) {
         const pnlMap = {};
         pnlList.forEach(x => { pnlMap[x.date] = x.value; });
         let lastVal = initialVal;
@@ -693,15 +500,13 @@
       }
 
       const labels = allDates.map(dateStr => {
-        const [year, month, day] = dateStr.split('-');
-        return [`${parseInt(day)}/${parseInt(month)}`, year];
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          return [`${parseInt(parts[2])}/${parseInt(parts[1])}`, parts[0]];
+        }
+        return dateStr;
       });
-      const bpValues = alignDataset(bpPnL, allDates, 100000.0);
-      const nsValues = alignDataset(nsPnL, allDates, 100000.0);
-      const mlValues = alignDataset(mlPnL, allDates, 100000.0);
-      const heurValues = alignDataset(heurPnL, allDates, 100000.0);
-      const ensValues = alignDataset(ensPnL, allDates, 100000.0);
-      const pairsValues = alignDataset(pairsPnL, allDates, 100000.0);
+
       const v7hValues = alignDataset(v7hPnL, allDates, 100000.0);
       const v7_50kValues = alignDataset(v7_50kPnL, allDates, 50000.0);
       const v7_cheap_20kValues = alignDataset(v7_cheap_20kPnL, allDates, 20000.0);
@@ -712,74 +517,17 @@
           labels: labels.length ? labels : ['Starting'],
           datasets: [
             {
-              label: 'Bulletproof 🛡️',
-              data: bpValues.length ? bpValues : [100000],
-              borderColor: '#00D09C',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'No-Stops ⚡',
-              data: nsValues.length ? nsValues : [100000],
-              borderColor: '#FF5C5C',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'Version 3.0 ML 🔮',
-              data: mlValues.length ? mlValues : [100000],
-              borderColor: '#9b59b6',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false,
-              hidden: true
-            },
-            {
-              label: 'Version 4.0 Heuristic ⚙️',
-              data: heurValues.length ? heurValues : [100000],
-              borderColor: '#e67e22',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false,
-              hidden: true
-            },
-            {
-              label: 'Version 5.0 Ensemble ⚖️',
-              data: ensValues.length ? ensValues : [100000],
-              borderColor: '#85929e',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false,
-              hidden: true
-            },
-            {
-              label: 'Version 6.0 Pairs 📊',
-              data: pairsValues.length ? pairsValues : [100000],
-              borderColor: '#3498db',
-              borderWidth: 2,
-              tension: 0.1,
-              pointRadius: 0,
-              fill: false
-            },
-            {
-              label: 'Dhurandhar Strat 👑',
+              label: '👑 Master (100k)',
               data: v7hValues.length ? v7hValues : [100000],
-              borderColor: '#1abc9c',
-              borderWidth: 2,
+              borderColor: '#a78bfa',
+              borderWidth: 2.5,
               tension: 0.1,
               pointRadius: 0,
               fill: false
             },
             {
-              label: 'Chota Dhurandhar 🛡️',
-              data: v7_50kValues.length ? v7_50kValues.map(v => v * 2) : [100000], // Normalized to 100k for charting comparison
+              label: '🛡️ Chota (50k - Normalized 2x)',
+              data: v7_50kValues.length ? v7_50kValues.map(v => v * 2) : [100000],
               borderColor: '#818cf8',
               borderWidth: 2,
               tension: 0.1,
@@ -787,9 +535,9 @@
               fill: false
             },
             {
-              label: 'Cheap V7 ⚡',
-              data: v7_cheap_20kValues.length ? v7_cheap_20kValues.map(v => v * 5) : [100000], // Normalized to 100k for charting comparison (5x on 20k)
-              borderColor: '#f59e0b',
+              label: '⚡ Cheap (20k - Normalized 5x)',
+              data: v7_cheap_20kValues.length ? v7_cheap_20kValues.map(v => v * 5) : [100000],
+              borderColor: '#60a5fa',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -807,52 +555,22 @@
               labels: {
                 color: '#E5E7EB',
                 boxWidth: 12,
-                padding: 15,
-                font: {
-                  size: 9,
-                  family: "'Inter', sans-serif"
-                }
-              }
-            },
-            zoom: {
-              zoom: {
-                wheel: {
-                  enabled: true
-                },
-                pinch: {
-                  enabled: true
-                },
-                mode: 'x'
-              },
-              pan: {
-                enabled: true,
-                mode: 'x'
+                padding: 10,
+                font: { size: 9, family: "'Inter', sans-serif" }
               }
             }
           },
           scales: {
             x: {
-              grid: {
-                display: true,
-                color: 'rgba(255, 255, 255, 0.08)'
-              },
-              ticks: {
-                color: '#8B9EAE',
-                font: { size: 9 },
-                maxTicksLimit: 12
-              }
+              grid: { display: true, color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#8B9EAE', font: { size: 9 }, maxTicksLimit: 10 }
             },
             y: {
-              grid: {
-                display: true,
-                color: 'rgba(255, 255, 255, 0.08)'
-              },
+              grid: { display: true, color: 'rgba(255, 255, 255, 0.08)' },
               ticks: {
                 color: '#8B9EAE',
                 font: { size: 9 },
-                callback: function(value) {
-                  return 'INR ' + (value/1000) + 'k';
-                }
+                callback: function(value) { return 'INR ' + (value/1000).toFixed(0) + 'k'; }
               }
             }
           }
@@ -861,8 +579,6 @@
     }
 
     function switchTab(tab) {
-      activeTab = tab;
-      
       const tabExplore = document.getElementById('tabExplore');
       const tabDashboard = document.getElementById('tabDashboard');
       const tabManual = document.getElementById('tabManual');
@@ -871,17 +587,14 @@
       const contentDashboard = document.getElementById('contentDashboard');
       const contentManual = document.getElementById('contentManual');
 
-      // Reset styling
       tabExplore.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
       tabDashboard.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
       tabManual.className = "pb-2 w-1/3 text-center text-growwMuted hover:text-white transition";
 
-      // Hide all content
       contentExplore.classList.add('hidden');
       contentDashboard.classList.add('hidden');
       contentManual.classList.add('hidden');
 
-      // Activate selected
       if (tab === 'explore') {
         tabExplore.className = "pb-2 w-1/3 text-center text-growwGreen border-b-2 border-growwGreen transition font-bold";
         contentExplore.classList.remove('hidden');
@@ -894,55 +607,22 @@
       }
     }
 
-
     function selectDashboardStrategy(strategy) {
       dashStrategy = strategy;
-      const toggleBP = document.getElementById('toggleBulletproof');
-      const toggleNS = document.getElementById('toggleNoStops');
-      const toggleML = document.getElementById('toggleML');
-      const toggleHeur = document.getElementById('toggleHeur');
-      const toggleEns = document.getElementById('toggleEns');
-      const togglePairs = document.getElementById('togglePairs');
-      const toggleV7l = document.getElementById('toggleV7l');
-      const toggleV7m = document.getElementById('toggleV7m');
       const toggleV7h = document.getElementById('toggleV7h');
       const toggleV7_50k = document.getElementById('toggleV7_50k');
       const toggleV7_cheap_20k = document.getElementById('toggleV7_cheap_20k');
 
-      toggleBP.className = "py-2 rounded-md text-growwMuted transition";
-      toggleNS.className = "py-2 rounded-md text-growwMuted transition";
-      toggleML.className = "py-2 rounded-md text-growwMuted transition";
-      toggleHeur.className = "py-2 rounded-md text-growwMuted transition";
-      toggleEns.className = "py-2 rounded-md text-growwMuted transition";
-      togglePairs.className = "py-2 rounded-md text-growwMuted transition col-span-1";
-      toggleV7l.className = "py-2 rounded-md text-growwMuted transition col-span-1";
-      toggleV7m.className = "py-2 rounded-md text-growwMuted transition col-span-1";
-      toggleV7h.className = "py-2 rounded-md text-growwMuted transition col-span-3";
-      toggleV7_50k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
-      toggleV7_cheap_20k.className = "py-2 rounded-md text-growwMuted transition col-span-3";
+      toggleV7h.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
+      toggleV7_50k.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
+      toggleV7_cheap_20k.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
 
-      if (strategy === 'bulletproof') {
-        toggleBP.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else if (strategy === 'nostops') {
-        toggleNS.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else if (strategy === 'ml') {
-        toggleML.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else if (strategy === 'heur') {
-        toggleHeur.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else if (strategy === 'ens') {
-        toggleEns.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
-      } else if (strategy === 'pairs') {
-        togglePairs.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
-      } else if (strategy === 'v7l') {
-        toggleV7l.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
-      } else if (strategy === 'v7m') {
-        toggleV7m.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-1";
-      } else if (strategy === 'v7h') {
-        toggleV7h.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+      if (strategy === 'v7h') {
+        toggleV7h.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else if (strategy === 'v7_50k') {
-        toggleV7_50k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+        toggleV7_50k.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else if (strategy === 'v7_cheap_20k') {
-        toggleV7_cheap_20k.className = "py-2 rounded-md bg-growwGreen text-growwDarkBg font-bold transition col-span-3";
+        toggleV7_cheap_20k.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       }
       updateDashboardView();
     }
