@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import urllib.request
 import urllib.parse
@@ -142,6 +143,8 @@ def exchange_code_for_token(code):
         return None
 
 def get_access_token():
+    is_github = os.getenv("GITHUB_ACTIONS") == "true"
+    
     # Check if code is passed via environment variable (cloud run)
     env_code = os.getenv("UPSTOX_AUTH_CODE")
     if env_code:
@@ -159,6 +162,10 @@ def get_access_token():
         
         print("[INFO] Using authentication code from environment variable.")
         return exchange_code_for_token(env_code)
+
+    if is_github:
+        print("[CRITICAL ERROR] Running in cloud environment but no active auth code was supplied.")
+        sys.exit(1)
 
     # 1. Try to load saved token
     if os.path.exists(TOKEN_FILE):
