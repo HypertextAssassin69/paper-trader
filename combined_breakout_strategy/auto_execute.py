@@ -33,9 +33,33 @@ TOKEN_FILE = "combined_breakout_strategy/upstox_token.json"
 captured_code = None
 server_running = True
 
+# Standard browser user-agent to bypass bot-blockers (Cloudflare / WAF)
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+
+# Helper function to execute Upstox API calls securely with headers
+def make_upstox_request(url, data=None, headers=None, method="GET"):
+    req_headers = {
+        "accept": "application/json",
+        "Api-Version": "2.0",
+        "User-Agent": USER_AGENT
+    }
+    if headers:
+        req_headers.update(headers)
+        
+    req_data = None
+    if data is not None:
+        if req_headers.get("Content-Type") == "application/json":
+            req_data = json.dumps(data).encode("utf-8")
+        else:
+            req_data = urllib.parse.urlencode(data).encode("utf-8")
+            
+    req = urllib.request.Request(url, data=req_data, headers=req_headers, method=method)
+    with urllib.request.urlopen(req) as res:
+        return json.loads(res.read().decode("utf-8"))
+
 class AuthorizationHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
-        pass # Suppress server console logs
+        pass # Suppress console logging of requests
         
     def do_GET(self):
         global captured_code, server_running
@@ -76,7 +100,6 @@ def get_access_token():
     if os.path.exists(TOKEN_FILE):
         with open(TOKEN_FILE, "r") as f:
             token_data = json.load(f)
-            # Upstox tokens usually last 24h, check if created today
             today_str = datetime.date.today().strftime("%Y-%m-%d")
             if token_data.get("date") == today_str:
                 print("[INFO] Using active session token from cache.")
@@ -109,8 +132,6 @@ def get_access_token():
     print("[INFO] Exchanging Authorization Code for Access Token...")
     token_url = "https://api.upstox.com/v2/login/authorization/token"
     headers = {
-        "accept": "application/json",
-        "Api-Version": "2.0",
         "Content-Type": "application/x-www-form-urlencoded"
     }
     data = {
@@ -121,58 +142,47 @@ def get_access_token():
         "grant_type": "authorization_code"
     }
     
-    req_data = urllib.parse.urlencode(data).encode("utf-8")
-    req = urllib.request.Request(token_url, data=req_data, headers=headers, method="POST")
-    
     try:
-        with urllib.request.urlopen(req) as res:
-            resp = json.loads(res.read().decode("utf-8"))
-            access_token = resp["access_token"]
-            
-            # Cache the token
-            with open(TOKEN_FILE, "w") as f:
-                json.dump({
-                    "access_token": access_token,
-                    "date": datetime.date.today().strftime("%Y-%m-%d")
-                }, f)
-            print("[SUCCESS] Authentication complete and token cached!")
-            return access_token
+        resp = make_upstox_request(token_url, data=data, headers=headers, method="POST")
+        access_token = resp["access_token"]
+        
+        # Cache the token
+        with open(TOKEN_FILE, "w") as f:
+            json.dump({
+                "access_token": access_token,
+                "date": datetime.date.today().strftime("%Y-%m-%d")
+            }, f)
+        print("[SUCCESS] Authentication complete and token cached!")
+        return access_token
     except Exception as e:
         print(f"[ERROR] Failed to get access token: {e}")
         return None
 
 def get_upstox_instrument_key(symbol, access_token):
     sym = symbol.replace('.NS', '')
-    # Upstox V2 instrument search API
     url = f"https://api.upstox.com/v2/instruments/search?query={sym}&exchange=NSE"
-    req = urllib.request.Request(url, method="GET")
-    req.add_header("Authorization", f"Bearer {access_token}")
-    req.add_header("accept", "application/json")
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
     try:
-        with urllib.request.urlopen(req) as res:
-            resp = json.loads(res.read().decode("utf-8"))
-            if resp.get("status") == "success" and resp.get("data"):
-                # Filter for exact symbol and EQUITY segment
-                for item in resp["data"]:
-                    if item.get("trading_symbol") == sym and item.get("instrument_type") == "EQUITY":
-                        return item["instrument_key"]
+        resp = make_upstox_request(url, headers=headers, method="GET")
+        if resp.get("status") == "success" and resp.get("data"):
+            for item in resp["data"]:
+                if item.get("trading_symbol") == sym and item.get("instrument_type") == "EQUITY":
+                    return item["instrument_key"]
     except Exception as e:
         print(f"[ERROR] Instrument key search failed for {symbol}: {e}")
     return None
 
 def get_account_balance(access_token):
-    url = "https://api.upstox.com/v2/user/profile" # Or profile check
-    # In Upstox, the user margin is at: /v2/user/get-margin
     url = "https://api.upstox.com/v2/user/get-margin"
-    req = urllib.request.Request(url, method="GET")
-    req.add_header("Authorization", f"Bearer {access_token}")
-    req.add_header("accept", "application/json")
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
     try:
-        with urllib.request.urlopen(req) as res:
-            resp = json.loads(res.read().decode("utf-8"))
-            if resp.get("status") == "success" and resp.get("data"):
-                # equity net margin
-                return float(resp["data"]["equity"]["available_margin"])
+        resp = make_upstox_request(url, headers=headers, method="GET")
+        if resp.get("status") == "success" and resp.get("data"):
+            return float(resp["data"]["equity"]["available_margin"])
     except Exception as e:
         print(f"[ERROR] Failed to retrieve account margin: {e}")
     return 100000.0 # Default fallback
@@ -181,9 +191,7 @@ def place_upstox_order(instrument_key, transaction_type, quantity, access_token)
     url = "https://api.upstox.com/v2/order/place"
     headers = {
         "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-        "accept": "application/json",
-        "Api-Version": "2.0"
+        "Content-Type": "application/json"
     }
     payload = {
         "quantity": int(quantity),
@@ -198,16 +206,12 @@ def place_upstox_order(instrument_key, transaction_type, quantity, access_token)
         "trigger_price": 0.0,
         "is_amo": False
     }
-    
-    data_json = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(url, data=data_json, headers=headers, method="POST")
     try:
-        with urllib.request.urlopen(req) as res:
-            resp = json.loads(res.read().decode("utf-8"))
-            if resp.get("status") == "success":
-                order_id = resp["data"]["order_id"]
-                print(f"[SUCCESS] Order placed! ID: {order_id} | {transaction_type} {quantity} shares")
-                return order_id
+        resp = make_upstox_request(url, data=payload, headers=headers, method="POST")
+        if resp.get("status") == "success":
+            order_id = resp["data"]["order_id"]
+            print(f"[SUCCESS] Order placed! ID: {order_id} | {transaction_type} {quantity} shares")
+            return order_id
     except Exception as e:
         print(f"[ERROR] Failed to place order: {e}")
     return None
@@ -229,24 +233,23 @@ def run_trading_loop(access_token):
     # 2. Get current holdings from Upstox
     print("Fetching current Upstox holdings...")
     holdings_url = "https://api.upstox.com/v2/portfolio/long-term-holdings"
-    req = urllib.request.Request(holdings_url, method="GET")
-    req.add_header("Authorization", f"Bearer {access_token}")
-    req.add_header("accept", "application/json")
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
     
     current_holdings = {}
     try:
-        with urllib.request.urlopen(req) as res:
-            resp = json.loads(res.read().decode("utf-8"))
-            if resp.get("status") == "success" and resp.get("data"):
-                for item in resp["data"]:
-                    symbol = item["trading_symbol"]
-                    qty = int(item["quantity"])
-                    if qty > 0:
-                        current_holdings[symbol] = {
-                            "qty": qty,
-                            "instrument_key": item["instrument_token"],
-                            "ltp": float(item["last_price"])
-                        }
+        resp = make_upstox_request(holdings_url, headers=headers, method="GET")
+        if resp.get("status") == "success" and resp.get("data"):
+            for item in resp["data"]:
+                symbol = item["trading_symbol"]
+                qty = int(item["quantity"])
+                if qty > 0:
+                    current_holdings[symbol] = {
+                        "qty": qty,
+                        "instrument_key": item["instrument_token"],
+                        "ltp": float(item["last_price"])
+                    }
     except Exception as e:
         print(f"[ERROR] Failed to fetch holdings: {e}")
         return
@@ -254,20 +257,35 @@ def run_trading_loop(access_token):
     print(f"Current portfolio holdings: {list(current_holdings.keys())}")
 
     # 3. Action Logic
+    # Tickers list representation for standard scans
+    MIDCAP_TICKERS = [
+        "TATAELXSI.NS", "VOLTAS.NS", "BEL.NS", "HAL.NS", "POLYCAB.NS", 
+        "KEI.NS", "CHOLAFIN.NS", "SRF.NS", "AUBANK.NS", "MPHASIS.NS", 
+        "COFORGE.NS", "PERSISTENT.NS", "DIXON.NS", "RELAXO.NS", "IRCTC.NS", 
+        "CONCOR.NS", "BALKRISIND.NS", "TRENT.NS", "KAYNES.NS", "MAZDOCK.NS", 
+        "RVNL.NS", "IRFC.NS", "PFC.NS", "RECLTD.NS", "GMRINFRA.NS", 
+        "FEDERALBNK.NS", "IDFCFIRSTB.NS", "BATAINDIA.NS", "CUMMINSIND.NS", "ASHOKLEY.NS", 
+        "APOLLOTYRE.NS", "LICHSGFIN.NS", "TATAPOWER.NS", "SAIL.NS", "NMDC.NS", 
+        "NATIONALUM.NS", "TATACOMM.NS", "MAXHEALTH.NS", "IPCALAB.NS", "SYNGENE.NS",
+        "METROPOLIS.NS", "LALPATHLAB.NS", "GODREJPROP.NS", "OBEROIRLTY.NS", "DEEPAKNTR.NS",
+        "JINDALSTEL.NS", "APARINDS.NS", "SUPREMEIND.NS", "BHARATFORG.NS", "MRF.NS"
+    ]
+
     if not bull:
         # BEAR REGIME: Exit all non-LiquidBeES equity positions to cash
         print("\n[BEAR ALERT] Exit to Cash! Liquidating holdings...")
         for sym, info in current_holdings.items():
-            if "LIQUID" in sym or "BEES" in sym: continue # Keep cash/liquid assets
+            if "LIQUID" in sym or "BEES" in sym: continue
             print(f"Placing SELL order for {sym} | Quantity: {info['qty']}")
             place_upstox_order(info["instrument_key"], "SELL", info["qty"], access_token)
     else:
         # BULL REGIME: Execute 6-Month Rebalance / Re-entry
         print("\n[BULL REGIME] Running scanner to calculate target portfolio...")
-        # Get target breakout stocks
         long_data = yf.download(MIDCAP_TICKERS, period="1000d", group_by="ticker", progress=False)
         scores = {}
         for t in MIDCAP_TICKERS:
+            # Prevent download errors from crashing loop
+            if t not in long_data or long_data[t]['Close'].dropna().empty: continue
             c = long_data[t]['Close'].dropna()
             if len(c) < 252: continue
             ret_1y = (c.iloc[-1] - c.iloc[-252]) / c.iloc[-252]
@@ -288,7 +306,6 @@ def run_trading_loop(access_token):
                 place_upstox_order(info["instrument_key"], "SELL", info["qty"], access_token)
 
         # B. Buy new target positions
-        # Fetch account capital
         capital = get_account_balance(access_token)
         print(f"Available capital for deployment: INR {capital:.2f}")
         slot_capital = capital / 5.0
@@ -301,19 +318,16 @@ def run_trading_loop(access_token):
                 if not key:
                     print(f"[WARNING] Could not resolve Upstox key for {sym}. Skipping buy.")
                     continue
-                # Get current price
+                
+                # Fetch price
                 quotes_url = f"https://api.upstox.com/v2/market-quote/ltp?instrument_key={key}"
-                q_req = urllib.request.Request(quotes_url, method="GET")
-                q_req.add_header("Authorization", f"Bearer {access_token}")
-                q_req.add_header("accept", "application/json")
                 try:
-                    with urllib.request.urlopen(q_req) as q_res:
-                        q_resp = json.loads(q_res.read().decode("utf-8"))
-                        price = float(q_resp["data"][key]["last_price"])
-                        qty = int(slot_capital / price)
-                        if qty > 0:
-                            print(f"Buying new target stock {sym} | Qty: {qty} @ INR {price:.2f}")
-                            place_upstox_order(key, "BUY", qty, access_token)
+                    q_resp = make_upstox_request(quotes_url, headers=headers, method="GET")
+                    price = float(q_resp["data"][key]["last_price"])
+                    qty = int(slot_capital / price)
+                    if qty > 0:
+                        print(f"Buying new target stock {sym} | Qty: {qty} @ INR {price:.2f}")
+                        place_upstox_order(key, "BUY", qty, access_token)
                 except Exception as e:
                     print(f"[ERROR] Failed to get price/buy {sym}: {e}")
 
