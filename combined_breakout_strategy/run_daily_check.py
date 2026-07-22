@@ -1,6 +1,7 @@
 import os
 import json
 import urllib.request
+import urllib.parse
 import datetime
 import pandas as pd
 import yfinance as yf
@@ -19,6 +20,24 @@ MIDCAP_TICKERS = [
     "METROPOLIS.NS", "LALPATHLAB.NS", "GODREJPROP.NS", "OBEROIRLTY.NS", "DEEPAKNTR.NS",
     "JINDALSTEL.NS", "APARINDS.NS", "SUPREMEIND.NS", "BHARATFORG.NS", "MRF.NS"
 ]
+
+def send_whatsapp_message(text):
+    phone = os.getenv("WHATSAPP_PHONE")
+    apikey = os.getenv("WHATSAPP_API_KEY")
+    if not phone or not apikey:
+        print("[INFO] WhatsApp credentials not set. Skipping WhatsApp alert.")
+        return
+    
+    encoded_text = urllib.parse.quote(text)
+    url = f"https://api.callmebot.com/whatsapp.php?phone={phone}&text={encoded_text}&apikey={apikey}"
+    req = urllib.request.Request(url, method="GET")
+    req.add_header("User-Agent", "Mozilla/5.0")
+    try:
+        with urllib.request.urlopen(req) as res:
+            resp_text = res.read().decode("utf-8")
+            print(f"[SUCCESS] WhatsApp alert sent: {resp_text}")
+    except Exception as e:
+        print(f"[ERROR] Failed to send WhatsApp message: {e}")
 
 def create_github_issue(title, body):
     token = os.getenv("GITHUB_TOKEN")
@@ -137,10 +156,12 @@ def main():
         )
         # Create issue for rebalance
         create_github_issue(rebal_title, rebal_body)
+        send_whatsapp_message(f"📅 6-Month Rebalance Alert!\nTarget 5 Stocks to Buy:\n1. {top_5[0].replace('.NS','')}\n2. {top_5[1].replace('.NS','')}\n3. {top_5[2].replace('.NS','')}\n4. {top_5[3].replace('.NS','')}\n5. {top_5[4].replace('.NS','')}")
 
     # Trigger alert if set
     if alert_title:
         create_github_issue(alert_title, alert_body)
+        send_whatsapp_message(f"{alert_title}\n\nNifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}")
     else:
         print(f"Daily check complete. Regime: {regime}. No alerts triggered today.")
 
