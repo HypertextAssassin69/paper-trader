@@ -201,6 +201,12 @@ def get_account_balance(access_token):
     return 100000.0 # Default fallback
 
 def place_upstox_order(instrument_key, transaction_type, quantity, access_token):
+    # Dry Run check to prevent accidental real orders during testing
+    dry_run = ENV.get("DRY_RUN", "false").lower() == "true"
+    if dry_run:
+        print(f"[DRY RUN] Would submit order to Upstox: {transaction_type} {quantity} shares of {instrument_key}")
+        return "MOCK_ORDER_ID"
+
     url = "https://api.upstox.com/v2/order/place"
     headers = {
         "Authorization": f"Bearer {access_token}",
@@ -319,8 +325,14 @@ def run_trading_loop(access_token):
                 place_upstox_order(info["instrument_key"], "SELL", info["qty"], access_token)
 
         # B. Buy new target positions
-        capital = get_account_balance(access_token)
-        print(f"Available capital for deployment: INR {capital:.2f}")
+        dummy_cap = ENV.get("DUMMY_CAPITAL")
+        if dummy_cap:
+            capital = float(dummy_cap)
+            print(f"[TEST MODE] Using dummy capital from .env: INR {capital:.2f}")
+        else:
+            capital = get_account_balance(access_token)
+            print(f"Available capital for deployment: INR {capital:.2f}")
+            
         slot_capital = capital / 5.0
         
         for sym in target_symbols:
@@ -336,7 +348,8 @@ def run_trading_loop(access_token):
                 quotes_url = f"https://api.upstox.com/v2/market-quote/ltp?instrument_key={key}"
                 try:
                     q_resp = make_upstox_request(quotes_url, headers=headers, method="GET")
-                    price = float(q_resp["data"][key]["last_price"])
+                    quote_key = f"NSE_EQ:{sym}"
+                    price = float(q_resp["data"][quote_key]["last_price"])
                     qty = int(slot_capital / price)
                     if qty > 0:
                         print(f"Buying new target stock {sym} | Qty: {qty} @ INR {price:.2f}")
