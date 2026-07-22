@@ -188,6 +188,26 @@
           </div>
         </div>
 
+        <!-- Strategy 4: Simple Strat (100k) -->
+        <div class="bg-growwDarkCard p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:scale-[1.01] transition border-l-4 border-l-emerald-500">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center">
+              <i data-lucide="star" class="w-5 h-5 text-growwGreen"></i>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-white">Simple Strat 🌟</div>
+              <div class="text-[9px] text-growwMuted mt-0.5 space-y-0.5">
+                <div id="simpleInvestedText">Invested: INR --</div>
+                <div id="simpleCashText">Cash: INR --</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div id="simpleValue" class="font-bold text-sm">INR --</div>
+            <div id="simpleReturn" class="text-xs text-growwGreen font-semibold">--</div>
+            <div class="text-[9px] text-growwMuted mt-1">10Y CAGR: <span class="text-growwGreen font-bold">30.59%</span></div>
+          </div>
+        </div>
 
       </div>
 
@@ -209,16 +229,19 @@
     ────────────────────────────────────────────────────────────────────────── -->
     <section id="contentDashboard" class="hidden space-y-6">
       
-      <!-- Strategy Selector Toggle (Clean 3-Dhurandhar layout) -->
-      <div class="grid grid-cols-3 gap-1.5 bg-growwDarkCard p-1.5 rounded-lg border border-gray-800 text-[10px] font-bold text-center">
+      <!-- Strategy Selector Toggle (Clean 4-strategy layout) -->
+      <div class="grid grid-cols-4 gap-1.5 bg-growwDarkCard p-1.5 rounded-lg border border-gray-800 text-[9px] font-bold text-center">
         <button id="toggleV7h" onclick="selectDashboardStrategy('v7h')" class="py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition">
-          👑 Master (1L+)
+          👑 Master
         </button>
         <button id="toggleV7_50k" onclick="selectDashboardStrategy('v7_50k')" class="py-2.5 rounded-md text-growwMuted hover:text-white transition">
-          🛡️ Chota (50k)
+          🛡️ Chota
         </button>
         <button id="toggleV7_cheap_20k" onclick="selectDashboardStrategy('v7_cheap_20k')" class="py-2.5 rounded-md text-growwMuted hover:text-white transition">
-          ⚡ Cheap (20k)
+          ⚡ Cheap
+        </button>
+        <button id="toggleSimple" onclick="selectDashboardStrategy('simple')" class="py-2.5 rounded-md text-growwMuted hover:text-white transition">
+          🌟 Simple
         </button>
       </div>
 
@@ -405,20 +428,23 @@
   ────────────────────────────────────────────────────────────────────────── -->
   <script>
     let activeTab = 'explore';
-    let dashStrategy = 'v7h';
+        let dashStrategy = 'v7h';
     const HISTORICAL_PSYCH_RATIOS = {
       'v7h': '6.50x',
       'v7_50k': '1.56x',
-      'v7_cheap_20k': '0.516x'
+      'v7_cheap_20k': '0.516x',
+      'simple': '1.308x'
     };
     
     let v7hState = null;
     let v7_50kState = null;
     let v7_cheap_20kState = null;
+    let simpleState = null;
     
     let v7hPnL = [];
     let v7_50kPnL = [];
     let v7_cheap_20kPnL = [];
+    let simplePnL = [];
     
     let myChart = null;
 
@@ -446,27 +472,31 @@
       document.getElementById('refreshBtn').classList.add('animate-spin');
       
       try {
-        // Fetch 3 Dhurandhar JSON portfolio states with fallback
-        const [rV7hState, rV7_50kState, rV7_cheap_20kState] = await Promise.all([
+        // Fetch JSON portfolio states with fallback
+        const [rV7hState, rV7_50kState, rV7_cheap_20kState, rSimpleState] = await Promise.all([
           fetchSmartJson('./states/portfolio_v7_hybrid.json'),
           fetchSmartJson('./states/portfolio_v7_50k.json'),
-          fetchSmartJson('./states/portfolio_v7_cheap_20k.json')
+          fetchSmartJson('./states/portfolio_v7_cheap_20k.json'),
+          fetchSmartJson('./states/portfolio_simple_strat.json')
         ]);
         
         v7hState = rV7hState;
         v7_50kState = rV7_50kState;
         v7_cheap_20kState = rV7_cheap_20kState;
+        simpleState = rSimpleState;
 
-        // Fetch 3 Dhurandhar CSV data with fallback
-        const [rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv] = await Promise.all([
+        // Fetch CSV data with fallback
+        const [rV7hCsv, rV7_50kCsv, rV7_cheap_20kCsv, rSimpleCsv] = await Promise.all([
           fetchSmartText('./data/pnl_v7_hybrid.csv'),
           fetchSmartText('./data/pnl_v7_50k.csv'),
-          fetchSmartText('./data/pnl_v7_cheap_20k.csv')
+          fetchSmartText('./data/pnl_v7_cheap_20k.csv'),
+          fetchSmartText('./data/pnl_simple_strat.csv')
         ]);
         
         v7hPnL = parseCSV(rV7hCsv);
         v7_50kPnL = parseCSV(rV7_50kCsv);
         v7_cheap_20kPnL = parseCSV(rV7_cheap_20kCsv);
+        simplePnL = parseCSV(rSimpleCsv);
 
         await updateMarketTracker();
 
@@ -552,6 +582,18 @@
       document.getElementById('v7_cheap_20kReturn').className = `text-xs font-semibold ${v7_cheap_20kRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
       document.getElementById('v7_cheap_20kInvestedText').innerText = `Invested: INR ${v7_cheap_20kInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
       document.getElementById('v7_cheap_20kCashText').innerText = `Cash: INR ${v7_cheap_20kCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+
+      // 4. Simple Strat (100k start)
+      const simpleVal = simplePnL.length ? simplePnL[simplePnL.length - 1].value : 100000.0;
+      const simpleRet = ((simpleVal - 100000.0) / 100000.0 * 100).toFixed(2);
+      const simpleCash = simpleState ? simpleState.cash : 100000.0;
+      const simpleInvest = Math.max(0, simpleVal - simpleCash);
+
+      document.getElementById('simpleValue').innerText = `INR ${simpleVal.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('simpleReturn').innerText = `${simpleRet >= 0 ? '+' : ''}${simpleRet}%`;
+      document.getElementById('simpleReturn').className = `text-xs font-semibold ${simpleRet >= 0 ? 'text-growwGreen' : 'text-growwRed'}`;
+      document.getElementById('simpleInvestedText').innerText = `Invested: INR ${simpleInvest.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
+      document.getElementById('simpleCashText').innerText = `Cash: INR ${simpleCash.toLocaleString('en-IN', {maximumFractionDigits:0})}`;
     }
 
     function renderChart() {
@@ -559,11 +601,12 @@
       
       const ctx = document.getElementById('compChart').getContext('2d');
       
-      // Union of all unique dates across 3 Dhurandhar strategies
+      // Union of all unique dates across 4 strategies
       const allDates = Array.from(new Set([
         ...v7hPnL.map(x => x.date),
         ...v7_50kPnL.map(x => x.date),
-        ...v7_cheap_20kPnL.map(x => x.date)
+        ...v7_cheap_20kPnL.map(x => x.date),
+        ...simplePnL.map(x => x.date)
       ])).filter(Boolean).sort();
 
       function alignDataset(pnlList, dates, initialVal) {
@@ -589,6 +632,7 @@
       const v7hValues = alignDataset(v7hPnL, allDates, 100000.0);
       const v7_50kValues = alignDataset(v7_50kPnL, allDates, 50000.0);
       const v7_cheap_20kValues = alignDataset(v7_cheap_20kPnL, allDates, 20000.0);
+      const simpleValues = alignDataset(simplePnL, allDates, 100000.0);
 
       myChart = new Chart(ctx, {
         type: 'line',
@@ -617,6 +661,15 @@
               label: '⚡ Cheap (20k - Normalized 5x)',
               data: v7_cheap_20kValues.length ? v7_cheap_20kValues.map(v => v * 5) : [100000],
               borderColor: '#60a5fa',
+              borderWidth: 2,
+              tension: 0.1,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: '🌟 Simple (100k)',
+              data: simpleValues.length ? simpleValues : [100000],
+              borderColor: '#00d09c',
               borderWidth: 2,
               tension: 0.1,
               pointRadius: 0,
@@ -691,10 +744,12 @@
       const toggleV7h = document.getElementById('toggleV7h');
       const toggleV7_50k = document.getElementById('toggleV7_50k');
       const toggleV7_cheap_20k = document.getElementById('toggleV7_cheap_20k');
+      const toggleSimple = document.getElementById('toggleSimple');
 
       toggleV7h.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
       toggleV7_50k.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
       toggleV7_cheap_20k.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
+      toggleSimple.className = "py-2.5 rounded-md text-growwMuted hover:text-white transition";
 
       if (strategy === 'v7h') {
         toggleV7h.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
@@ -702,6 +757,8 @@
         toggleV7_50k.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       } else if (strategy === 'v7_cheap_20k') {
         toggleV7_cheap_20k.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
+      } else if (strategy === 'simple') {
+        toggleSimple.className = "py-2.5 rounded-md bg-growwGreen text-growwDarkBg font-bold transition";
       }
       updateDashboardView();
     }
@@ -709,6 +766,7 @@
       let activeState = null;
       if (dashStrategy === 'v7h') activeState = v7hState;
       else if (dashStrategy === 'v7_50k') activeState = v7_50kState;
+      else if (dashStrategy === 'simple') activeState = simpleState;
       else activeState = v7_cheap_20kState;
 
       let equityVal = 100000.0;
@@ -716,6 +774,8 @@
         equityVal = v7hPnL[v7hPnL.length - 1].value;
       } else if (dashStrategy === 'v7_50k' && v7_50kPnL.length) {
         equityVal = v7_50kPnL[v7_50kPnL.length - 1].value;
+      } else if (dashStrategy === 'simple' && simplePnL.length) {
+        equityVal = simplePnL[simplePnL.length - 1].value;
       } else if (v7_cheap_20kPnL.length) {
         equityVal = v7_cheap_20kPnL[v7_cheap_20kPnL.length - 1].value;
       }
@@ -784,6 +844,7 @@
       if (dashStrategy === 'v7h') suffix = 'v7_hybrid';
       else if (dashStrategy === 'v7_50k') suffix = 'v7_50k';
       else if (dashStrategy === 'v7_cheap_20k') suffix = 'v7_cheap_20k';
+      else if (dashStrategy === 'simple') suffix = 'simple_strat';
       
       try {
         const csvText = await fetchSmartText(`./data/trades_${suffix}.csv`);
