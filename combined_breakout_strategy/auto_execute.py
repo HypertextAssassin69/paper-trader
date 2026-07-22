@@ -145,6 +145,18 @@ def get_access_token():
     # Check if code is passed via environment variable (cloud run)
     env_code = os.getenv("UPSTOX_AUTH_CODE")
     if env_code:
+        # Safeguard: if they pasted the entire redirect URL, extract just the code
+        if "code=" in env_code:
+            try:
+                parsed = urllib.parse.urlparse(env_code)
+                query = urllib.parse.parse_qs(parsed.query)
+                if "code" in query:
+                    env_code = query["code"][0]
+                else:
+                    env_code = env_code.split("code=")[-1].split("&")[0]
+            except Exception:
+                env_code = env_code.split("code=")[-1].split("&")[0]
+        
         print("[INFO] Using authentication code from environment variable.")
         return exchange_code_for_token(env_code)
 
