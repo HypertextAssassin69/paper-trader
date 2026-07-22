@@ -9,3 +9,4 @@ data/*.csv
 !data/optimization_results.csv
 data/*.db
 data/trading_journal.db
+.env
