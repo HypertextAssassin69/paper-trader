@@ -1,0 +1,35 @@
+name: Breakout Momentum Daily Alerts
+
+on:
+  schedule:
+    - cron: '45 9 * * 1-5'  # Mon-Fri at 9:45 AM UTC (3:15 PM IST)
+  workflow_dispatch:        # Allows manual run from GitHub dashboard anytime
+
+permissions:
+  issues: write             # Required to create alerts via GitHub Issues
+  contents: read
+
+jobs:
+  run-alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas yfinance numpy
+
+      - name: Run Alert Checker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python combined_breakout_strategy/run_daily_check.py
