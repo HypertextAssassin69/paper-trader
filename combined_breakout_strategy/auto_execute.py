@@ -37,6 +37,18 @@ server_running = True
 # Standard browser user-agent to bypass bot-blockers (Cloudflare / WAF)
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
 
+def get_series(df, col):
+    if df is None or df.empty:
+        return pd.Series(dtype=float)
+    for c in df.columns:
+        if isinstance(c, tuple):
+            if c[0].lower() == col.lower():
+                return df[c].squeeze()
+        else:
+            if c.lower() == col.lower():
+                return df[c].squeeze()
+    return pd.Series(dtype=float)
+
 # Helper function to execute Upstox API calls securely with headers
 def make_upstox_request(url, data=None, headers=None, method="GET"):
     req_headers = {
@@ -223,7 +235,7 @@ def run_trading_loop(access_token):
     # 1. Download market data to check regime
     print("Checking market regime...")
     nifty = yf.download(BENCHMARK_TICKER, period="90d", progress=False)
-    nifty_close = nifty['Close'].dropna()
+    nifty_close = get_series(nifty, 'Close').dropna()
     nifty_ema50 = nifty_close.ewm(span=50, adjust=False).mean()
     
     n_close = float(nifty_close.iloc[-1])
