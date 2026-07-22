@@ -108,7 +108,46 @@ def run_local_server():
         while server_running:
             httpd.handle_request()
 
+def exchange_code_for_token(code):
+    print("[INFO] Exchanging Authorization Code for Access Token...")
+    token_url = "https://api.upstox.com/v2/login/authorization/token"
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    data = {
+        "code": code,
+        "client_id": API_KEY,
+        "client_secret": API_SECRET,
+        "redirect_uri": REDIRECT_URI,
+        "grant_type": "authorization_code"
+    }
+    try:
+        resp = make_upstox_request(token_url, data=data, headers=headers, method="POST")
+        access_token = resp["access_token"]
+        
+        # Cache the token if possible
+        try:
+            with open(TOKEN_FILE, "w") as f:
+                json.dump({
+                    "access_token": access_token,
+                    "date": datetime.date.today().strftime("%Y-%m-%d")
+                }, f)
+        except Exception:
+            pass
+            
+        print("[SUCCESS] Authentication complete!")
+        return access_token
+    except Exception as e:
+        print(f"[ERROR] Failed to get access token: {e}")
+        return None
+
 def get_access_token():
+    # Check if code is passed via environment variable (cloud run)
+    env_code = os.getenv("UPSTOX_AUTH_CODE")
+    if env_code:
+        print("[INFO] Using authentication code from environment variable.")
+        return exchange_code_for_token(env_code)
+
     # 1. Try to load saved token
     if os.path.exists(TOKEN_FILE):
         with open(TOKEN_FILE, "r") as f:
@@ -141,35 +180,7 @@ def get_access_token():
     while captured_code is None:
         time.sleep(1)
 
-    # 3. Exchange code for access token
-    print("[INFO] Exchanging Authorization Code for Access Token...")
-    token_url = "https://api.upstox.com/v2/login/authorization/token"
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-    data = {
-        "code": captured_code,
-        "client_id": API_KEY,
-        "client_secret": API_SECRET,
-        "redirect_uri": REDIRECT_URI,
-        "grant_type": "authorization_code"
-    }
-    
-    try:
-        resp = make_upstox_request(token_url, data=data, headers=headers, method="POST")
-        access_token = resp["access_token"]
-        
-        # Cache the token
-        with open(TOKEN_FILE, "w") as f:
-            json.dump({
-                "access_token": access_token,
-                "date": datetime.date.today().strftime("%Y-%m-%d")
-            }, f)
-        print("[SUCCESS] Authentication complete and token cached!")
-        return access_token
-    except Exception as e:
-        print(f"[ERROR] Failed to get access token: {e}")
-        return None
+    return exchange_code_for_token(captured_code)
 
 def get_upstox_instrument_key(symbol, access_token):
     sym = symbol.replace('.NS', '')
