@@ -28,6 +28,7 @@ API_KEY = ENV.get("UPSTOX_API_KEY")
 API_SECRET = ENV.get("UPSTOX_API_SECRET")
 REDIRECT_URI = ENV.get("UPSTOX_REDIRECT_URI", "http://127.0.0.1:5000/")
 TOKEN_FILE = "combined_breakout_strategy/upstox_token.json"
+BENCHMARK_TICKER = "^NSEI"
 
 # Local Server variables to capture Auth Code
 captured_code = None
