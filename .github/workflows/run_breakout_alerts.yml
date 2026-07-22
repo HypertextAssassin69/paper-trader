@@ -33,5 +33,6 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
           WHATSAPP_API_KEY: ${{ secrets.WHATSAPP_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           python combined_breakout_strategy/run_daily_check.py

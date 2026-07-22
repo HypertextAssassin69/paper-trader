@@ -39,6 +39,30 @@ def send_whatsapp_message(text):
     except Exception as e:
         print(f"[ERROR] Failed to send WhatsApp message: {e}")
 
+def send_ntfy_alert(message, title="🚨 Breakout Strategy Action Required!"):
+    topic = os.getenv("NTFY_TOPIC")
+    if not topic:
+        print("[INFO] NTFY_TOPIC not set. Skipping NTFY alert.")
+        return
+        
+    url = f"https://ntfy.sh/{topic}"
+    headers = {
+        "Title": title,
+        "Priority": "high",
+        "Tags": "warning,rotating_light"
+    }
+    req = urllib.request.Request(
+        url,
+        data=message.encode("utf-8"),
+        headers=headers,
+        method="POST"
+    )
+    try:
+        with urllib.request.urlopen(req) as res:
+            print("[SUCCESS] NTFY alert sent successfully!")
+    except Exception as e:
+        print(f"[ERROR] Failed to send NTFY alert: {e}")
+
 def create_github_issue(title, body):
     token = os.getenv("GITHUB_TOKEN")
     repo = os.getenv("GITHUB_REPOSITORY")
@@ -157,11 +181,13 @@ def main():
         # Create issue for rebalance
         create_github_issue(rebal_title, rebal_body)
         send_whatsapp_message(f"📅 6-Month Rebalance Alert!\nTarget 5 Stocks to Buy:\n1. {top_5[0].replace('.NS','')}\n2. {top_5[1].replace('.NS','')}\n3. {top_5[2].replace('.NS','')}\n4. {top_5[3].replace('.NS','')}\n5. {top_5[4].replace('.NS','')}")
+        send_ntfy_alert(f"Target 5 Stocks to Buy:\n1. {top_5[0].replace('.NS','')}\n2. {top_5[1].replace('.NS','')}\n3. {top_5[2].replace('.NS','')}\n4. {top_5[3].replace('.NS','')}\n5. {top_5[4].replace('.NS','')}", rebal_title)
 
     # Trigger alert if set
     if alert_title:
         create_github_issue(alert_title, alert_body)
         send_whatsapp_message(f"{alert_title}\n\nNifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}")
+        send_ntfy_alert(f"Nifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}", alert_title)
     else:
         print(f"Daily check complete. Regime: {regime}. No alerts triggered today.")
 
