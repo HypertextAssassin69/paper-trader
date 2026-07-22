@@ -181,14 +181,14 @@ def get_upstox_instrument_key(symbol, access_token):
         resp = make_upstox_request(url, headers=headers, method="GET")
         if resp.get("status") == "success" and resp.get("data"):
             for item in resp["data"]:
-                if item.get("trading_symbol") == sym and item.get("instrument_type") == "EQUITY":
+                if item.get("trading_symbol") == sym and item.get("instrument_type") in ["EQ", "EQUITY"]:
                     return item["instrument_key"]
     except Exception as e:
         print(f"[ERROR] Instrument key search failed for {symbol}: {e}")
     return None
 
 def get_account_balance(access_token):
-    url = "https://api.upstox.com/v2/user/get-margin"
+    url = "https://api.upstox.com/v2/user/get-funds-and-margin?segment=SEC"
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
