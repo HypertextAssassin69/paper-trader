@@ -20,10 +20,23 @@ warnings.filterwarnings('ignore')
 # ─────────────────────────────────────────────────────────────────────────────
 #  CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
-TICKERS = [
-    "RELIANCE.NS","TCS.NS","HDFCBANK.NS","HINDUNILVR.NS","MARUTI.NS",
-    "SUNPHARMA.NS","LT.NS","TATASTEEL.NS","ULTRACEMCO.NS","BHARTIARTL.NS",
+ORIGINAL_TICKERS = [
+    "COALINDIA.NS", "DIXON.NS", "KPITTECH.NS", "LT.NS",
 ]
+MIDCAP_TICKERS = [
+    "TATAELXSI.NS", "VOLTAS.NS", "BEL.NS", "HAL.NS", "POLYCAB.NS", 
+    "KEI.NS", "CHOLAFIN.NS", "SRF.NS", "AUBANK.NS", "MPHASIS.NS", 
+    "COFORGE.NS", "PERSISTENT.NS", "DIXON.NS", "RELAXO.NS", "IRCTC.NS", 
+    "CONCOR.NS", "BALKRISIND.NS", "TRENT.NS", "KAYNES.NS", "MAZDOCK.NS", 
+    "RVNL.NS", "IRFC.NS", "PFC.NS", "RECLTD.NS", "GMRINFRA.NS", 
+    "FEDERALBNK.NS", "IDFCFIRSTB.NS", "BATAINDIA.NS", "CUMMINSIND.NS", "ASHOKLEY.NS", 
+    "APOLLOTYRE.NS", "LICHSGFIN.NS", "TATAPOWER.NS", "SAIL.NS", "NMDC.NS", 
+    "NATIONALUM.NS", "TATACOMM.NS", "MAXHEALTH.NS", "IPCALAB.NS", "SYNGENE.NS",
+    "METROPOLIS.NS", "LALPATHLAB.NS", "GODREJPROP.NS", "OBEROIRLTY.NS", "DEEPAKNTR.NS",
+    "JINDALSTEL.NS", "APARINDS.NS", "SUPREMEIND.NS", "BHARATFORG.NS", "MRF.NS"
+]
+TICKERS = list(set(ORIGINAL_TICKERS + MIDCAP_TICKERS + ["^NSEI"]))
+
 START_CAPITAL      = 100_000.0
 RISK_FREE_RATE     = 0.05
 FEE_RATE           = 0.001
@@ -45,6 +58,7 @@ STRATEGIES = {
     "v2_a": {"version": "v2", "capital": "full",    "label": "V2 Option A", "color": "#8e44ad"},
     "v2_b": {"version": "v2", "capital": "dynamic", "label": "V2 Option B", "color": "#d2b4de"},
     "v2_c": {"version": "v2", "capital": "blend",   "label": "V2 Option C", "color": "#4a235a"},
+    "simple_strat": {"version": "simple", "capital": "full", "label": "Simple Strat", "color": "#2ca02c"},
 }
 
 # Paths
@@ -171,13 +185,25 @@ def load_state(sid):
         row = cursor.fetchone()
         conn.close()
         if row:
-            return {
+            db_state = {
                 "cash": float(row[0]),
                 "holdings": json.loads(row[1]),
                 "start_date": str(row[2]),
                 "start_capital": float(row[3]),
                 "last_run": row[4]
             }
+            # Merge with JSON state to preserve custom strategy metadata
+            p = state_path(sid)
+            if os.path.exists(p):
+                try:
+                    with open(p) as f:
+                        js_state = json.load(f)
+                        for k, v in js_state.items():
+                            if k not in db_state:
+                                db_state[k] = v
+                except:
+                    pass
+            return db_state
     except Exception as e:
         print(f"[DB WARN] Failed to load state for {sid} from DB: {e}. Falling back to JSON.")
         
@@ -284,33 +310,77 @@ def run_strategy(sid, cfg, ticker_data, current_prices, today):
 
     # Signal pass
     eligible, scores = [], []
-    for t, df in ticker_data.items():
-        row    = df.iloc[-1]
-        price  = row['Close']
-        regime = detect_regime(row)
-        adx, rsi = row['ADX'], row['RSI']
-
-        if version == 'v2':
-            st_dir = row['ST_Dir']
-            hug_lo = row['BB_Hug_Lo']
-            hug_mid= row['HMA']
-            bb_std = row['BB_Std']
-            if regime=='Bullish' and st_dir==1:
-                eligible.append((t,regime,'Supertrend Bullish')); scores.append(adx/10.0)
-            elif regime=='Choppy' and rsi<CHOPPY_RSI_LIMIT and price<hug_lo:
-                z = (hug_mid-price)/(bb_std+1e-8)
-                eligible.append((t,regime,f'HMA Band z={z:.2f}')); scores.append(z)
+    if version == 'simple':
+        last_rebal = state.get("last_rebalance_date")
+        target_portfolio = state.get("target_portfolio", [])
+        
+        need_rebal = False
+        if not last_rebal or not target_portfolio:
+            need_rebal = True
         else:
-            hma30   = row['HMA_30']
-            ema30   = row['EMA_30']
-            bb_mid  = row['BB_Mid']
-            bb_low  = row['BB_Lower']
-            bb_std  = row['BB_Std']
-            if regime=='Bullish' and hma30>ema30:
-                eligible.append((t,regime,'HMA/EMA Cross')); scores.append(adx/10.0)
-            elif regime=='Choppy' and rsi<35 and price<bb_low:
-                z = (bb_mid-price)/(bb_std+1e-8)
-                eligible.append((t,regime,f'BB z={z:.2f}')); scores.append(z)
+            days_elapsed = (pd.to_datetime(today) - pd.to_datetime(last_rebal)).days
+            if days_elapsed >= 180:
+                need_rebal = True
+                
+        if need_rebal:
+            rebal_scores = {}
+            for t in MIDCAP_TICKERS:
+                if t not in ticker_data: continue
+                df = ticker_data[t]
+                if len(df) < 100: continue
+                ret_1y = (df['Close'].iloc[-1] - df['Close'].iloc[0]) / df['Close'].iloc[0]
+                
+                # Use standard EMA of Close for trend
+                stk_ema50 = _ema(df['Close'], 50)
+                trend = (df['Close'] > stk_ema50).mean()
+                rebal_scores[t] = ret_1y * 0.60 + trend * 0.40
+                
+            target_portfolio = sorted(rebal_scores, key=rebal_scores.get, reverse=True)[:5]
+            state["last_rebalance_date"] = today
+            state["target_portfolio"] = target_portfolio
+
+        nifty_df = ticker_data.get('^NSEI')
+        if nifty_df is not None and not nifty_df.empty:
+            nifty_close = nifty_df['Close'].iloc[-1]
+            nifty_ema50 = _ema(nifty_df['Close'], 50).iloc[-1]
+            bull = nifty_close > nifty_ema50
+        else:
+            bull = True
+            
+        if bull:
+            for t in target_portfolio:
+                if t in current_prices:
+                    eligible.append((t, 'Bullish', 'Momentum Buy'))
+                    scores.append(1.0)
+    else:
+        for t, df in ticker_data.items():
+            if t not in ORIGINAL_TICKERS: continue
+            row    = df.iloc[-1]
+            price  = row['Close']
+            regime = detect_regime(row)
+            adx, rsi = row['ADX'], row['RSI']
+
+            if version == 'v2':
+                st_dir = row['ST_Dir']
+                hug_lo = row['BB_Hug_Lo']
+                hug_mid= row['HMA']
+                bb_std = row['BB_Std']
+                if regime=='Bullish' and st_dir==1:
+                    eligible.append((t,regime,'Supertrend Bullish')); scores.append(adx/10.0)
+                elif regime=='Choppy' and rsi<CHOPPY_RSI_LIMIT and price<hug_lo:
+                    z = (hug_mid-price)/(bb_std+1e-8)
+                    eligible.append((t,regime,f'HMA Band z={z:.2f}')); scores.append(z)
+            else:
+                hma30   = row['HMA_30']
+                ema30   = row['EMA_30']
+                bb_mid  = row['BB_Mid']
+                bb_low  = row['BB_Lower']
+                bb_std  = row['BB_Std']
+                if regime=='Bullish' and hma30>ema30:
+                    eligible.append((t,regime,'HMA/EMA Cross')); scores.append(adx/10.0)
+                elif regime=='Choppy' and rsi<35 and price<bb_low:
+                    z = (bb_mid-price)/(bb_std+1e-8)
+                    eligible.append((t,regime,f'BB z={z:.2f}')); scores.append(z)
 
     # Target allocation
     target_shares = {t: 0.0 for t in TICKERS}
@@ -485,10 +555,10 @@ def gen_individual_report(sid, cfg, m, state, holdings_snap):
 #  COMPARISON CHARTS
 # ─────────────────────────────────────────────────────────────────────────────
 def gen_comparison_curves(metrics_map):
-    fig, axes = plt.subplots(3, 2, figsize=(16, 13), facecolor='#0d0d0d')
-    fig.suptitle("All 6 Strategies — Individual Live PnL Curves", fontsize=14,
+    fig, axes = plt.subplots(4, 2, figsize=(16, 16), facecolor='#0d0d0d')
+    fig.suptitle("All Strategies — Individual Live PnL Curves", fontsize=14,
                  fontweight='bold', color='white', y=1.01)
-    order = ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c']
+    order = ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c','simple_strat']
     for ax, sid in zip(axes.flatten(), order):
         if sid not in metrics_map: continue
         cfg = STRATEGIES[sid]; m = metrics_map[sid]
@@ -508,6 +578,13 @@ def gen_comparison_curves(metrics_map):
         ax.tick_params(colors='#aaaaaa', labelsize=8)
         for spine in ax.spines.values(): spine.set_edgecolor('#333')
         ax.grid(True, linestyle=':', alpha=0.25, color='#555')
+    
+    # Hide unused subplots
+    num_plots = len(order)
+    flat_axes = axes.flatten()
+    for idx in range(num_plots, len(flat_axes)):
+        flat_axes[idx].axis('off')
+        
     plt.tight_layout(rect=[0,0,1,0.99])
     cp = os.path.join(CHARTS_DIR, "comparison_curves.png")
     plt.savefig(cp, dpi=150, bbox_inches='tight', facecolor='#0d0d0d')
@@ -515,7 +592,7 @@ def gen_comparison_curves(metrics_map):
     return cp
 
 def gen_comparison_bar(metrics_map):
-    sids   = [s for s in ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c'] if s in metrics_map]
+    sids   = [s for s in ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c','simple_strat'] if s in metrics_map]
     labels = [STRATEGIES[s]['label'] for s in sids]
     colors = [STRATEGIES[s]['color'] for s in sids]
 
@@ -568,9 +645,9 @@ def gen_comparison_bar(metrics_map):
 #  MASTER REPORT
 # ─────────────────────────────────────────────────────────────────────────────
 def gen_master_report(metrics_map, today):
-    sids   = ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c']
+    sids   = ['v1_a','v1_b','v1_c','v2_a','v2_b','v2_c','simple_strat']
     lines  = []
-    lines.append(f"# Master Report — All 6 Strategies Live Comparison\n")
+    lines.append(f"# Master Report — Strategies Live Comparison\n")
     lines.append(f"> **Date**: {today}  |  **Starting Capital**: INR{START_CAPITAL:,.0f} each\n")
 
     lines.append(f"## Performance Leaderboard\n")
@@ -581,7 +658,7 @@ def gen_master_report(metrics_map, today):
         [(s, metrics_map[s]) for s in sids if s in metrics_map],
         key=lambda x: x[1]['total_ret'], reverse=True
     )
-    medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣']
+    medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣']
     for rank,(sid,m) in enumerate(ranked):
         label = STRATEGIES[sid]['label']
         lines.append(f"| {medals[rank]} | **{label}** | INR{m['today_val']:,.2f} | "
@@ -591,7 +668,7 @@ def gen_master_report(metrics_map, today):
     lines.append(f"\n> ⭐ Yellow border on bar chart = best performer in each metric.\n")
 
     # Charts
-    lines.append(f"## Individual PnL Curves (All 6)\n")
+    lines.append(f"## Individual PnL Curves (All)\n")
     lines.append(f"![All Curves]({os.path.join('..', CHARTS_DIR,'comparison_curves.png')})\n")
     lines.append(f"## Metric Comparison Bar Chart\n")
     lines.append(f"![Bar Chart]({os.path.join('..', CHARTS_DIR,'comparison_bar.png')})\n")
@@ -612,6 +689,7 @@ def gen_master_report(metrics_map, today):
     lines.append(f"| V2 Option A | Supertrend + HMA-BB | Supertrend green (Bull), HMA Band (Choppy) | 100% deployed |")
     lines.append(f"| V2 Option B | Supertrend + HMA-BB | Same as A | Dynamic (scales with breadth) |")
     lines.append(f"| V2 Option C | Supertrend + HMA-BB | Same as A | 70% A + 30% B blend |")
+    lines.append(f"| Simple Strat | Nifty 50 50 EMA | 6-Month Midcap Momentum | 100% deployed |")
 
     with open(os.path.join(REPORTS_DIR, 'master_report.md'), 'w', encoding='utf-8') as f:
         f.write("\n".join(lines))
@@ -624,7 +702,7 @@ def gen_master_report(metrics_map, today):
 def main():
     today = str(datetime.date.today())
     print(f"\n{'='*60}")
-    print(f"  6-Strategy Parallel Paper Trader  |  {today}")
+    print(f"  7-Strategy Parallel Paper Trader  |  {today}")
     print(f"{'='*60}")
 
     # ── Load data ONCE (shared across all strategies) ─────────────
@@ -643,11 +721,11 @@ def main():
         current_prices[t]= df['Close'].iloc[-1]
         print(f"  {t:18s} INR{current_prices[t]:>10,.2f}")
 
-    print(f"\n  Running all 6 strategies...\n")
+    print(f"\n  Running all strategies...\n")
 
     # ── Run base strategies (A + B, both versions) ────────────────
     final_values, states_map = {}, {}
-    base_sids = ['v1_a','v1_b','v2_a','v2_b']
+    base_sids = ['v1_a','v1_b','v2_a','v2_b','simple_strat']
 
     for sid in base_sids:
         cfg = STRATEGIES[sid]

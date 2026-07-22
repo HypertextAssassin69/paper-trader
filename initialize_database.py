@@ -57,7 +57,7 @@ def migrate_existing_data(conn):
     cursor = conn.cursor()
     
     # Register strategy IDs from compare_strats settings
-    strategies = ["v1_a", "v1_b", "v1_c", "v2_a", "v2_b", "v2_c", "bulletproof", "nostops", "v3_ml", "v4_heuristic", "ensemble_70_30", "pairs", "v7_hybrid", "v7_large", "v7_mid"]
+    strategies = ["v1_a", "v1_b", "v1_c", "v2_a", "v2_b", "v2_c", "simple_strat", "bulletproof", "nostops", "v3_ml", "v4_heuristic", "ensemble_70_30", "pairs", "v7_hybrid", "v7_large", "v7_mid"]
     
     # 1. Migrate JSON portfolio states
     for sid in strategies:

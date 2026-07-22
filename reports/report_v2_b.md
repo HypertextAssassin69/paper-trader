@@ -1,6 +1,6 @@
 # Paper Trading Report — V2 Option B
 
-> **Last Updated**: 2026-07-03  |  **Days Live**: -1
+> **Last Updated**: 2026-07-22  |  **Days Live**: 18
 
 ## Portfolio Summary
 
@@ -25,4 +25,4 @@
 
 ## PnL Chart
 
-![PnL Chart](../charts/pnl_v2_b.png)
+![PnL Chart](..\charts\pnl_v2_b.png)
