@@ -46,10 +46,12 @@ def send_ntfy_alert(message, title="🚨 Breakout Strategy Action Required!"):
         return
         
     url = f"https://ntfy.sh/{topic}"
+    login_url = "https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id=da4dc2ca-2130-4ce6-a3e2-ed2a15096346&redirect_uri=http://127.0.0.1:5000/"
     headers = {
         "Title": title,
         "Priority": "high",
-        "Tags": "warning,rotating_light"
+        "Tags": "warning,rotating_light",
+        "Click": login_url
     }
     req = urllib.request.Request(
         url,

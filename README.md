@@ -3,6 +3,13 @@
 
 ---
 
+## 📱 Mobile Execution Portal (Quick Access)
+If you receive a push notification on your phone and your PC is off, use these links to trade in 30 seconds:
+1. **[Step 1: Open Upstox Login Screen](https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id=da4dc2ca-2130-4ce6-a3e2-ed2a15096346&redirect_uri=http://127.0.0.1:5000/)** (Log in, then copy the code from the address bar).
+2. **[Step 2: Trigger Cloud Execution](https://github.com/HypertextAssassin69/paper-trader/actions/workflows/execute_trades.yml)** (Tap "Run workflow" in GitHub Actions, paste the code, and run).
+
+---
+
 ## What This Does
 Every weekday at **3:45 PM IST**, a GitHub Actions cloud server automatically:
 1. Downloads today's closing prices for your 10 stocks from NSE.
