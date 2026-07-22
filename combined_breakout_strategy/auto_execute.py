@@ -71,6 +71,30 @@ def make_upstox_request(url, data=None, headers=None, method="GET"):
     with urllib.request.urlopen(req) as res:
         return json.loads(res.read().decode("utf-8"))
 
+def send_ntfy_alert(message, title="🚨 Trading Routine Update"):
+    topic = ENV.get("NTFY_TOPIC")
+    if not topic:
+        print("[INFO] NTFY_TOPIC not set in .env. Skipping NTFY alert.")
+        return
+        
+    url = f"https://ntfy.sh/{topic}"
+    headers = {
+        "Title": title,
+        "Priority": "high",
+        "Tags": "moneybag,checkered_flag"
+    }
+    req = urllib.request.Request(
+        url,
+        data=message.encode("utf-8"),
+        headers=headers,
+        method="POST"
+    )
+    try:
+        with urllib.request.urlopen(req) as res:
+            print("[SUCCESS] NTFY alert sent successfully!")
+    except Exception as e:
+        print(f"[ERROR] Failed to send NTFY alert: {e}")
+
 class AuthorizationHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         pass # Suppress console logging of requests
@@ -267,6 +291,7 @@ def place_upstox_order(instrument_key, transaction_type, quantity, access_token)
 
 def run_trading_loop(access_token):
     print("\n[START] Running Portfolio Allocation & Trading Logic...")
+    actions_taken = []
     
     # 1. Download market data to check regime
     print("Checking market regime...")
@@ -327,6 +352,7 @@ def run_trading_loop(access_token):
             if "LIQUID" in sym or "BEES" in sym: continue
             print(f"Placing SELL order for {sym} | Quantity: {info['qty']}")
             place_upstox_order(info["instrument_key"], "SELL", info["qty"], access_token)
+            actions_taken.append(f"SELL {info['qty']} {sym}")
     else:
         # BULL REGIME: Execute 6-Month Rebalance / Re-entry
         print("\n[BULL REGIME] Running scanner to calculate target portfolio...")
@@ -353,6 +379,7 @@ def run_trading_loop(access_token):
             if sym not in target_symbols and "LIQUID" not in sym and "BEES" not in sym:
                 print(f"Stock {sym} is no longer in the Top 5. Selling...")
                 place_upstox_order(info["instrument_key"], "SELL", info["qty"], access_token)
+                actions_taken.append(f"SELL {info['qty']} {sym} (dropped from top 5)")
 
         # B. Buy new target positions
         dummy_cap = ENV.get("DUMMY_CAPITAL")
@@ -384,10 +411,22 @@ def run_trading_loop(access_token):
                     if qty > 0:
                         print(f"Buying new target stock {sym} | Qty: {qty} @ INR {price:.2f}")
                         place_upstox_order(key, "BUY", qty, access_token)
+                        actions_taken.append(f"BUY {qty} {sym} @ INR {price:.2f}")
                 except Exception as e:
                     print(f"[ERROR] Failed to get price/buy {sym}: {e}")
 
     print("\n[COMPLETE] Trading routine finished successfully!")
+    
+    # Send NTFY Alert when finished
+    is_dry_run = ENV.get("DRY_RUN", "false").lower() == "true"
+    dry_prefix = "[DRY RUN] " if is_dry_run else ""
+    
+    if not actions_taken:
+        msg = f"{dry_prefix}Checked portfolio. All holdings are already in sync with target breakout portfolio."
+        send_ntfy_alert(msg, f"{dry_prefix}Portfolio Checked")
+    else:
+        msg = f"{dry_prefix}Executed the following actions:\n" + "\n".join(actions_taken)
+        send_ntfy_alert(msg, f"{dry_prefix}Execution Complete")
 
 def main():
     if not API_KEY or not API_SECRET:
