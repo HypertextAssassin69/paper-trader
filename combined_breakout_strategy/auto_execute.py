@@ -25,9 +25,9 @@ def load_env():
     return env_vars
 
 ENV = load_env()
-API_KEY = ENV.get("UPSTOX_API_KEY")
-API_SECRET = ENV.get("UPSTOX_API_SECRET")
-REDIRECT_URI = ENV.get("UPSTOX_REDIRECT_URI", "http://127.0.0.1:5000/")
+API_KEY = ENV.get("UPSTOX_API_KEY") or os.getenv("UPSTOX_API_KEY")
+API_SECRET = ENV.get("UPSTOX_API_SECRET") or os.getenv("UPSTOX_API_SECRET")
+REDIRECT_URI = ENV.get("UPSTOX_REDIRECT_URI") or os.getenv("UPSTOX_REDIRECT_URI") or "http://127.0.0.1:5000/"
 TOKEN_FILE = "combined_breakout_strategy/upstox_token.json"
 BENCHMARK_TICKER = "^NSEI"
 
@@ -72,9 +72,9 @@ def make_upstox_request(url, data=None, headers=None, method="GET"):
         return json.loads(res.read().decode("utf-8"))
 
 def send_ntfy_alert(message, title="🚨 Trading Routine Update"):
-    topic = ENV.get("NTFY_TOPIC")
+    topic = ENV.get("NTFY_TOPIC") or os.getenv("NTFY_TOPIC")
     if not topic:
-        print("[INFO] NTFY_TOPIC not set in .env. Skipping NTFY alert.")
+        print("[INFO] NTFY_TOPIC not set. Skipping NTFY alert.")
         return
         
     url = f"https://ntfy.sh/{topic}"
