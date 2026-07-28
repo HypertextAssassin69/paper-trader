@@ -32,8 +32,12 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Update stock universe (screen & rotate tickers)
-        run: python D:\College\analyst\update_universe.py
+        run: python update_universe.py
         continue-on-error: true  # If screening fails, keep running with last known good tickers
+
+      - name: Run Simple Strat (Midcap Momentum) paper trader
+        run: python paper_trader.py
+        continue-on-error: true
 
       - name: Run Dhurandhar V8 Master Hybrid paper trader (Capital: 1L - 15L)
         run: |
@@ -58,7 +62,8 @@ jobs:
         run: |
           git config --local user.email "papertrader@github-actions.bot"
           git config --local user.name  "Paper Trader Bot"
+          git add states/ data/ charts/ reports/ || true
           git add compare_strats/states/ compare_strats/data/ compare_strats/charts/ compare_strats/reports/ || true
-          git diff --staged --quiet || git commit -m "Paper trader comparison update: $(date +'%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "Paper trader update: $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push
