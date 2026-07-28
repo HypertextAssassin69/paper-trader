@@ -454,6 +454,8 @@
         if (r.ok) return await r.json();
         r = await fetch('./compare_strats/' + path.replace('./', ''));
         if (r.ok) return await r.json();
+        r = await fetch('../' + path.replace('./', ''));
+        if (r.ok) return await r.json();
       } catch (e) {}
       return null;
     }
@@ -463,6 +465,8 @@
         let r = await fetch(path);
         if (r.ok) return await r.text();
         r = await fetch('./compare_strats/' + path.replace('./', ''));
+        if (r.ok) return await r.text();
+        r = await fetch('../' + path.replace('./', ''));
         if (r.ok) return await r.text();
       } catch (e) {}
       return '';
