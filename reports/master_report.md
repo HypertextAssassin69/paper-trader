@@ -12,7 +12,7 @@
 | 4️⃣ | **V2 Option A** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
 | 5️⃣ | **V2 Option B** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
 | 6️⃣ | **V2 Option C** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
-| 7️⃣ | **Simple Strat** | INR98,015.02 | **-1.98%** | -27.27% | -3.833 | -2.35% | 46.2% |
+| 7️⃣ | **Simple Strat** | INR97,077.35 | **-2.92%** | -37.57% | -4.320 | -2.92% | 47.1% |
 
 > ⭐ Yellow border on bar chart = best performer in each metric.
 
@@ -32,7 +32,7 @@
 - **[V2 Option A](report_v2_a.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
 - **[V2 Option B](report_v2_b.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
 - **[V2 Option C](report_v2_c.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
-- **[Simple Strat](report_simple_strat.md)** — INR98,015.02 | -1.98% | Sharpe -3.833
+- **[Simple Strat](report_simple_strat.md)** — INR97,077.35 | -2.92% | Sharpe -4.320
 
 ## Strategy Descriptions
 
