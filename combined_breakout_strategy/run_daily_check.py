@@ -185,13 +185,23 @@ def main():
         send_whatsapp_message(f"📅 6-Month Rebalance Alert!\nTarget 5 Stocks to Buy:\n1. {top_5[0].replace('.NS','')}\n2. {top_5[1].replace('.NS','')}\n3. {top_5[2].replace('.NS','')}\n4. {top_5[3].replace('.NS','')}\n5. {top_5[4].replace('.NS','')}")
         send_ntfy_alert(f"Target 5 Stocks to Buy:\n1. {top_5[0].replace('.NS','')}\n2. {top_5[1].replace('.NS','')}\n3. {top_5[2].replace('.NS','')}\n4. {top_5[3].replace('.NS','')}\n5. {top_5[4].replace('.NS','')}", rebal_title)
 
-    # Trigger alert if set
+    # Always send a daily NTFY heartbeat so you know the bot is alive
+    gap = ((n_close - n_ema) / n_ema) * 100
+    status_emoji = "BULL" if bull else "BEAR"
+    daily_msg = (
+        f"Nifty: {n_close:.0f} | EMA50: {n_ema:.0f} | Gap: {gap:+.1f}%\n"
+        f"Regime: {status_emoji} | Date: {today.strftime('%d %b %Y')}\n"
+        f"{'HOLD your 5 stocks.' if bull else 'HOLD Cash / Liquid BeES.'}"
+    )
+    send_ntfy_alert(daily_msg, title=f"Daily Check: Market is {status_emoji}")
+
+    # Trigger urgent alert and GitHub issue for important events
     if alert_title:
         create_github_issue(alert_title, alert_body)
         send_whatsapp_message(f"{alert_title}\n\nNifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}")
-        send_ntfy_alert(f"Nifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}", alert_title)
+        send_ntfy_alert(f"URGENT: {alert_title}\nNifty Close: {n_close:.1f} | 50 EMA: {n_ema:.1f}", title="ACTION REQUIRED")
     else:
-        print(f"Daily check complete. Regime: {regime}. No alerts triggered today.")
+        print(f"Daily check complete. Regime: {regime}. No action required.")
 
 if __name__ == "__main__":
     main()
