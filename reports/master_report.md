@@ -1,6 +1,6 @@
 # Master Report — Strategies Live Comparison
 
-> **Date**: 2026-07-22  |  **Starting Capital**: INR100,000 each
+> **Date**: 2026-07-28  |  **Starting Capital**: INR100,000 each
 
 ## Performance Leaderboard
 
@@ -12,7 +12,7 @@
 | 4️⃣ | **V2 Option A** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
 | 5️⃣ | **V2 Option B** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
 | 6️⃣ | **V2 Option C** | INR100,000.00 | **+0.00%** | +0.00% | -314970.394 | 0.00% | 100.0% |
-| 7️⃣ | **Simple Strat** | INR99,132.63 | **-0.87%** | -17.07% | -2.120 | -2.35% | 50.0% |
+| 7️⃣ | **Simple Strat** | INR98,015.02 | **-1.98%** | -27.27% | -3.833 | -2.35% | 46.2% |
 
 > ⭐ Yellow border on bar chart = best performer in each metric.
 
@@ -32,7 +32,7 @@
 - **[V2 Option A](report_v2_a.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
 - **[V2 Option B](report_v2_b.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
 - **[V2 Option C](report_v2_c.md)** — INR100,000.00 | +0.00% | Sharpe -314970.394
-- **[Simple Strat](report_simple_strat.md)** — INR99,132.63 | -0.87% | Sharpe -2.120
+- **[Simple Strat](report_simple_strat.md)** — INR98,015.02 | -1.98% | Sharpe -3.833
 
 ## Strategy Descriptions
 

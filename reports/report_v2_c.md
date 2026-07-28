@@ -1,6 +1,6 @@
 # Paper Trading Report — V2 Option C
 
-> **Last Updated**: 2026-07-22  |  **Days Live**: 18
+> **Last Updated**: 2026-07-28  |  **Days Live**: 24
 
 ## Portfolio Summary
 
@@ -20,8 +20,9 @@
 
 | Ticker | Shares | Avg Buy | Current | Unrealised PnL |
 | :--- | :---: | :---: | :---: | :---: |
+| COALINDIA.NS | 171.8518 | INR410.15 | INR410.15 | **+0.00%** |
 
-**Cash on hand**: INR100,000.00
+**Cash on hand**: INR29,515.00
 
 ## PnL Chart
 

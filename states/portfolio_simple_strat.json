@@ -1,30 +1,30 @@
 {
-  "cash": 98.9007036231533,
+  "cash": 92.27420332143157,
   "holdings": {
-    "NATIONALUM.NS": {
-      "shares": 57.84680581849204,
-      "avg_price": 349.29141556085386
-    },
     "APARINDS.NS": {
       "shares": 1.453172851003873,
       "avg_price": 14047.916212160048
     },
+    "NATIONALUM.NS": {
+      "shares": 58.53682147198607,
+      "avg_price": 349.1176477398668
+    },
+    "BHARATFORG.NS": {
+      "shares": 9.055113215441962,
+      "avg_price": 2130.5301890848145
+    },
     "FEDERALBNK.NS": {
-      "shares": 56.07005225529452,
+      "shares": 54.81733494441464,
       "avg_price": 327.8362118348316
     },
     "CUMMINSIND.NS": {
-      "shares": 3.545783379731971,
-      "avg_price": 5495.688757447217
-    },
-    "BHARATFORG.NS": {
-      "shares": 9.062798425615552,
-      "avg_price": 2130.5301890848145
+      "shares": 3.589678839499978,
+      "avg_price": 5495.197319615442
     }
   },
   "start_date": "2026-07-05",
   "start_capital": 100000.0,
-  "last_run": "2026-07-22",
+  "last_run": "2026-07-28",
   "last_rebalance_date": "2026-07-05",
   "target_portfolio": [
     "NATIONALUM.NS",

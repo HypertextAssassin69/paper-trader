@@ -1,7 +1,12 @@
 {
-  "cash": 100000.0,
-  "holdings": {},
+  "cash": 100.0,
+  "holdings": {
+    "COALINDIA.NS": {
+      "shares": 243.56942944442233,
+      "avg_price": 410.1499938964844
+    }
+  },
   "start_date": "2026-07-04",
   "start_capital": 100000.0,
-  "last_run": "2026-07-22"
+  "last_run": "2026-07-28"
 }
